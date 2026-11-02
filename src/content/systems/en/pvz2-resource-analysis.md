@@ -1,36 +1,77 @@
 ---
 pageSlug: "pvz2-resource-analysis"
 lang: "en"
-title: "Game Resource Reverse Engineering"
-subtitle: "Plants vs. Zombies 2, Chinese version, Android"
-summary: "How I looked at the encrypted resource files of the Chinese version of Plants vs. Zombies 2 on Android, and what I can and cannot claim about it."
+title: "PvZ2 Resource Analysis"
+subtitle: "Plants vs. Zombies 2 (Chinese version, Android) · high school"
+summary: "How the encrypted resource files of a mobile game are packed, protected and read, investigated with existing community tools."
 order: 1
-references: []
+updated: "2026-11-02"
+glance: [{"k": "Context", "v": "Personal learning project in high school; not employment"}, {"k": "Tools", "v": "MT Manager; existing community tools for unpacking, decryption and RTON decoding (names not recorded)"}, {"k": "Outcome", "v": "Decrypted RTON resource files and read the decoded configuration data"}, {"k": "Ongoing", "v": "Network traffic analysis, not yet verified"}]
+references: [{"label": "pyvz2 — Python scripts for modifying PvZ2 (nineteendo), includes an RSB unpacking tool and credits for the format work", "url": "https://github.com/nineteendo/pyvz2"}, {"label": "RETON — documentation of the RTON format (h3x4n1um)", "url": "https://github.com/h3x4n1um/RETON"}, {"label": "PopStudio — converts file types used in PopCap games (PopGameTool)", "url": "https://github.com/PopGameTool/PopStudio"}, {"label": "RSB/1BSR archive format specification (Watto Studios)", "url": "http://www.watto.org/specs.html?specs=Archive_RSB_1BSR"}, {"label": "1bsr_pgsr.bms — RSB unpacking script (Luigi Auriemma)", "url": "https://aluigi.altervista.org/bms/1bsr_pgsr.bms"}, {"label": "Lawnstrings-Server — example server for the Chinese version; Base64 to encrypted RTON (viiguess)", "url": "https://github.com/viiguess/Lawnstrings-Server"}]
 ---
 
-> High school · personal experiment
+## Overview
 
-## Independent game resource analysis
+In high school I took the encrypted resource files of the Chinese version of *Plants vs. Zombies 2* (Android) apart to see how they were packed and protected. I followed the community's existing tools and documentation. I did not write the unpacker, the decryption code or an RTON parser, and I make no claim of a vulnerability.
 
-### What I did
+This was personal learning, not paid or professional work. Some implementation details are no longer documented.
 
-- Inspected Android native library (.so) files with MT Manager to find encryption-related strings and constants associated with the game's resource files.
-- Studied how the Rijndael cipher uses a key and an IV.
-- Used existing tools and recovered key material to decrypt and inspect RTON game data, then read the data that could be opened.
-- Explored binary file formats, resource encoding and game data protection through independent experimentation.
+## Technical Background
 
-### Confirmed tools
+- **RSB** is a resource archive format used by PopCap games. It bundles the game's assets and is documented by community authors (see References).
+- **RTON** is a binary, JSON-like format used for the game's configuration data.
+- In the Chinese build, RTON data is encrypted with **Rijndael**, the cipher family that AES comes from. Decrypting needs a **key** and an **IV** (initialisation vector), which the game's own native code has to contain.
+- **MT Manager** is an Android file and binary viewer. I used it to read the game's native library (`.so`).
 
-MT Manager; existing decryption tools (names no longer remembered).
+<figure class="flow" aria-label="Plants vs. Zombies 2 resource pipeline, with the Android native library as an auxiliary key-analysis step">
+<ol class="flow-main">
+<li><b>RSB</b><small>resource package</small></li>
+<li class="tool"><b>Unpack</b><small>existing tools</small></li>
+<li><b>Encrypted RTON</b><small>data files</small></li>
+<li class="tool"><b>Rijndael Decrypt</b><small>existing tools</small></li>
+<li class="tool"><b>RTON Decode</b><small>existing tools</small></li>
+<li><b>JSON</b><small>readable data</small></li>
+</ol>
+<div class="flow-aux"><span class="mine"><b>.so key analysis</b><small>MT Manager · my inspection</small></span><span class="flow-link">key and IV feed the Rijndael Decrypt step</span></div>
+<figcaption>The pipeline as I understand it. Steps with a gold edge were done with existing community tools, not code I wrote. The dashed box is the part I did by hand: inspecting the Android native library for key material.</figcaption>
+</figure>
 
-### Outcome
+## My Experiment
 
-Decrypted RTON resource files and viewed the readable data inside.
+1. Unpacked an RSB package and extracted the RTON files, using existing tools.
+2. As a separate, auxiliary step, opened the Android `.so` file in MT Manager and looked through its strings and constants for encryption-related material.
+3. Found key material connected to the Rijndael encryption, and studied how the key and IV are used. The values are not published here.
+4. Used existing tools to decrypt the RTON files and decode them.
+5. Read the decrypted game configuration data.
 
-### Not remembered or not claimed
+### Network traffic analysis (ongoing)
 
-This was personal learning, not employment. I make no claim of a custom decryption algorithm, of breaking Rijndael/AES, or of a vulnerability confirmed by the publisher. Exact steps are no longer remembered, so none are reconstructed. Keys, IVs and proprietary game data are not published, and other authors' findings are not claimed as mine.
+I also looked at how the Chinese version talks to its servers. Its HTTP requests carry form-style fields like this (values are placeholders):
 
-### Public work
+```text
+req=V1270
+e=<encrypted payload>
+ev=3
+```
 
-None published on this site yet.
+I have not verified what each field means. Community projects handle related server data, for example [Lawnstrings-Server](https://github.com/viiguess/Lawnstrings-Server), which Base64-decodes a server-delivered file into an encrypted RTON. I have also come across community implementations of this request format that use Base64URL and block-cipher handling, but I have not checked them against my own captures and do not cite them as sources.
+
+I have not confirmed that my older captured requests can be decrypted. This is ongoing exploration, not a result. No account data, server tokens or third-party keys are published on this site.
+
+## Result
+
+- Decrypted RTON resource files and read the decoded configuration data, using existing tools.
+- Located encryption-related strings and key material in the Android native library by hand.
+- Network request analysis is unfinished and unverified.
+
+The decryption, unpacking and decoding tools are other authors' work. My contribution was the investigation and the key-material inspection.
+
+## What I Learned
+
+- How a game can protect its data with a symmetric cipher, and why the key and IV have to be reachable from the game's own code.
+- How to approach an unfamiliar binary format by reading community documentation and comparing tool output instead of guessing.
+- To keep notes while experimenting, so a result can be reproduced later, and to say plainly which parts were mine and which came from existing tools.
+
+## References
+
+Other authors' work, listed for context. None of it is mine.

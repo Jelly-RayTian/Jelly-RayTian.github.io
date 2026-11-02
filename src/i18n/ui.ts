@@ -48,7 +48,7 @@ export const ui: Record<Lang, Dict> = {
     seeEvidence: 'See the evidence', skills: 'Skills, honestly tiered', interests: 'Interests', languagesLabel: 'Languages',
     coursework: 'Relevant coursework', featuredProjects: 'Featured projects', openSourceTitle: 'Open source', beyond: 'Beyond the code',
     aboutMe: 'About me', coursework2: 'Coursework concepts', researchPres: 'Research & presentations', articles: 'Articles and notes',
-    profile: 'Profile', followMe: 'Find me',
+    profile: 'Profile', followMe: 'Find me', onThisPage: 'On this page', lastUpdated: 'Last updated', atAGlance: 'At a glance', systemsRead: 'What this section shows',
   },
   zh: {
     home: '首页', about: '关于', education: '教育', experience: '经历', projects: '项目',
@@ -66,7 +66,7 @@ export const ui: Record<Lang, Dict> = {
     seeEvidence: '查看证据', skills: '技能（如实分级）', interests: '兴趣', languagesLabel: '语言',
     coursework: '相关课程', featuredProjects: '精选项目', openSourceTitle: '开源贡献', beyond: '代码之外',
     aboutMe: '关于我', coursework2: '课程概念项目', researchPres: '研究与展示', articles: '文章与笔记',
-    profile: '简介', followMe: '联系渠道',
+    profile: '简介', followMe: '联系渠道', onThisPage: '本页内容', lastUpdated: '最后更新', atAGlance: '一眼看懂', systemsRead: '这一部分体现什么',
   },
 };
 export const t = (lang: Lang, key: string): string => ui[lang][key] ?? ui.en[key] ?? key;

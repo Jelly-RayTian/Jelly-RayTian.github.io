@@ -32,6 +32,8 @@ const systems = defineCollection({
     subtitle: z.string(),
     summary: z.string(),
     order: z.number(),
+    updated: z.string().optional(),
+    glance: z.array(z.object({ k: z.string(), v: z.string() })).default([]),
     references: z.array(link).default([]),
   }),
 });

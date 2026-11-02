@@ -6,6 +6,7 @@ export default defineConfig({
   site: 'https://jelly-raytian.github.io',
   trailingSlash: 'always',
   build: { format: 'directory' },
+  markdown: { shikiConfig: { theme: 'github-dark', wrap: true } },
   integrations: [
     sitemap({
       i18n: { defaultLocale: 'en', locales: { en: 'en', zh: 'zh-CN' } },

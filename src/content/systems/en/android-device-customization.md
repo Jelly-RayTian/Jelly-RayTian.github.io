@@ -2,58 +2,49 @@
 pageSlug: "android-device-customization"
 lang: "en"
 title: "Android & Embedded Device Customization"
-subtitle: "Phones, a children's watch and a learning device"
-summary: "Rooting, TWRP, custom ROMs, a Windows flashing experiment on a Xiaomi Mi 8, and two embedded Android devices."
+subtitle: "Phones, a children's phone watch and a learning device · high school"
+summary: "Rooting, TWRP, custom ROMs, a Windows flashing experiment on a Xiaomi Mi 8, a rooted Xiaotiancai Z6 and a modified Xiaoai Teacher."
 order: 2
-references: []
+updated: "2026-11-02"
+glance: [{"k": "Context", "v": "Personal experiments on my own devices in high school; not employment"}, {"k": "Devices", "v": "Android phones, a Xiaomi Mi 8, a Xiaotiancai Z6 phone watch, a Xiaoai Teacher learning device"}, {"k": "Outcome", "v": "Phones rooted with custom systems installed; Xiaotiancai Z6 rooted; learning-device system modified"}, {"k": "Open", "v": "Outcome of the Windows experiment on the Mi 8 is not stated"}]
+references: [{"label": "TWRP — Team Win Recovery Project", "url": "https://twrp.me"}, {"label": "LineageOS", "url": "https://lineageos.org"}, {"label": "Havoc-OS", "url": "https://havoc-os.com"}]
 ---
 
-> High school · personal experiment
+## Overview
 
-## Android rooting & custom ROM experimentation
+In high school I experimented with customizing Android devices: rooting phones, using a custom recovery, installing custom systems, and working on two embedded Android devices. These were personal experiments on my own hardware, not professional or paid work. Some implementation details are no longer documented.
 
-### What I did
+## Technical Background
+
+- **Rooting** gives administrator-level access to a device's system, which stock firmware normally restricts.
+- **TWRP** is a community-made custom recovery environment, used to install and back up system images.
+- **LineageOS** and **Havoc OS** are community-maintained Android distributions. I installed them; I did not develop them.
+- A **Xiaotiancai Z6** is a children's phone watch, and the **Xiaoai Teacher** is a learning device. Both run Android-based systems with vendor restrictions.
+
+## My Experiment
 
 - Rooted Android phones.
 - Worked with TWRP Recovery.
 - Installed custom systems and flashed ROMs, including experiments with Havoc OS and LineageOS.
 - Experimented with flashing Windows onto a Xiaomi Mi 8.
+- **Rooted a Xiaotiancai Z6 children's phone watch.**
+- Modified the system of a Xiaoai Teacher learning device.
 
-### Confirmed tools
+## Result
 
-TWRP Recovery; Havoc OS and LineageOS (installed, not developed by me); a Xiaomi Mi 8 for the Windows experiment.
+- Phones were rooted and custom systems were installed.
+- The Xiaotiancai Z6 phone watch was rooted.
+- The Xiaoai Teacher learning device's system was modified.
+- For the Windows experiment on the Xiaomi Mi 8, I do not state an outcome because I have not confirmed one.
 
-### Outcome
+Tools, firmware versions and exact methods for the Z6 and the learning device were not recorded, so none are named here. I do not claim to have compiled a kernel, modified bootloader source, built a ROM, or found an exploit. The operating systems and recovery tools are other people's projects.
 
-Hands-on experience with device customization, Recovery and firmware experiments.
+## What I Learned
 
-### Not remembered or not claimed
+- How much a device's exact model and software version matter when customizing it.
+- To rely on the documentation of the projects involved (TWRP, LineageOS) and not guess.
+- To record the device, version and steps as I go, which I did not do consistently then.
 
-Dates, Android versions and success rates are not stated. The Windows experiment's method and outcome are not confirmed, so they are not described. TWRP, Havoc OS and LineageOS are other people's projects; I make no claim of compiling a kernel, modifying bootloader source or building a ROM.
+## References
 
-### Public work
-
-None published on this site yet.
-
-## Embedded Android device exploration
-
-### What I did
-
-- Explored the system restrictions of a Xiaotiancai Z6 (小天才 Z6) children's phone watch and worked on getting around them.
-- Explored system modification on a Xiaoai Teacher (小爱老师) learning device.
-
-### Confirmed tools
-
-Not recorded.
-
-### Outcome
-
-Personal experimentation; outcomes are not recorded here.
-
-### Not remembered or not claimed
-
-System versions, tools and what exactly was done (for example unlocking, Root, flashing or app installation) are not confirmed and are not claimed. No exploit, firmware vulnerability or custom operating system is claimed.
-
-### Public work
-
-No screenshots or videos published here yet.
+Other authors' projects, listed for context. None of them is mine.

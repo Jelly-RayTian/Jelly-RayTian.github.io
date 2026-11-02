@@ -60,3 +60,16 @@ export const home = {
     ],
   },
 } as const;
+
+export const systemsPoints: Record<Lang, string[]> = {
+  en: [
+    'Self-directed curiosity: I took apart systems I use to see how they work.',
+    'Working from other people\'s documentation and tools, and saying which parts are theirs and which are mine.',
+    'Clear limits: each page states what I did and what I do not claim. These were personal experiments in high school, not jobs.',
+  ],
+  zh: [
+    '自发的好奇心：拆开自己用的系统，弄清它们怎么运转。',
+    '依靠他人的文档和工具开展工作，并明确哪些是他们的、哪些是我的。',
+    '边界清楚：每页都说明我做了什么、不声称什么。这些是高中时的个人实验，不是工作。',
+  ],
+};
