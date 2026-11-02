@@ -6,7 +6,7 @@ subtitle: "Signing, sideloading, jailbreaking and IPA repackaging · high school
 summary: "Hands-on iOS experiments: how Apple code signing works, sideloading with AltStore and SideStore, the Dopamine jailbreak, TrollStore on an iPad mini 6, tweaks, and repackaging a PVZ2 IPA."
 order: 3
 updated: "2026-11-02"
-glance: [{"k": "Context", "v": "Personal experiments in high school; not employment"}, {"k": "Tools", "v": "Dopamine, TrollStore, AltStore, SideStore, Filza, third-party software sources (all other authors' work)"}, {"k": "Device", "v": "iPad mini 6 (TrollStore); Dopamine device and iOS versions not recorded"}, {"k": "Outcome", "v": "Tools set up and used; I modified an IPA but did not develop a jailbreak or exploit"}]
+glance: [{"k": "Context", "v": "Personal experiments in high school; not employment"}, {"k": "Tools", "v": "Dopamine, TrollStore, AltStore, SideStore, Filza, third-party software sources (all other authors' work)"}, {"k": "Device", "v": "iPad mini 6; Dopamine ran on iOS 15.4.1"}, {"k": "Outcome", "v": "Tools set up and used; I modified an IPA but did not develop a jailbreak or exploit"}]
 references: [{"label": "Dopamine — jailbreak by opa334", "url": "https://github.com/opa334/Dopamine"}, {"label": "TrollStore — by opa334", "url": "https://github.com/opa334/TrollStore"}]
 ---
 
@@ -26,7 +26,7 @@ In high school I experimented with iOS device customization. I learned how Apple
 
 ## My Experiment
 
-- Used the Dopamine jailbreak and understood the difference between rootless and rootful jailbreaks.
+- Used the Dopamine jailbreak on an iPad mini 6 running iOS 15.4.1 and understood the difference between rootless and rootful jailbreaks.
 - Set up TrollStore on an iPad mini 6.
 - Worked with third-party software sources and used Filza to browse the filesystem.
 - Sideloaded apps with a free Apple ID (7-day signing) using AltStore and SideStore.
@@ -36,7 +36,7 @@ In high school I experimented with iOS device customization. I learned how Apple
 
 ## Result
 
-I got these tools running and used them, and I repackaged the PVZ2 IPA myself. The modified package was for personal study on my own devices and I do not distribute it. iOS versions, which device ran Dopamine, which tweaks I changed and the exact steps were not recorded, so they are not stated here.
+I got these tools running and used them, and I repackaged the PVZ2 IPA myself. The modified package was for personal study on my own devices and I do not distribute it. The iOS version for TrollStore, which tweaks I changed and the exact steps were not recorded, so they are not stated here.
 
 ## What I Learned
 
