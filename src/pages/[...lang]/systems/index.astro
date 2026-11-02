@@ -28,6 +28,5 @@ const items = (await getCollection('systems')).filter((e) => e.data.lang === lan
         </a>
       ))}
     </div>
-    <p class="muted lang-note">{lang === 'zh' ? '这些页面只记录我确认过的事实，也不声称有第三方验证。' : 'These pages record only what I have confirmed, and I claim no third-party verification.'}</p>
   </div></section>
 </BaseLayout>

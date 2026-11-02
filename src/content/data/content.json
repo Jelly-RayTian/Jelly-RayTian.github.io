@@ -204,8 +204,8 @@
    }
   ],
   "note": {
-   "en": "Account-wide totals across all content. They do not describe any single video: not every video is original technical development, and not every video relates to Plants vs. Zombies 2. Snapshots only; they change over time.",
-   "zh": "为账号全部内容的整体数字，不描述任何单个视频：并非每个视频都是原创技术开发，也并非都与《植物大战僵尸 2》有关。仅为快照，会随时间变化。"
+   "en": "Account-wide totals, as a snapshot; they change over time.",
+   "zh": "账号整体数字，为某一时刻的快照，会随时间变化。"
   }
  },
  "entries": [
@@ -221,7 +221,7 @@
      "Organized weekly discussions and arranged guidance from a school counsellor.",
      "Shared supportive resources with members through WeChat."
     ],
-    "note": "A peer-led student group, not a counselling role.",
+    "note": "A peer-led student group.",
     "tags": "Initiative · Facilitation · Organizing"
    },
    "zh": {
@@ -233,7 +233,7 @@
      "组织每周讨论，并联系学校辅导员提供指导。",
      "通过微信向成员分享相关支持资源。"
     ],
-    "note": "由学生发起的同伴小组，并非心理咨询工作。",
+    "note": "由学生发起的同伴小组。",
     "tags": "主动发起 · 组织讨论 · 同伴支持"
    }
   },
@@ -450,7 +450,7 @@
      "Marketing plan (April 27, 2026) and venture-style pitch for a student travel-planning concept.",
      "Covered customer groups, competition, pricing, business model and growth plans."
     ],
-    "note": "A coursework concept, not a launched or funded company.",
+    "note": "A course concept.",
     "tags": "Marketing plan · Pitch"
    },
    "zh": {
@@ -461,7 +461,7 @@
      "完成面向学生旅行规划概念的营销计划（2026 年 4 月 27 日）与 VC 风格路演材料。",
      "内容包括客户群体、竞争、定价、商业模式与增长计划。"
     ],
-    "note": "课程概念，不是已上线或获得融资的公司。",
+    "note": "课程概念。",
     "tags": "营销计划 · 路演"
    }
   },
@@ -474,7 +474,7 @@
     "bullets": [
      "Marketing plan covering product positioning, education-technology context and competitive analysis."
     ],
-    "note": "A coursework concept; no software was deployed.",
+    "note": "A course concept.",
     "tags": "EdTech · Positioning"
    },
    "zh": {
@@ -483,7 +483,7 @@
     "bullets": [
      "营销计划，涵盖产品定位、教育科技背景和竞争分析。"
     ],
-    "note": "课程概念，未部署任何软件。",
+    "note": "课程概念。",
     "tags": "教育科技 · 产品定位"
    }
   },

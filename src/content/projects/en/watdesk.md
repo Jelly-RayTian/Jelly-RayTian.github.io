@@ -28,7 +28,4 @@ WatDesk is an independent student project, not a University of Waterloo product.
 It reads each site in your own signed-in session. Academic data stays in your browser and is not uploaded to a WatDesk backend. It never sees or stores passwords, cookies or verification codes, and never submits anything for you. An anonymous usage counter is on by default and can be turned off in setup or Settings; the Settings page shows exactly what it sends.
 
 ## Verification
-At v1.9.0 the repository's continuous integration ran type checks, a production build and 284 tests across 67 test files, all passing. The project has 8 tagged releases (latest v1.9.0). These are the repository's own checks, not independent testing or user numbers.
-
-## Not claimed
-No user counts, store ratings or university endorsement are claimed.
+At v1.9.0 the repository's continuous integration ran type checks, a production build and 284 tests across 67 test files, all passing. The project has 8 tagged releases (latest v1.9.0).

@@ -6,13 +6,13 @@ subtitle: "Signing, sideloading, jailbreaking and IPA repackaging · high school
 summary: "Hands-on iOS experiments: how Apple code signing works, sideloading with AltStore and SideStore, the Dopamine jailbreak, TrollStore on an iPad mini 6, tweaks, and repackaging a PVZ2 IPA."
 order: 3
 updated: "2026-11-02"
-glance: [{"k": "Context", "v": "Personal experiments in high school; not employment"}, {"k": "Tools", "v": "Dopamine, TrollStore, AltStore, SideStore, Filza, third-party software sources (all other authors' work)"}, {"k": "Device", "v": "iPad mini 6 on iOS 15.4.1 (Dopamine and TrollStore); signing only on later devices"}, {"k": "Outcome", "v": "Tools set up and used; I modified an IPA but did not develop a jailbreak or exploit"}]
+glance: [{"k": "Period", "v": "High school"}, {"k": "Tools", "v": "Dopamine, TrollStore, AltStore, SideStore, Filza, third-party software sources"}, {"k": "Device", "v": "iPad mini 6 on iOS 15.4.1 (Dopamine and TrollStore); signing only on later devices"}, {"k": "Outcome", "v": "Tools set up and used; PVZ2 IPA repackaged"}]
 references: [{"label": "Dopamine — jailbreak by opa334", "url": "https://github.com/opa334/Dopamine"}, {"label": "TrollStore — by opa334", "url": "https://github.com/opa334/TrollStore"}]
 ---
 
 ## Overview
 
-In high school I experimented with iOS device customization. I learned how Apple code signing works (developer certificates, free Apple ID signing and enterprise signing), sideloaded apps, used the Dopamine jailbreak, set up TrollStore on an iPad mini 6, and repackaged the IPA of a game (Plants vs. Zombies 2) myself. I used tools written by other people. I did not develop a jailbreak, an exploit or any of these tools. These were personal experiments, not professional work. Some implementation details are no longer documented.
+In high school I experimented with iOS device customization. I learned how Apple code signing works (developer certificates, free Apple ID signing and enterprise signing), sideloaded apps, used the Dopamine jailbreak, set up TrollStore on an iPad mini 6, and repackaged the IPA of a game (Plants vs. Zombies 2) myself.
 
 ## Technical Background
 
@@ -36,7 +36,7 @@ In high school I experimented with iOS device customization. I learned how Apple
 
 ## Result
 
-I got these tools running and used them, and I repackaged the PVZ2 IPA myself. The modified package was for personal study on my own devices and I do not distribute it. Which tweaks I changed and the exact steps were not recorded, so they are not stated here.
+I got these tools running and used them, and I repackaged the PVZ2 IPA myself. The modified package was for personal study on my own devices.
 
 ## What I Learned
 
@@ -46,4 +46,4 @@ I got these tools running and used them, and I repackaged the PVZ2 IPA myself. T
 
 ## References
 
-Other authors' projects, listed for context. None of them is mine. AltStore and SideStore are likewise other authors' projects.
+Projects this page builds on.

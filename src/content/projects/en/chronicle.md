@@ -14,4 +14,4 @@ links: [{"label": "Source", "url": "https://github.com/Jelly-RayTian/Chronicle"}
 
 A local desktop application for looking back at file activity by time and context. It is built mainly in Rust and TypeScript and runs on the local machine.
 
-Beyond the repository description and release list, I have not documented its internals here. The project was built with AI coding assistance.
+Built with AI coding assistance.

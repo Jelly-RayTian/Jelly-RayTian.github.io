@@ -14,4 +14,4 @@ links: [{"label": "源码", "url": "https://github.com/Jelly-RayTian/Chronicle"}
 
 一个在本地运行的桌面应用，按时间和上下文回顾文件活动，主要用 Rust 和 TypeScript 构建。
 
-除了仓库描述和发布列表，这里没有记录它的内部实现。项目借助 AI 编程助手完成。
+借助 AI 编程助手完成。

@@ -14,4 +14,4 @@ links: [{"label": "源码", "url": "https://github.com/Jelly-RayTian/CodeCompass
 
 一个用 Tauri、React、Rust 和 SQLite 构建的桌面应用，帮助你快速熟悉不是自己写的代码库，在本地运行。
 
-除了仓库描述和发布列表，这里没有记录它的内部实现。代码和发布版在 GitHub 公开，项目借助 AI 编程助手完成。
+代码和发布版在 GitHub 公开。借助 AI 编程助手完成。
