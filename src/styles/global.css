@@ -282,6 +282,10 @@ main{min-height:60vh}main:focus{outline:none}
 /* cards & grids */
 .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
 .pcard{display:block;border:1px solid var(--line);border-radius:18px;padding:24px;text-decoration:none;background:var(--card);transition:.25s}
+.more-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 26px;border-top:1px solid var(--line);padding-top:22px;font-size:15px}
+.more-row span{font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.more-row a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+.more-row a:hover{border-color:var(--gold);color:var(--gold)}
 .pgrid-sm .pcard{padding:16px 18px;border-radius:14px}
 .pgrid-sm .pcard b{font-size:19px}
 .pgrid-sm .pcard p{font-size:13.5px}
