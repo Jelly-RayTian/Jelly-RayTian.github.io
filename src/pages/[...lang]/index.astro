@@ -1,15 +1,34 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PrWall from '../../components/PrWall.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 import { localePaths } from '../../lib/paths';
 import { home } from '../../content/data/pages';
+import { content, cases, count, prs, repos } from '../../lib/data';
 import { route, t, type Lang } from '../../i18n/ui';
 export const getStaticPaths = localePaths;
 const { lang } = Astro.props as { lang: Lang };
+const zh = lang === 'zh';
 const h = home[lang];
-const featured = (await getCollection('projects')).filter((p) => p.data.lang === lang && p.data.featured).sort((a, b) => a.data.order - b.data.order);
+const projects = (await getCollection('projects')).filter((p) => p.data.lang === lang).sort((a, b) => a.data.order - b.data.order);
+const featured = projects.filter((p) => p.data.featured);
+const smaller = projects.filter((p) => p.data.kind === 'software' && !p.data.featured);
+const systems = (await getCollection('systems')).filter((s) => s.data.lang === lang).sort((a, b) => a.data.order - b.data.order);
+const uw = content.education[0][lang];
+const hs = content.education[1][lang];
+const L = (en: string, cn: string) => (zh ? cn : en);
+const stats = [
+  { v: String(prs.length), l: L('pull requests to other projects', '个提交给他人项目的 PR') },
+  { v: String(count('merged')), l: L('merged upstream', '个已合并') },
+  { v: String(repos.length), l: L('projects contributed to', '个开源项目') },
+  { v: '8', l: L('WatDesk releases', '个 WatDesk 发布版') },
+  { v: '83/100', l: L('Euclid Contest 2025', 'Euclid 数学竞赛 2025') },
+];
+const jump = [
+  ['#overview', L('Overview', '概览')], ['#projects', L('Projects', '项目')], ['#open-source', L('Open source', '开源')],
+  ['#systems', L('Systems', '系统探索')], ['#community', L('Community', '社区')], ['#contact', L('Contact', '联系')],
+];
+const leadership = content.entries.filter((e) => ['peer-listening', 'academic-committee', 'peer-learning', 'grocery'].includes(e.id));
 ---
 <BaseLayout lang={lang} path="/" title={t(lang, 'tagline').split('—')[1].trim()} description={h.lede}>
   <section class="hero">
@@ -24,28 +43,116 @@ const featured = (await getCollection('projects')).filter((p) => p.data.lang ===
         <a class="btn" href="https://github.com/Jelly-RayTian">github.com/Jelly-RayTian</a>
       </div>
       <div class="facts">{h.facts.map(([k, v]) => <span><b>{k}</b> {v}</span>)}</div>
+      <div class="stats">{stats.map((s) => <div><b>{s.v}</b><span>{s.l}</span></div>)}</div>
+      <nav class="jump" aria-label={L('On this page', '本页内容')}>{jump.map(([href, label]) => <a href={href}>{label}</a>)}</nav>
     </div>
   </section>
 
-  <section class="block">
+  <section class="block" id="overview">
     <div class="wrap">
-      <div class="sh"><span class="kicker">{t(lang, 'openSourceTitle')}</span><h2 class="page-h">{lang === 'zh' ? '给他人项目的修复' : 'Fixes in other people\'s projects'}</h2><p>{h.openSourceP}</p></div>
+      <div class="sh"><span class="kicker">{L('Overview', '概览')}</span><h2 class="page-h">{L('Who I am, at a glance', '我是谁，一眼看完')}</h2></div>
+      <div class="ov-grid">
+        <article class="ov-card xcard">
+          <h3>{L('Education', '教育')}</h3>
+          <p><b>{uw.org}</b><br />{uw.degree}<br /><span class="muted">{uw.date}</span></p>
+          <p><b>{hs.org}</b><br />{hs.degree}<br /><span class="muted">{hs.date} · {'detail' in hs ? hs.detail : ''}</span></p>
+          <p class="muted">{L(`Euclid 2025: 83/100 · Study Model Student · offers from ${content.admissions.length + 1} universities, with entrance scholarship offers.`, `Euclid 2025：83/100 · 学习标兵 · 收到 ${content.admissions.length + 1} 所大学的录取，并有入学奖学金 offer。`)}</p>
+          <p class="more-l"><a href={route(lang, '/education/')}>{L('Education details', '教育详情')} →</a></p>
+        </article>
+        <article class="ov-card xcard">
+          <h3>{L('What I work with', '我用的技术')}</h3>
+          <dl class="ov-dl">
+            {content.skills.slice(0, 3).map((s) => <div><dt>{s.label[lang]}</dt><dd>{s.items[lang]}</dd></div>)}
+          </dl>
+          <p class="more-l"><a href={route(lang, '/about/')}>{L('About me', '关于我')} →</a></p>
+        </article>
+        <article class="ov-card xcard">
+          <h3>{L('Leadership & community', '领导力与社区')}</h3>
+          <ul class="xlist">
+            {leadership.map((e) => <li><b>{e[lang].title}</b>{e[lang].bullets ? ` — ${e[lang].bullets[0]}` : ` — ${e[lang].role}`}</li>)}
+          </ul>
+          <p class="more-l"><a href={route(lang, '/experience/')}>{L('Experience', '经历')} →</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="projects">
+    <div class="wrap">
+      <div class="sh"><span class="kicker">{t(lang, 'featuredProjects')}</span><h2 class="page-h">{L('Things I built', '我做的东西')}</h2></div>
+      <div class="feat-grid">
+        {featured.map((p) => (
+          <article class="feat xcard">
+            {p.data.image && <a class="feat-img" href={route(lang, `/projects/${p.data.pageSlug}/`)}><img class="l" src={p.data.image} alt={p.data.title} loading="lazy" width="800" height="500" />{p.data.imageDark && <img class="d" src={p.data.imageDark} alt="" loading="lazy" width="800" height="500" />}</a>}
+            {!p.data.image && <a class="feat-img feat-ph" href={route(lang, `/projects/${p.data.pageSlug}/`)} aria-hidden="true" tabindex="-1"><span>{(p.data.stack ?? '').split('·').map((x) => <i>{x.trim()}</i>)}</span></a>}
+            <div class="feat-body">
+              <p class="kicker">{p.data.period} · {p.data.stack}</p>
+              <h3><a href={route(lang, `/projects/${p.data.pageSlug}/`)}>{p.data.title}</a></h3>
+              <p>{p.data.summary}</p>
+              <p class="feat-links">{(p.data.links ?? []).slice(0, 2).map((l) => <a href={l.url}>{l.label} ↗</a>)}<a href={route(lang, `/projects/${p.data.pageSlug}/`)}>{L('Details', '详情')} →</a></p>
+            </div>
+          </article>
+        ))}
+      </div>
+      <h3 class="mini-h">{L('Also', '另外')}</h3>
+      <div class="pgrid pgrid-sm">
+        {smaller.map((p) => (
+          <a class="pcard xcard" href={route(lang, `/projects/${p.data.pageSlug}/`)}><b>{p.data.title}<span aria-hidden="true">↗</span></b><p>{p.data.summary}</p></a>
+        ))}
+      </div>
+      <p class="more"><a class="btn" href={route(lang, '/projects/')}>{t(lang, 'viewAll')} →</a></p>
+    </div>
+  </section>
+
+  <section class="block" id="open-source">
+    <div class="wrap">
+      <div class="sh"><span class="kicker">{t(lang, 'openSourceTitle')}</span><h2 class="page-h">{L('Fixes in other people\'s projects', '给他人项目的修复')}</h2><p>{L('Each fix comes with a reproduction and tests. Before and after, from the pull requests:', '每个修复都有复现和测试。下面是 PR 里的修复前后对比：')}</p></div>
+      <div class="case-mini">
+        {cases.map((c) => (
+          <a class="xcard" href={route(lang, `/open-source/#case-${c.id}`)}>
+            <p class="kicker">{c[lang].tab}</p>
+            <b>{c[lang].title}</b>
+            <p class="cm-ba"><span class="bad">{c[lang].bl}</span> → <span class="good">{c[lang].al}</span></p>
+          </a>
+        ))}
+      </div>
       <PrWall lang={lang} compact headline={h.wallTitle} />
       <p class="more"><a class="btn gold" href={route(lang, '/open-source/')}>{t(lang, 'viewMore')} →</a></p>
     </div>
   </section>
 
-  <section class="block">
+  <section class="block" id="systems">
     <div class="wrap">
-      <div class="sh"><span class="kicker">{t(lang, 'featuredProjects')}</span><h2 class="page-h">{lang === 'zh' ? '精选项目' : 'Selected work'}</h2></div>
-      <div class="pgrid">{featured.map((p) => <ProjectCard p={p} lang={lang} />)}</div>
-      <p class="more"><a class="btn" href={route(lang, '/projects/')}>{t(lang, 'viewAll')} →</a></p>
+      <div class="sh"><span class="kicker">{L('Systems exploration', '系统探索')}</span><h2 class="page-h">{L('Taking things apart', '拆开看看')}</h2><p>{L('Self-taught experiments with game files, Android devices and iOS.', '自学的动手实验：游戏文件、Android 设备和 iOS。')}</p></div>
+      <div class="pgrid">
+        {systems.map((e) => (
+          <a class="pcard xcard" href={route(lang, `/systems/${e.data.pageSlug}/`)}><b>{e.data.title}<span aria-hidden="true">→</span></b><p class="subt">{e.data.subtitle}</p><p>{e.data.summary}</p></a>
+        ))}
+        {content.writing.map((w) => (
+          <a class="pcard xcard" href={w.url} rel="noopener"><b>{L('Published article', '发表的文章')}<span aria-hidden="true">↗</span></b><p class="subt">{w.venue} · {w.date}</p><p>{w.title}</p></a>
+        ))}
+      </div>
     </div>
   </section>
 
-  <section class="block">
+  <section class="block" id="community">
     <div class="wrap">
-      <p class="more-row"><span>{h.beyondH}</span>{h.beyond.map((b) => <a href={route(lang, b.path)}>{b.title}</a>)}<a href={route(lang, '/about/')}>{lang === 'zh' ? '关于我' : 'About'}</a></p>
+      <div class="sh"><span class="kicker">{L('Beyond the code', '代码之外')}</span><h2 class="page-h">{L('Volunteering and creative work', '志愿服务与创作')}</h2></div>
+      <div class="pgrid">
+        <a class="pcard xcard" href={route(lang, '/volunteering/')}><b>{L('Volunteering & community', '志愿服务与社区')}<span aria-hidden="true">→</span></b><p>{L('Grocery coordination, peer learning, recycled-art workshops and storytelling.', '社区采购协调、同伴学习、回收材料艺术工作坊与讲故事。')}</p></a>
+        <a class="pcard xcard" href={route(lang, '/creative/')}><b>{L('Creative work', '创作')}<span aria-hidden="true">→</span></b><p>{L('A video channel with 1,720 followers and a cross-cultural short-film project.', '一个有 1,720 粉丝的视频账号，以及一个跨文化短片项目。')}</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contact">
+    <div class="wrap">
+      <div class="sh"><span class="kicker">{L('Contact', '联系')}</span><h2 class="page-h">{L('Let\'s talk', '欢迎交流')}</h2><p>{L('Looking for software engineering co-op and internship roles.', '正在找软件工程 co-op / 实习。')}</p></div>
+      <p class="cta">
+        <a class="btn gold" href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn →</a>
+        <a class="btn" href="https://github.com/Jelly-RayTian">GitHub</a>
+        <a class="btn" href={route(lang, '/contact/')}>{L('More ways', '更多方式')}</a>
+      </p>
     </div>
   </section>
 </BaseLayout>
