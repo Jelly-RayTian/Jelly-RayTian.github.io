@@ -18,16 +18,20 @@ export function stripLang(pathname: string): { lang: Lang; path: string } {
 }
 
 export const nav = [
-  { path: '/', key: 'home' },
+  { path: '/open-source/', key: 'openSource', match: ['/open-source/'] },
+  { path: '/projects/', key: 'projects', match: ['/projects/'] },
+  { path: '/systems/', key: 'systems', match: ['/systems/'] },
+  { path: '/about/', key: 'about', match: ['/about/', '/education/', '/experience/', '/volunteering/', '/creative/'] },
+  { path: '/contact/', key: 'contact', match: ['/contact/'] },
+] as const;
+
+/** Pages grouped under "About"; shown as a tab strip at the top of each. */
+export const aboutTabs = [
   { path: '/about/', key: 'about' },
   { path: '/education/', key: 'education' },
   { path: '/experience/', key: 'experience' },
-  { path: '/projects/', key: 'projects' },
-  { path: '/open-source/', key: 'openSource' },
   { path: '/volunteering/', key: 'volunteering' },
-  { path: '/systems/', key: 'systems' },
   { path: '/creative/', key: 'creative' },
-  { path: '/contact/', key: 'contact' },
 ] as const;
 
 type Dict = Record<string, string>;

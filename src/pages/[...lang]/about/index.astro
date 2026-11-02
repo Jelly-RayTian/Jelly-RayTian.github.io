@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHead from '../../../components/PageHead.astro';
+import AboutTabs from '../../../components/AboutTabs.astro';
 import { localePaths } from '../../../lib/paths';
 import { pages } from '../../../content/data/pages';
 import { content } from '../../../lib/data';
@@ -11,6 +12,7 @@ const pg = pages[lang].about;
 ---
 <BaseLayout lang={lang} path="/about/" title={pg.k} description={content.about[lang].slice(0, 180)}>
   <section class="block"><div class="wrap">
+    <AboutTabs lang={lang} path="/about/" />
     <PageHead k={pg.k} h={pg.h} p={pg.p} />
     <div class="about-grid">
       <p class="about-text">{content.about[lang]}</p>

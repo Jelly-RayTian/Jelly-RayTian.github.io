@@ -3,7 +3,7 @@ import { nav, route, t, type Lang } from '../i18n/ui';
 interface Props { lang: Lang; path: string }
 const { lang, path } = Astro.props;
 const other: Lang = lang === 'en' ? 'zh' : 'en';
-const isActive = (p: string) => (p === '/' ? path === '/' : path.startsWith(p));
+const isActive = (match: readonly string[]) => match.some((p) => path.startsWith(p));
 ---
 <header class="nav">
   <div class="wrap">
@@ -11,7 +11,7 @@ const isActive = (p: string) => (p === '/' ? path === '/' : path.startsWith(p));
     <nav id="site-nav" aria-label="Main">
       <ul>
         {nav.map((n) => (
-          <li><a href={route(lang, n.path)} aria-current={isActive(n.path) ? 'page' : undefined}>{t(lang, n.key)}</a></li>
+          <li><a href={route(lang, n.path)} aria-current={isActive(n.match) ? 'page' : undefined}>{t(lang, n.key)}</a></li>
         ))}
       </ul>
     </nav>

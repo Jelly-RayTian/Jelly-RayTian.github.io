@@ -1,0 +1,8 @@
+---
+import { aboutTabs, route, t, type Lang } from '../i18n/ui';
+interface Props { lang: Lang; path: string }
+const { lang, path } = Astro.props;
+---
+<nav class="tabs" aria-label="About">
+  {aboutTabs.map((n) => <a href={route(lang, n.path)} aria-current={path === n.path ? 'page' : undefined}>{t(lang, n.key)}</a>)}
+</nav>
