@@ -42,6 +42,13 @@ scripts/verify-dist.mjs      build verification
 ## Deployment
 `.github/workflows/deploy.yml` runs `astro check`, `astro build` and `npm run verify`, then publishes `dist/` with the official GitHub Pages actions. In the repository settings, Pages → Source must be **GitHub Actions**.
 
+### Pull-request data
+`src/content/data/prs.json` feeds the PR wall and counts. The workflow also runs **every hour** (and on demand under Actions → Deploy site → Run workflow): `scripts/update-prs.mjs` reads the PRs authored by `Jelly-RayTian` from the GitHub API, commits `prs.json` if it changed, and redeploys. A scheduled run that finds nothing new does not deploy.
+
+- Merged / open / draft status and new PRs come from GitHub. GitHub cannot notify this repository when a PR is opened elsewhere, so the delay is up to about an hour.
+- Hand-checked facts are kept: each PR's `summary`, and the closed-but-integrated classes (`squashed`, `consolidated`, `retained`). A new PR gets its title as summary; edit it in `prs.json` to improve it. A PR that is closed without being merged shows as `closed_unverified` until classified by hand.
+- Own-repository and private-repository PRs are never listed. Run locally with `node scripts/update-prs.mjs`.
+
 ## Notes
 - Personal email and phone are intentionally not on the site.
 - The site has no résumé page or download.

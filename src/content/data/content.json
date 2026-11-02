@@ -288,15 +288,21 @@
       "section": "leadership",
       "en": {
         "title": "Academic Committee Member",
-        "role": "Class representative for academics",
-        "date": "High school",
-        "tags": "Class role"
+        "role": "Class academic representative, all three years of high school",
+        "date": "High school · 3 years",
+        "tags": "Class role",
+        "bullets": [
+          "Organized study groups and helped classmates with their studies."
+        ]
       },
       "zh": {
         "title": "学习委员",
-        "role": "班级学习委员",
-        "date": "高中阶段",
-        "tags": "班级职务"
+        "role": "班级学习委员，高中三年全程担任",
+        "date": "高中三年",
+        "tags": "班级职务",
+        "bullets": [
+          "组织学习小组，帮助同学学习。"
+        ]
       }
     },
     {
@@ -306,13 +312,19 @@
         "title": "History Subject Representative",
         "role": "Class representative for History",
         "date": "Middle school",
-        "tags": "Class role"
+        "tags": "Class role",
+        "bullets": [
+          "Collected homework and assisted the teacher."
+        ]
       },
       "zh": {
         "title": "历史课代表",
         "role": "班级历史课代表",
         "date": "初中阶段",
-        "tags": "班级职务"
+        "tags": "班级职务",
+        "bullets": [
+          "帮助收作业，协助老师。"
+        ]
       }
     },
     {
@@ -552,12 +564,12 @@
       "section": "achievements",
       "en": {
         "title": "Study Model Student",
-        "role": "High school",
+        "role": "Selected by the school · High school",
         "tags": "Academics"
       },
       "zh": {
         "title": "学习标兵",
-        "role": "高中阶段",
+        "role": "学校评选 · 高中阶段",
         "tags": "学业"
       }
     }

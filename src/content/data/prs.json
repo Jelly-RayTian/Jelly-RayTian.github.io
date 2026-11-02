@@ -186,6 +186,78 @@
    "summary": "Test: covers editing PDFs containing zero-width spaces."
   },
   {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 280,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/280",
+   "title": "fix(reverse): retain forms, bookmarks, links and metadata when reversing pages",
+   "status": "open",
+   "summary": "fix(reverse): retain forms, bookmarks, links and metadata when reversing pages"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 281,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/281",
+   "title": "fix(add-blank-page): retain forms, bookmarks, links and metadata",
+   "status": "open",
+   "summary": "fix(add-blank-page): retain forms, bookmarks, links and metadata"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 282,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/282",
+   "title": "fix(remove-blank-pages): retain forms, bookmarks, links and metadata",
+   "status": "open",
+   "summary": "fix(remove-blank-pages): retain forms, bookmarks, links and metadata"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 283,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/283",
+   "title": "fix(background-color): retain forms, bookmarks, links and metadata",
+   "status": "open",
+   "summary": "fix(background-color): retain forms, bookmarks, links and metadata"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 284,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/284",
+   "title": "fix(rotate-custom): retain forms, bookmarks, links and metadata for right-angle rotations",
+   "status": "open",
+   "summary": "fix(rotate-custom): retain forms, bookmarks, links and metadata for right-angle rotations"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 285,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/285",
+   "title": "fix: let page-embedding tools handle blank pages that have no content stream",
+   "status": "open",
+   "summary": "fix: let page-embedding tools handle blank pages that have no content stream"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 286,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/286",
+   "title": "fix(organize): retain forms, bookmarks, links and metadata in the pdf-lib path",
+   "status": "open",
+   "summary": "fix(organize): retain forms, bookmarks, links and metadata in the pdf-lib path"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 287,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/287",
+   "title": "fix(fix-page-size): honour the /Rotate of source pages",
+   "status": "open",
+   "summary": "fix(fix-page-size): honour the /Rotate of source pages"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 288,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/288",
+   "title": "fix(n-up): honour the /Rotate of source pages",
+   "status": "open",
+   "summary": "fix(n-up): honour the /Rotate of source pages"
+  },
+  {
    "repo": "willfaust/Madeira",
    "number": 396,
    "url": "https://github.com/willfaust/Madeira/pull/396",
@@ -288,6 +360,14 @@
    "title": "vulkan: expose the complete experimental source profile and reproduction artifacts",
    "status": "draft",
    "summary": "Draft: exposes the complete experimental Vulkan source profile and reproduction artifacts (Detroit iPad investigation)."
+  },
+  {
+   "repo": "willfaust/Madeira",
+   "number": 544,
+   "url": "https://github.com/willfaust/Madeira/pull/544",
+   "title": "README: say how to add a game after installing",
+   "status": "open",
+   "summary": "README: say how to add a game after installing"
   }
  ]
 }
