@@ -617,5 +617,13 @@
       "en": "McMaster Science Global Scholars Award (Mathematics & Statistics)",
       "zh": "麦克马斯特大学 Science Global Scholars Award（数学与统计）"
     }
+  ],
+  "writing": [
+    {
+      "title": "Inside Plants vs. Zombies 2: Understanding RSB, RTON, and Rijndael Encryption",
+      "venue": "DEV Community",
+      "date": "Nov 2026",
+      "url": "https://dev.to/jellyraytian/inside-plants-vs-zombies-2-understanding-rsb-rton-and-rijndael-encryption-24oa"
+    }
   ]
 }
