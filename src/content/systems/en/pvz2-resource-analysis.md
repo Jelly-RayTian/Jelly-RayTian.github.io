@@ -23,7 +23,7 @@ This article explains three separate layers that a PVZ2 asset passes through:
 
 Decryption keys and decryption steps are deliberately left out of this article.
 
-The formats were mapped out by the modding community; the sources are in [References](#references). My part is the explanation, a small decoder I built to learn the RTON layer, and a record of what I verified on the container layers of a real build. The code is on [GitHub](https://github.com/Jelly-RayTian/pvz2-format-exploration).
+The formats were mapped out by the modding community; the sources are in [References](#references). My part is the explanation, a small decoder I built to learn the RTON layer, and a record of what I verified on the container layers of a real build. The code is on [GitHub](https://github.com/Jelly-RayTian/pvz2-format-exploration). This article is also published on [DEV Community](https://dev.to/jellyraytian/inside-plants-vs-zombies-2-understanding-rsb-rton-and-rijndael-encryption-24oa) and, in Chinese, on [Zhihu](https://zhuanlan.zhihu.com/p/2100854901811196700).
 
 I did this analysis locally, for learning. No game files, account data or session tokens are published, and the test data for my decoder is synthetic; the code is in the appendices.
 

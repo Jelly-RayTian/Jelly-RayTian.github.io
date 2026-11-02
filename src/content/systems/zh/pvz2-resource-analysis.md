@@ -23,7 +23,7 @@ references: [{"label": "RETON — RTON 格式笔记(h3x4n1um)", "url": "https://
 
 解密所需的密钥和解密步骤，本文有意不涉及。
 
-这些格式是由 PVZ2 的修改(mod)社区逐步摸清的，出处见[参考资料](#references)。我自己的部分是讲解、一个为学习 RTON 而写的小解码器，以及在真实版本的容器层上验证过的记录。代码在 [GitHub](https://github.com/Jelly-RayTian/pvz2-format-exploration)。
+这些格式是由 PVZ2 的修改(mod)社区逐步摸清的，出处见[参考资料](#references)。我自己的部分是讲解、一个为学习 RTON 而写的小解码器，以及在真实版本的容器层上验证过的记录。代码在 [GitHub](https://github.com/Jelly-RayTian/pvz2-format-exploration)。本文同时发布在 [DEV Community](https://dev.to/jellyraytian/inside-plants-vs-zombies-2-understanding-rsb-rton-and-rijndael-encryption-24oa)（英文）和[知乎](https://zhuanlan.zhihu.com/p/2100854901811196700)。
 
 这次分析在本机完成，仅为学习。不公开任何游戏文件、账号或会话令牌，解码器的测试数据全部是合成的，代码见附录。
 
