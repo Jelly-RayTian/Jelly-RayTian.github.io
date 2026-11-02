@@ -603,5 +603,19 @@
       "en": "University of Alberta",
       "zh": "阿尔伯塔大学（University of Alberta）"
     }
+  ],
+  "scholarships": [
+    {
+      "en": "University of Alberta International Admission Scholarship",
+      "zh": "阿尔伯塔大学国际学生入学奖学金（University of Alberta International Admission Scholarship）"
+    },
+    {
+      "en": "McMaster University Award of Excellence · DeGroote International Distinction Award (Business)",
+      "zh": "麦克马斯特大学 Award of Excellence 与 DeGroote International Distinction Award（商学）"
+    },
+    {
+      "en": "McMaster Science Global Scholars Award (Mathematics & Statistics)",
+      "zh": "麦克马斯特大学 Science Global Scholars Award（数学与统计）"
+    }
   ]
 }
