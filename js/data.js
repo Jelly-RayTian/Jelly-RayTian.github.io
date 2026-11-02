@@ -1,0 +1,294 @@
+// Generated from the verified PR snapshot (see README.md). Edit text elsewhere; regenerate this file when PR statuses change.
+const DATA = {
+ "generated_on": "2026-11-02",
+ "prs": [
+  {
+   "repo": "DaKheera47/job-ops",
+   "number": 787,
+   "url": "https://github.com/DaKheera47/job-ops/pull/787",
+   "title": "fix(resume): retain semantic style metadata across import and export",
+   "status": "merged",
+   "summary": "Preserves Reactive Resume v5.3 semantic style metadata (stylesheet, styleRules) across import, template merge and export, with validation of style targets and values."
+  },
+  {
+   "repo": "DaKheera47/job-ops",
+   "number": 788,
+   "url": "https://github.com/DaKheera47/job-ops/pull/788",
+   "title": "fix(jobs): preserve local posting dates across timezones and DST",
+   "status": "merged",
+   "summary": "Parses date-only postings at local midnight and counts calendar days across DST so posting age, tooltip and sort are right in America/Toronto."
+  },
+  {
+   "repo": "DaKheera47/job-ops",
+   "number": 789,
+   "url": "https://github.com/DaKheera47/job-ops/pull/789",
+   "title": "feat(manual-import): read job descriptions from text PDFs",
+   "status": "merged",
+   "summary": "Manual Import accepts text PDFs: client-side PDF.js extraction with size/page/character limits, reviewed text sent through the existing analysis flow."
+  },
+  {
+   "repo": "DaKheera47/job-ops",
+   "number": 791,
+   "url": "https://github.com/DaKheera47/job-ops/pull/791",
+   "title": "feat: optional lean scoring and Claude CLI modes to reduce AI usage",
+   "status": "open",
+   "summary": "Optional lean scoring and Claude CLI modes to reduce AI usage."
+  },
+  {
+   "repo": "DaKheera47/job-ops",
+   "number": 792,
+   "url": "https://github.com/DaKheera47/job-ops/pull/792",
+   "title": "feat: add Simplified Chinese (zh-CN) interface language",
+   "status": "open",
+   "summary": "Adds a Simplified Chinese (zh-CN) interface language."
+  },
+  {
+   "repo": "DaKheera47/job-ops",
+   "number": 793,
+   "url": "https://github.com/DaKheera47/job-ops/pull/793",
+   "title": "feat: add include/exclude keyword filters to the jobs list",
+   "status": "open",
+   "summary": "Include/exclude keyword filters for the jobs list."
+  },
+  {
+   "repo": "DaKheera47/job-ops",
+   "number": 794,
+   "url": "https://github.com/DaKheera47/job-ops/pull/794",
+   "title": "fix(llm): preserve fenced text and complete JSON response values",
+   "status": "open",
+   "summary": "LLM responses: preserves fenced text and completes JSON response values."
+  },
+  {
+   "repo": "DaKheera47/job-ops",
+   "number": 795,
+   "url": "https://github.com/DaKheera47/job-ops/pull/795",
+   "title": "feat(jobs): export filtered and selected jobs to CSV",
+   "status": "open",
+   "summary": "Exports filtered and selected jobs to CSV."
+  },
+  {
+   "repo": "DaKheera47/job-ops",
+   "number": 801,
+   "url": "https://github.com/DaKheera47/job-ops/pull/801",
+   "title": "feat(settings): refresh model suggestions without changing selection",
+   "status": "open",
+   "summary": ""
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 252,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/252",
+   "title": "fix(studio): show, reorder and remove files before appending",
+   "status": "merged",
+   "summary": "Studio: show, reorder and remove files before appending."
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 253,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/253",
+   "title": "fix(editor): select previous query when reopening find",
+   "status": "merged",
+   "summary": "Editor: reopening Find selects the previous query."
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 254,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/254",
+   "title": "fix(workflow): preserve literal values during token interpolation",
+   "status": "merged",
+   "summary": "Workflow filename interpolation keeps substituted values literal (e.g. $& and {date} inside a filename) using a single-pass token replacement."
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 255,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/255",
+   "title": "fix(bookmarks): preserve subtree on descendant drop",
+   "status": "merged",
+   "summary": "Bookmarks: dropping a node onto its own descendant preserves the subtree."
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 257,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/257",
+   "title": "fix(page-labels): preserve Unicode prefixes in saved PDFs",
+   "status": "merged",
+   "summary": "Page labels: writes prefixes as UTF-16 text strings so Chinese, Greek, Hebrew and emoji survive save and reload."
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 264,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/264",
+   "title": "fix(page-labels): prevent oversized ranges from freezing preview and export",
+   "status": "merged",
+   "summary": "Page labels: clips oversized ranges to the document and shares one parser so preview and export no longer freeze."
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 265,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/265",
+   "title": "fix(pdf-to-zip): preserve documents with duplicate filenames",
+   "status": "merged",
+   "summary": "PDF to ZIP: preserves documents with duplicate filenames."
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 266,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/266",
+   "title": "fix(rotate): retain editable forms, bookmarks and internal links",
+   "status": "merged",
+   "summary": "Rotate: updates page rotation in place for multiples of 90 degrees so forms, bookmarks, links, attachments and labels survive."
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 267,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/267",
+   "title": "fix(bookmarks): retain destination position, zoom and fit mode",
+   "status": "merged",
+   "summary": "Bookmarks: retains destination position, zoom and fit mode."
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 268,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/268",
+   "title": "fix(metadata): preserve unedited fields and honor date opt-out",
+   "status": "merged",
+   "summary": "Metadata: preserves unedited fields and honours the date opt-out."
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 273,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/273",
+   "title": "feat(reader): add remembered right-to-left spread order",
+   "status": "open",
+   "summary": "Reader: remembered right-to-left spread order."
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 274,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/274",
+   "title": "fix(editor): preserve object aspect ratio while Shift-resizing",
+   "status": "open",
+   "summary": "Editor: preserves object aspect ratio while Shift-resizing."
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 277,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/277",
+   "title": "feat(bookmarks): move multi-selections across the outline tree",
+   "status": "open",
+   "summary": "Bookmarks: move multi-selections across the outline tree."
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 278,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/278",
+   "title": "test(editor): cover editing PDFs containing zero-width spaces",
+   "status": "open",
+   "summary": "Test: covers editing PDFs containing zero-width spaces."
+  },
+  {
+   "repo": "willfaust/Madeira",
+   "number": 396,
+   "url": "https://github.com/willfaust/Madeira/pull/396",
+   "title": "ntdll: scope failed fixed-address relocation to the existing helper workaround",
+   "status": "consolidated",
+   "summary": "Restricts failed fixed-address relocation in the iOS ntdll virtual-memory layer to the existing helper workaround; adds a regression fixture."
+  },
+  {
+   "repo": "willfaust/Madeira",
+   "number": 399,
+   "url": "https://github.com/willfaust/Madeira/pull/399",
+   "title": "build: detect optional rusage diagnostic fields in the iOS SDK",
+   "status": "merged",
+   "summary": "Detects optional rusage diagnostic fields in the iOS SDK so the build works across SDK versions."
+  },
+  {
+   "repo": "willfaust/Madeira",
+   "number": 400,
+   "url": "https://github.com/willfaust/Madeira/pull/400",
+   "title": "vulkan: add an opt-in Windows x64 iOS route and reproduction fixtures",
+   "status": "consolidated",
+   "summary": "Opt-in Windows x64 Vulkan route for iOS (Wine Vulkan forwarding to MoltenVK via a retained CAMetalLayer), with enumerate, clear/readback and present fixtures and host checks."
+  },
+  {
+   "repo": "willfaust/Madeira",
+   "number": 451,
+   "url": "https://github.com/willfaust/Madeira/pull/451",
+   "title": "wine-pe: ship the registered TaskbarList COM server and add x64 activation coverage",
+   "status": "consolidated",
+   "summary": "Ships the registered TaskbarList COM server (explorerframe.dll) in the Wine PE package and adds x64 activation coverage; fixes a startup crash reported by a user."
+  },
+  {
+   "repo": "willfaust/Madeira",
+   "number": 456,
+   "url": "https://github.com/willfaust/Madeira/pull/456",
+   "title": "vulkan: isolate the direct pipeline-cache export sizing fix and regression",
+   "status": "consolidated",
+   "summary": "Isolated MoltenVK 1.4.2 backport so a direct vkGetPipelineCacheData call succeeds without a prior size query, plus a source-build helper and an x64/macOS Vulkan regression."
+  },
+  {
+   "repo": "willfaust/Madeira",
+   "number": 458,
+   "url": "https://github.com/willfaust/Madeira/pull/458",
+   "title": "docs: record Detroit iPad menu and interactive scene with screenshots",
+   "status": "merged",
+   "summary": "Documents Detroit: Become Human menu and interactive-scene observations on an experimental iPad build, with screenshots and explicit limits."
+  },
+  {
+   "repo": "willfaust/Madeira",
+   "number": 465,
+   "url": "https://github.com/willfaust/Madeira/pull/465",
+   "title": "ntdll: decode UTF-8 launch folders before setting the Windows working directory",
+   "status": "consolidated",
+   "summary": "Decodes the UTF-8 initial working directory before building its NT path (non-ASCII launch folders), with host regression and Windows probe."
+  },
+  {
+   "repo": "willfaust/Madeira",
+   "number": 471,
+   "url": "https://github.com/willfaust/Madeira/pull/471",
+   "title": "ntdll: reserve enough startup storage for long working directories",
+   "status": "squashed",
+   "summary": "Reserves enough startup storage for current directories of 260+ UTF-16 units so later strings no longer overwrite the directory; ASan/UBSan host reproduction (12/24 cases failed on base, 24/24 pass)."
+  },
+  {
+   "repo": "willfaust/Madeira",
+   "number": 472,
+   "url": "https://github.com/willfaust/Madeira/pull/472",
+   "title": "steam: avoid automatic cloud transfers for unreadable local saves",
+   "status": "squashed",
+   "summary": "Stops Steam Cloud sync from treating an unreadable local save or incomplete checksum as proof of a local edit (no automatic upload; keeps it as a conflict); eight added cases."
+  },
+  {
+   "repo": "willfaust/Madeira",
+   "number": 473,
+   "url": "https://github.com/willfaust/Madeira/pull/473",
+   "title": "runtime: release task and copied values in entitlement checks",
+   "status": "squashed",
+   "summary": "Balances Core Foundation ownership (task and copied values) in runtime entitlement checks."
+  },
+  {
+   "repo": "willfaust/Madeira",
+   "number": 486,
+   "url": "https://github.com/willfaust/Madeira/pull/486",
+   "title": "steam: propagate local depot write errors without retrying healthy CDNs",
+   "status": "merged",
+   "summary": "Propagates local depot write errors instead of retrying healthy CDNs in the Steam downloader."
+  },
+  {
+   "repo": "willfaust/Madeira",
+   "number": 501,
+   "url": "https://github.com/willfaust/Madeira/pull/501",
+   "title": "move: log an original that cannot be removed after a verified copy",
+   "status": "merged",
+   "summary": "Logs an original that cannot be removed after a verified copy during a move."
+  },
+  {
+   "repo": "willfaust/Madeira",
+   "number": 502,
+   "url": "https://github.com/willfaust/Madeira/pull/502",
+   "title": "vulkan: expose the complete experimental source profile and reproduction artifacts",
+   "status": "draft",
+   "summary": "Draft: exposes the complete experimental Vulkan source profile and reproduction artifacts (Detroit iPad investigation)."
+  }
+ ]
+};
