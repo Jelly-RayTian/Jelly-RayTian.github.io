@@ -9,6 +9,8 @@ featured: true
 stack: "TypeScript · Swift · SQLite · macOS"
 period: "Oct 2026"
 status: "Beta: v0.1.0-beta.1, arm64, ad-hoc signed and not notarized."
+image: "/assets/wechatsignals-screenshot.webp"
+imageDark: "/assets/wechatsignals-screenshot.webp"
 icon: "/assets/wechatsignals-icon.png"
 flow: ["Read one-to-one chats, read-only", "Anonymise participants (Me, Person A)", "Send for analysis only when you click", "API key kept in macOS Keychain"]
 links: [{"label": "Release v0.1.0-beta.1", "url": "https://github.com/Jelly-RayTian/WechatSignals/releases/tag/v0.1.0-beta.1"}, {"label": "Source", "url": "https://github.com/Jelly-RayTian/WechatSignals"}]
