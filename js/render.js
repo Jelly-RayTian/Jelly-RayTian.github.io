@@ -158,5 +158,5 @@ function systemsProjects(row, ul) {
     + ul(["Inspected Android native libraries with MT Manager to find encryption-related constants; used existing tools and recovered key material to decrypt and inspect RTON resource files.",
           "Studied Rijndael key and IV usage, binary file formats and resource encoding through independent experimentation."])
     + row("<b>Android & iOS Device Customization — personal experiments</b>", "High school")
-    + ul(["Rooted Android phones, used TWRP Recovery, flashed custom systems (Havoc OS, LineageOS) and experimented with iOS jailbreaking; devices, versions and tools not recorded."]);
+    + ul(["Rooted Android phones, used TWRP Recovery, flashed custom systems (Havoc OS, LineageOS), experimented with Windows on a Xiaomi Mi 8, and used the Dopamine jailbreak and TrollStore on iOS; versions and exact steps not recorded."]);
 }
