@@ -1,27 +1,48 @@
-# Ray Tian portfolio
+# Ray Tian — portfolio
 
-Static site, no build step. Open `index.html` in a browser (or `python3 -m http.server` in this folder).
+Multi-page static site built with [Astro](https://astro.build) (TypeScript, static output), deployed to GitHub Pages at <https://jelly-raytian.github.io/>.
 
-| File | What it holds |
-|---|---|
-| `index.html` | Page skeleton, hero, PR wall, projects, open-source case studies and the full PR list |
-| `css/style.css` | Colours (CSS variables at the top), layout, animations, print styles |
-| `js/data.js` | Verified PR list and statuses (generated; regenerate when statuses change) |
-| `js/cases.js` | Open-source case studies, English and Chinese |
-| `js/content.js` | **All personal content** (about, education, leadership, community, research, honours), English and Chinese. Edit here |
-| `js/videos.js` | Selected Bilibili videos (empty until links are verified) |
-| `js/render.js` | Builds the sections and the one-page résumé from `content.js` |
-| `js/main.js` | Language and theme toggles, PR wall, page-level Chinese strings, effects |
-| `tools/build-resume.mjs` | `node tools/build-resume.mjs` regenerates `assets/Ray-Tian-Resume.pdf` (needs Edge or Chrome). `--variant systems` makes a targeted copy (Mobile, Android, Embedded or Security roles) that adds the PvZ2 and device-customization lines. Add `--email … --phone … --out ~/Desktop/file.pdf` for a private application copy |
-| `assets/` | WatDesk screenshots and the English résumé PDF (no email or phone) |
+```bash
+npm install
+npm run dev       # local dev server
+npm run build     # static build into dist/
+npm run check     # type check
+npm run verify    # post-build checks (pages, links, SEO, removed content)
+```
 
-Chinese text for static page parts lives in the `ZH` list in `js/main.js`, keyed by CSS selector; section content is bilingual inside `js/content.js`. Fonts load from Google Fonts.
+## Structure
 
-Source of truth and the PR-refresh scripts: github.com/Jelly-RayTian/Jelly-RayTian.
+```
+src/
+  pages/[...lang]/     one file per page; serves / (English) and /zh/ (Chinese)
+    index.astro  about/  education/  experience/  projects/  open-source/
+    volunteering/  systems/  creative/  contact/
+    projects/[slug].astro   systems/[slug].astro   detail pages from Markdown
+  layouts/BaseLayout.astro   head, SEO, Open Graph, hreflang, header, footer
+  components/                Header, Footer, PrWall, PrExplorer, CaseStudies, cards
+  content/
+    projects/{en,zh}/*.md    one Markdown file per project and language
+    systems/{en,zh}/*.md     systems articles (text, code blocks, images, references)
+    data/                    content.json (experience, education, honours), prs.json, cases.json, pages.ts
+  i18n/ui.ts                 routes and interface strings (EN/ZH)
+  lib/                       data helpers
+  scripts/                   theme/menu, background canvas, PR filter (small client scripts)
+  styles/global.css
+public/assets/               screenshots
+scripts/verify-dist.mjs      build verification
+```
 
+## Adding things
+- **A project page:** add `src/content/projects/en/<name>.md` and `zh/<name>.md` (same `pageSlug`). It appears at `/projects/<name>/`.
+- **A systems article:** add `src/content/systems/{en,zh}/<name>.md`. Code blocks, images in `public/`, inline SVG diagrams and a `references` list in the front matter are supported. Write only what you can stand behind.
+- **Experience, education, honours:** edit `src/content/data/content.json` (English and Chinese side by side).
+- **Bilibili videos:** none are listed because none have been verified. Add them to `content.json` under `creative` once the title, link and numbers are checked on the video page.
+- **PR statuses:** `src/content/data/prs.json` is a verified snapshot. The scheduled refresh lives in the profile repository, Jelly-RayTian/Jelly-RayTian.
 
-## Experience update — 2026-11-01
+## Deployment
+`.github/workflows/deploy.yml` runs `astro check`, `astro build` and `npm run verify`, then publishes `dist/` with the official GitHub Pages actions. In the repository settings, Pages → Source must be **GitHub Actions**.
 
-Added bilingual coursework, team projects, creative work and research activities from Ray's original résumé and local project history. `#experience` contains six entries. The résumé now prints as two A4 pages in the selected language, with activities on page two. Education, coursework, languages and contact links have also been restored from the original résumé.
-
-Activity cards use paired `.localized[data-lang]` elements in `index.html`; the existing page translations still use `ZH` in `js/main.js`. Original PR data and online statuses were not refreshed in this content update.
+## Notes
+- Personal email and phone are intentionally not on the site.
+- The site has no résumé page or download.
+- Languages: English at the root, Chinese under `/zh/`. Each page links to its counterpart and declares `hreflang`.

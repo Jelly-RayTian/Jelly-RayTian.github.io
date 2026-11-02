@@ -1,0 +1,14 @@
+---
+import type { Lang } from '../i18n/ui';
+interface Props { e: any; lang: Lang }
+const { e, lang } = Astro.props;
+const x = e[lang];
+---
+<article class="experience-card xcard">
+  {x.date && <p class="kicker">{x.date}</p>}
+  <h3>{x.title}</h3>
+  <p class="role">{x.role}</p>
+  {x.bullets && <ul class="xlist">{x.bullets.map((b: string) => <li>{b}</li>)}</ul>}
+  {x.note && <p class="xnote">{x.note}</p>}
+  {x.tags && <p class="experience-tags">{x.tags}</p>}
+</article>

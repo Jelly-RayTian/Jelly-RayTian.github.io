@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { route, t, type Lang } from '../../../i18n/ui';
+export async function getStaticPaths() {
+  const all = await getCollection('projects');
+  return all.map((entry) => ({
+    params: { lang: entry.data.lang === 'zh' ? 'zh' : undefined, slug: entry.data.pageSlug },
+    props: { entry, lang: entry.data.lang as Lang },
+  }));
+}
+const { entry, lang } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+---
+<BaseLayout lang={lang} path={`/projects/${d.pageSlug}/`} title={d.title} description={d.summary} ogImage={d.image ?? '/assets/watdesk.jpg'} type="article">
+  <section class="block"><div class="wrap narrow">
+    <p class="crumb"><a href={route(lang, '/projects/')}>← {t(lang, 'backTo')} {t(lang, 'projects')}</a></p>
+    <div class="sh page-head">
+      <span class="kicker">{[d.stack, d.period].filter(Boolean).join(' · ')}</span>
+      <h1 class="page-h">{d.title}</h1>
+      <p>{d.summary}</p>
+    </div>
+    {d.image && (
+      <figure class="shot">
+        <img class="l" src={d.image} alt={d.title} width="800" height="500" />
+        {d.imageDark && <img class="d" src={d.imageDark} alt={d.title} width="800" height="500" />}
+      </figure>
+    )}
+    {d.status && <p class="statusline">{d.status}</p>}
+    <div class="prose"><Content /></div>
+    {d.links.length > 0 && (
+      <div class="cta">{d.links.map((l, i) => <a class={i === 0 ? 'btn gold' : 'btn'} href={l.url}>{l.label}</a>)}</div>
+    )}
+  </div></section>
+</BaseLayout>

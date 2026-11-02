@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHead from '../../../components/PageHead.astro';
+import EntryCard from '../../../components/EntryCard.astro';
+import { localePaths } from '../../../lib/paths';
+import { pages } from '../../../content/data/pages';
+import { entriesFor, entry } from '../../../lib/data';
+import { t, type Lang } from '../../../i18n/ui';
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const pg = pages[lang].experience;
+const research = [entry('housing-advocacy'), entry('ai-economics')];
+---
+<BaseLayout lang={lang} path="/experience/" title={pg.k} description={pg.p}>
+  <section class="block"><div class="wrap">
+    <PageHead k={pg.k} h={pg.h} p={pg.p} />
+    <div class="experience-grid">{entriesFor('leadership').map((e) => <EntryCard e={e} lang={lang} />)}</div>
+    <h2 class="sub-h">{t(lang, 'researchPres')}</h2>
+    <p class="muted">{lang === 'zh' ? '课程与自发的研究、展示。分量上低于工程工作，但能体现我如何思考和表达。' : 'Course and independent work. It carries less weight than my engineering work, but shows how I think and communicate.'}</p>
+    <div class="experience-grid">{research.map((e) => <EntryCard e={e} lang={lang} />)}</div>
+  </div></section>
+</BaseLayout>

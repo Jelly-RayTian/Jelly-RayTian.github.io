@@ -1,0 +1,6 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "src/**/*", "scripts/**/*"],
+  "exclude": ["dist", "profile-repo", "resume"],
+  "compilerOptions": { "resolveJsonModule": true, "baseUrl": "." }
+}

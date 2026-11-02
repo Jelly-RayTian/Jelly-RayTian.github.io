@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHead from '../../../components/PageHead.astro';
+import { getCollection } from 'astro:content';
+import { localePaths } from '../../../lib/paths';
+import { pages } from '../../../content/data/pages';
+import { route, t, type Lang } from '../../../i18n/ui';
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const pg = pages[lang].systems;
+const items = (await getCollection('systems')).filter((e) => e.data.lang === lang).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout lang={lang} path="/systems/" title={pg.k} description={pg.p.slice(0, 200)}>
+  <section class="block"><div class="wrap">
+    <PageHead k={pg.k} h={pg.h} p={pg.p} />
+    <h2 class="sub-h first">{t(lang, 'articles')}</h2>
+    <div class="pgrid">
+      {items.map((e) => (
+        <a class="pcard xcard" href={route(lang, `/systems/${e.data.pageSlug}/`)}>
+          <b>{e.data.title}<span aria-hidden="true">→</span></b>
+          <p class="subt">{e.data.subtitle}</p>
+          <p>{e.data.summary}</p>
+        </a>
+      ))}
+    </div>
+    <p class="muted lang-note">{lang === 'zh' ? '这些页面只记录我确认过的事实。不会补写记不清的细节，也不声称有第三方验证。' : 'These pages record only what I have confirmed. I do not fill in details I no longer remember, and I claim no third-party verification.'}</p>
+  </div></section>
+</BaseLayout>

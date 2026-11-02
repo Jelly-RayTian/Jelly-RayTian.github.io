@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHead from '../../../components/PageHead.astro';
+import EntryCard from '../../../components/EntryCard.astro';
+import { localePaths } from '../../../lib/paths';
+import { pages } from '../../../content/data/pages';
+import { content, entry } from '../../../lib/data';
+import type { Lang } from '../../../i18n/ui';
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const pg = pages[lang].creative;
+const C = content.creative;
+---
+<BaseLayout lang={lang} path="/creative/" title={pg.k} description={pg.p}>
+  <section class="block"><div class="wrap">
+    <PageHead k={pg.k} h={pg.h} p={pg.p} />
+    <h2 class="sub-h first">{lang === 'zh' ? 'Bilibili 账号' : 'Bilibili channel'}</h2>
+    <div class="cstats">
+      {C.stats.map((s) => <div class="cstat"><b>{s.value}</b><span>{s.label[lang]}</span><small>{s.src[lang]}</small></div>)}
+    </div>
+    <p class="xnote wide">{C.note[lang]}</p>
+    <div class="cta"><a class="btn gold" href={C.profile}>{lang === 'zh' ? 'Bilibili 个人主页' : 'Bilibili profile'} ↗</a></div>
+    <h2 class="sub-h">{lang === 'zh' ? '短片项目' : 'Short-film project'}</h2>
+    <div class="experience-grid"><EntryCard e={entry('film')} lang={lang} /></div>
+  </div></section>
+</BaseLayout>

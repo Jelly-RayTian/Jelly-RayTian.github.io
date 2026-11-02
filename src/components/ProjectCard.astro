@@ -1,0 +1,11 @@
+---
+import { route, type Lang } from '../i18n/ui';
+interface Props { p: any; lang: Lang }
+const { p, lang } = Astro.props;
+const d = p.data;
+---
+<a class="pcard xcard" href={route(lang, `/projects/${d.pageSlug}/`)}>
+  <b>{d.title}<span aria-hidden="true">↗</span></b>
+  <p>{d.summary}</p>
+  {d.stack && <span class="lang">{d.stack}</span>}
+</a>

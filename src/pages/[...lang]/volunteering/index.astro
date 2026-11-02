@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHead from '../../../components/PageHead.astro';
+import EntryCard from '../../../components/EntryCard.astro';
+import { localePaths } from '../../../lib/paths';
+import { pages } from '../../../content/data/pages';
+import { entriesFor } from '../../../lib/data';
+import type { Lang } from '../../../i18n/ui';
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const pg = pages[lang].volunteering;
+---
+<BaseLayout lang={lang} path="/volunteering/" title={pg.k} description={pg.p}>
+  <section class="block"><div class="wrap">
+    <PageHead k={pg.k} h={pg.h} p={pg.p} />
+    <div class="experience-grid">{entriesFor('community').map((e) => <EntryCard e={e} lang={lang} />)}</div>
+  </div></section>
+</BaseLayout>

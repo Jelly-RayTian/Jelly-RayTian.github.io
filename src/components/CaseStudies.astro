@@ -1,0 +1,41 @@
+---
+import { cases } from '../lib/data';
+import type { Lang } from '../i18n/ui';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const L = lang === 'zh'
+  ? { b: '之前', a: '之后', p: '问题', ap: '方法', v: '验证', u: '上游结果', e: '证据链' }
+  : { b: 'Before', a: 'After', p: 'Problem', ap: 'Approach', v: 'Validation', u: 'Upstream', e: 'Evidence chain' };
+---
+<nav class="case-index" aria-label="Case studies">
+  {cases.map((c) => <a href={`#case-${c.id}`}>{c[lang].tab}</a>)}
+</nav>
+{cases.map((c) => {
+  const x = c[lang];
+  return (
+    <article class="case xcard" id={`case-${c.id}`}>
+      <div class="ba">
+        <span class="repo">{x.repo}</span>
+        <h3>{x.title}</h3>
+        <div class="pair">
+          <div class="metric before"><small>{L.b}</small><strong>{x.bl}</strong><small class="plain">{x.bv}</small></div>
+          <div class="arrow" aria-hidden="true">↓</div>
+          <div class="metric after"><small>{L.a}</small><strong>{x.al}</strong><small class="plain">{x.av}</small></div>
+        </div>
+        <p class="src">{x.src}</p>
+      </div>
+      <div class="body">
+        <div class="step"><b>{L.p}</b><span>{x.problem}</span></div>
+        <div class="step"><b>{L.ap}</b><span>{x.approach}</span></div>
+        <div class="step"><b>{L.v}</b><span>{x.validation}</span></div>
+        <div class="step"><b>{L.u}</b><span>{x.outcome}</span></div>
+        <div>
+          <div class="kicker evid">{L.e}</div>
+          <div class="chain">
+            {x.chain.map((l: any) => <a class="link" href={l.u}><small>{l.k}</small><span>{l.t}</span></a>)}
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+})}

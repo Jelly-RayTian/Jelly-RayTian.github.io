@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHead from '../../../components/PageHead.astro';
+import { localePaths } from '../../../lib/paths';
+import { pages } from '../../../content/data/pages';
+import type { Lang } from '../../../i18n/ui';
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const pg = pages[lang].contact;
+---
+<BaseLayout lang={lang} path="/contact/" title={pg.k} description={pg.p}>
+  <section class="block"><div class="wrap">
+    <PageHead k={pg.k} h={pg.h} p={pg.p} />
+    <div class="cta">
+      <a class="btn gold" href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn</a>
+      <a class="btn" href="https://github.com/Jelly-RayTian">GitHub</a>
+      <a class="btn" href="https://github.com/Jelly-RayTian/Jelly-RayTian.github.io/issues">{lang === 'zh' ? 'GitHub 留言' : 'GitHub issues'}</a>
+    </div>
+  </div></section>
+</BaseLayout>

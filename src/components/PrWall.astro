@@ -1,0 +1,23 @@
+---
+import { prs, sortedPrs, statusOrder, statusMeta, count, type Status } from '../lib/data';
+import { t, type Lang } from '../i18n/ui';
+interface Props { lang: Lang; compact?: boolean; headline: string }
+const { lang, compact = false, headline } = Astro.props;
+---
+<div class="wallbox" id="wall">
+  <div class="wallhead">
+    <h2><i>{prs.length}</i> {headline}</h2>
+    <p>{t(lang, 'hoverTip')}</p>
+  </div>
+  <div class="wall" id="tiles">
+    {sortedPrs.map((p, i) => (
+      <a class={`tile t-${p.status}`} style={`animation-delay:${i * 28}ms`} href={p.url} data-title={p.title} data-meta={`${p.repo}#${p.number} · ${statusMeta[p.status as Status][lang].n}`} aria-label={`${p.repo}#${p.number}: ${p.title} (${statusMeta[p.status as Status][lang].n})`}></a>
+    ))}
+  </div>
+  <div class="legend">
+    {statusOrder.filter((s) => count(s)).map((s) => (
+      <div class="leg"><span class={`sw t-${s}`}></span><div><b>{count(s)}</b>{statusMeta[s][lang].n}{!compact && <><br /><span class="legd">{statusMeta[s][lang].d}</span></>}</div></div>
+    ))}
+  </div>
+  <p class="fine">{t(lang, 'notMerged')} {!compact && t(lang, 'aiNote')}</p>
+</div>

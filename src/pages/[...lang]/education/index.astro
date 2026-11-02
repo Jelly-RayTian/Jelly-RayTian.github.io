@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHead from '../../../components/PageHead.astro';
+import { localePaths } from '../../../lib/paths';
+import { pages } from '../../../content/data/pages';
+import { content, entriesFor } from '../../../lib/data';
+import { t, type Lang } from '../../../i18n/ui';
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const pg = pages[lang].education;
+const honours = entriesFor('achievements');
+---
+<BaseLayout lang={lang} path="/education/" title={pg.k} description={pg.p}>
+  <section class="block"><div class="wrap">
+    <PageHead k={pg.k} h={pg.h} p={pg.p} />
+    <div class="edu-grid">
+      {content.education.map((ed) => {
+        const x = ed[lang];
+        return (
+          <article class="edu-card xcard">
+            <p class="kicker">{x.date}</p>
+            <h2>{x.org}</h2>
+            <p class="role">{x.degree}</p>
+            <p class="edu-place">{x.place}{'detail' in x && x.detail ? ` · ${x.detail}` : ''}</p>
+            <p class="edu-cw"><b>{t(lang, 'coursework')}</b></p>
+            <ul class="chips">{x.coursework.map((c) => <li>{c}</li>)}</ul>
+          </article>
+        );
+      })}
+    </div>
+    <h2 class="sub-h">{lang === 'zh' ? '荣誉与资格' : 'Honours & qualifications'}</h2>
+    <p class="muted">{lang === 'zh' ? '一项竞赛成绩和一项音乐等级。不声称任何排名、奖牌或奖学金。' : 'A contest score and a music level. No rankings, medals or scholarships are claimed.'}</p>
+    <div class="honours">
+      {honours.map((e) => <article class="honour xcard"><h3>{e[lang].title}</h3><p>{e[lang].role}</p></article>)}
+    </div>
+    <p class="muted lang-note"><b>{t(lang, 'languagesLabel')}:</b> {content.languages[lang]}</p>
+  </div></section>
+</BaseLayout>

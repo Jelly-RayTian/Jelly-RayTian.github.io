@@ -1,5 +1,4 @@
-// Generated from the verified PR snapshot (see README.md). Edit text elsewhere; regenerate this file when PR statuses change.
-const DATA = {
+{
  "generated_on": "2026-11-02",
  "prs": [
   {
@@ -291,4 +290,4 @@ const DATA = {
    "summary": "Draft: exposes the complete experimental Vulkan source profile and reproduction artifacts (Detroit iPad investigation)."
   }
  ]
-};
+}

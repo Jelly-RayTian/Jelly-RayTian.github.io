@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHead from '../../../components/PageHead.astro';
+import PrWall from '../../../components/PrWall.astro';
+import PrExplorer from '../../../components/PrExplorer.astro';
+import CaseStudies from '../../../components/CaseStudies.astro';
+import { localePaths } from '../../../lib/paths';
+import { pages, home } from '../../../content/data/pages';
+import { repos, repoStats, prs, count } from '../../../lib/data';
+import { t, type Lang } from '../../../i18n/ui';
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const pg = pages[lang].openSource;
+const hdr = lang === 'zh'
+  ? ['仓库', 'PR', '已合并', 'squash', '整合', '审核中/草稿']
+  : ['Repository', 'PRs', 'Merged', 'Squashed', 'Consolidated', 'Open/draft'];
+---
+<BaseLayout lang={lang} path="/open-source/" title={pg.k} description={pg.p}>
+  <section class="block"><div class="wrap">
+    <PageHead k={pg.k} h={pg.h} p={pg.p} />
+    <PrWall lang={lang} headline={home[lang].wallTitle} />
+    <div class="tablewrap">
+      <table class="rtable">
+        <thead><tr>{hdr.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+        <tbody>
+          {repos.map((r) => { const s = repoStats(r); return <tr><th scope="row"><a href={`https://github.com/${r}`}>{r}</a></th><td>{s.total}</td><td>{s.merged}</td><td>{s.squashed}</td><td>{s.consolidated}</td><td>{s.open}</td></tr>; })}
+          <tr class="total"><th scope="row">{lang === 'zh' ? '外部合计' : 'External total'}</th><td>{prs.length}</td><td>{count('merged')}</td><td>{count('squashed')}</td><td>{count('consolidated')}</td><td>{count('open') + count('draft')}</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-h">{lang === 'zh' ? '案例研究' : 'Case studies'}</h2>
+    <p class="muted">{lang === 'zh' ? '左侧的数字是我的 PR 自述的结果；右侧的链条是维护者实际做了什么。这是两类不同的证据，页面上分开标注。' : 'Numbers on the left are what my PR reported; the chain on the right is what the maintainers actually did. They are different kinds of evidence and are labelled that way.'}</p>
+    <CaseStudies lang={lang} />
+
+    <h2 class="sub-h" id="all-prs">{lang === 'zh' ? '全部 pull request' : 'Every pull request'}</h2>
+    <PrExplorer lang={lang} />
+    <p class="more"><a class="btn" href="https://github.com/Jelly-RayTian/Jelly-RayTian/blob/main/OPEN_SOURCE_CONTRIBUTIONS.md">{t(lang, 'ledger')} ↗</a></p>
+  </div></section>
+</BaseLayout>

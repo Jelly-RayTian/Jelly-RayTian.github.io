@@ -1,0 +1,68 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Background from '../components/Background.astro';
+import { htmlLang, locales, route, t, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  /** Page path without the locale prefix, e.g. "/about/" */
+  path: string;
+  title: string;
+  description: string;
+  ogImage?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+}
+const { lang, path, title, description, ogImage = '/assets/watdesk.jpg', type = 'website', noindex = false } = Astro.props;
+const site = Astro.site!;
+const canonical = new URL(route(lang, path), site).href;
+const fullTitle = path === '/' ? `${t(lang, 'siteTitle')} — ${title}` : `${title} · ${t(lang, 'siteTitle')}`;
+const og = new URL(ogImage, site).href;
+---
+<!doctype html>
+<html lang={htmlLang[lang]} data-theme="dark" data-lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {locales.map((l) => <link rel="alternate" hreflang={htmlLang[l]} href={new URL(route(l, path), site).href} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL(route('en', path), site).href} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="Ray Tian" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={og} />
+    <meta property="og:locale" content={lang === 'zh' ? 'zh_CN' : 'en_CA'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230a0c10'/><text x='16' y='23' font-size='20' text-anchor='middle' fill='%23f2c14e' font-family='Georgia,serif' font-style='italic'>R</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('js');
+        try { var th = localStorage.getItem('theme'); if (th === 'light' || th === 'dark') d.dataset.theme = th; } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">{t(lang, 'skip')}</a>
+    <Background />
+    <Header lang={lang} path={path} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <div class="tip" id="tip" role="tooltip" aria-hidden="true"></div>
+    <script>
+      import '../scripts/site.ts';
+    </script>
+  </body>
+</html>

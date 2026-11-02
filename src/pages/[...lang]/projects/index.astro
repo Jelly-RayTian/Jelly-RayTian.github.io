@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHead from '../../../components/PageHead.astro';
+import ProjectCard from '../../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+import { localePaths } from '../../../lib/paths';
+import { pages } from '../../../content/data/pages';
+import { t, type Lang } from '../../../i18n/ui';
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const pg = pages[lang].projects;
+const all = (await getCollection('projects')).filter((p) => p.data.lang === lang).sort((a, b) => a.data.order - b.data.order);
+const software = all.filter((p) => p.data.kind === 'software');
+const course = all.filter((p) => p.data.kind === 'coursework');
+---
+<BaseLayout lang={lang} path="/projects/" title={pg.k} description={pg.p}>
+  <section class="block"><div class="wrap">
+    <PageHead k={pg.k} h={pg.h} p={pg.p} />
+    <div class="pgrid">{software.map((p) => <ProjectCard p={p} lang={lang} />)}</div>
+    <h2 class="sub-h">{t(lang, 'coursework2')}</h2>
+    <p class="muted">{lang === 'zh' ? '为课程完成的团队构想。属于课程作业，不是已上线的产品或公司。' : 'Team concepts written for courses. They are coursework, not launched products or companies.'}</p>
+    <div class="pgrid">{course.map((p) => <ProjectCard p={p} lang={lang} />)}</div>
+  </div></section>
+</BaseLayout>

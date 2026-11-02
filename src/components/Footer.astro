@@ -1,0 +1,16 @@
+---
+import { route, t, type Lang } from '../i18n/ui';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<footer>
+  <div class="wrap">
+    <div class="big"><a href={route(lang, '/open-source/')}>{t(lang, 'ledger')}</a>.</div>
+    <p>{t(lang, 'footNote')}</p>
+    <p class="links">
+      <a href="https://github.com/Jelly-RayTian">GitHub</a> ·
+      <a href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn</a> ·
+      <a href="https://github.com/Jelly-RayTian/Jelly-RayTian.github.io">{t(lang, 'source')}</a>
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { route, t, type Lang } from '../../../i18n/ui';
+export async function getStaticPaths() {
+  const all = await getCollection('systems');
+  return all.map((entry) => ({
+    params: { lang: entry.data.lang === 'zh' ? 'zh' : undefined, slug: entry.data.pageSlug },
+    props: { entry, lang: entry.data.lang as Lang },
+  }));
+}
+const { entry, lang } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+---
+<BaseLayout lang={lang} path={`/systems/${d.pageSlug}/`} title={d.title} description={d.summary} type="article">
+  <section class="block"><div class="wrap narrow">
+    <p class="crumb"><a href={route(lang, '/systems/')}>← {t(lang, 'backTo')} {t(lang, 'systems')}</a></p>
+    <article>
+      <div class="sh page-head">
+        <span class="kicker">{d.subtitle}</span>
+        <h1 class="page-h">{d.title}</h1>
+        <p>{d.summary}</p>
+      </div>
+      <div class="prose"><Content /></div>
+      {d.references.length > 0 && (
+        <section class="refs"><h2>{t(lang, 'references')}</h2><ul>{d.references.map((r) => <li><a href={r.url}>{r.label}</a></li>)}</ul></section>
+      )}
+    </article>
+  </div></section>
+</BaseLayout>

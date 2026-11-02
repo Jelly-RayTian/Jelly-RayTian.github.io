@@ -1,0 +1,33 @@
+---
+import { sortedPrs, statusOrder, statusMeta, count, repos, generatedOn, type Status } from '../lib/data';
+import { t, type Lang } from '../i18n/ui';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<div class="explorer" data-none={t(lang, 'noMatch')}>
+  <p class="fine">{sortedPrs.length} {t(lang, 'external')} · {t(lang, 'updated')} {generatedOn}</p>
+  <div class="tools">
+    <input id="q" type="search" placeholder={t(lang, 'search')} aria-label={t(lang, 'search')} />
+    <select id="repo" aria-label={t(lang, 'repo')}>
+      <option value="">{t(lang, 'allRepos')}</option>
+      {repos.map((r) => <option value={r}>{r}</option>)}
+    </select>
+    <select id="status" aria-label={t(lang, 'status')}>
+      <option value="">{t(lang, 'allStatuses')}</option>
+      {statusOrder.filter((s) => count(s)).map((s) => <option value={s}>{statusMeta[s][lang].n}</option>)}
+    </select>
+  </div>
+  <div class="list" id="list">
+    {sortedPrs.map((p) => (
+      <div class="r" data-repo={p.repo} data-status={p.status} data-text={`${p.title} ${p.summary ?? ''}`.toLowerCase()}>
+        <div class="id">{p.repo}#{p.number}</div>
+        <div><a href={p.url}>{p.title}</a>{p.summary && <small>{p.summary}</small>}</div>
+        <span class="badge" style={`color:var(${statusMeta[p.status as Status].color})`}>{statusMeta[p.status as Status][lang].n}</span>
+      </div>
+    ))}
+    <div class="none" id="none" hidden>{t(lang, 'noMatch')}</div>
+  </div>
+</div>
+<script>
+  import '../scripts/explorer.ts';
+</script>

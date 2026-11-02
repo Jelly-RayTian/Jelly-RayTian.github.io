@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { route, t } from '../i18n/ui';
+---
+<BaseLayout lang="en" path="/" title={t('en', 'notFound')} description={t('en', 'notFoundText')} noindex>
+  <section class="block"><div class="wrap">
+    <div class="sh page-head"><span class="kicker">404</span><h1 class="page-h">{t('en', 'notFound')}</h1><p>{t('en', 'notFoundText')}</p></div>
+    <div class="cta"><a class="btn gold" href={route('en', '/')}>Home</a><a class="btn" href={route('zh', '/')}>首页</a></div>
+  </div></section>
+</BaseLayout>

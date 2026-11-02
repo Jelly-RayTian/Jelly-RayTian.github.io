@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PrWall from '../../components/PrWall.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+import { localePaths } from '../../lib/paths';
+import { home } from '../../content/data/pages';
+import { route, t, type Lang } from '../../i18n/ui';
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const h = home[lang];
+const featured = (await getCollection('projects')).filter((p) => p.data.lang === lang && p.data.featured).sort((a, b) => a.data.order - b.data.order);
+---
+<BaseLayout lang={lang} path="/" title={t(lang, 'tagline').split('—')[1].trim()} description={h.lede}>
+  <section class="hero">
+    <div class="wrap">
+      <div class="kicker">{h.kicker}</div>
+      <h1><span>Ray</span> <em>Tian</em></h1>
+      <p class="tag">{h.tag.map((s, i) => (i % 2 === 0 ? <span>{s}</span> : s))}</p>
+      <p class="interests">{h.interests}</p>
+      <p class="lede">{h.lede}</p>
+      <div class="cta">
+        <a class="btn gold" href={route(lang, '/open-source/')}>{h.ctaEvidence} →</a>
+        <a class="btn" href={route(lang, '/about/')}>{h.ctaAbout}</a>
+        <a class="btn" href="https://github.com/Jelly-RayTian">github.com/Jelly-RayTian</a>
+      </div>
+      <div class="facts">{h.facts.map(([k, v]) => <span><b>{k}</b> {v}</span>)}</div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sh"><span class="kicker">{t(lang, 'featuredProjects')}</span><h2 class="page-h">{lang === 'zh' ? '精选项目' : 'Selected work'}</h2></div>
+      <div class="pgrid">{featured.map((p) => <ProjectCard p={p} lang={lang} />)}</div>
+      <p class="more"><a class="btn" href={route(lang, '/projects/')}>{t(lang, 'viewAll')} →</a></p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sh"><span class="kicker">{t(lang, 'openSourceTitle')}</span><h2 class="page-h">{lang === 'zh' ? '给他人项目的修复' : 'Fixes in other people\'s projects'}</h2><p>{h.openSourceP}</p></div>
+      <PrWall lang={lang} compact headline={h.wallTitle} />
+      <p class="more"><a class="btn gold" href={route(lang, '/open-source/')}>{t(lang, 'viewMore')} →</a></p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sh"><span class="kicker">{h.beyondH}</span><h2 class="page-h">{lang === 'zh' ? '不只是写代码' : 'Not only code'}</h2><p>{h.beyondP}</p></div>
+      <div class="pgrid">
+        {h.beyond.map((b) => (
+          <a class="pcard xcard" href={route(lang, b.path)}><b>{b.title}<span aria-hidden="true">→</span></b><p>{b.text}</p></a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
