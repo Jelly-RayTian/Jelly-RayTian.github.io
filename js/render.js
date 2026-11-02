@@ -125,6 +125,7 @@ function resumeSheet(lang, opts) {
   <h4>${T.proj}</h4>
   ${row(`<b>${T.wat[0]}</b>`, T.wat[1])}${ul(T.wat[2])}
   ${row(`<b>${T.ws[0]}</b>`, T.ws[1])}${ul(T.ws[2])}
+  ${opts.variant === "systems" && !z ? systemsProjects(row, ul) : ""}
   <h4>${T.lead}</h4>${z ? zhLead : leadHTML}
   <h4>${T.hon}</h4><div>${z ? honZH : honEN}</div><div class="sub2">${T.langs}</div>`;
 }
@@ -136,4 +137,26 @@ function creativeHTML(lang) {
   return `<div class="cstats">${stats}</div><p class="xnote">${rx(C.note[lang])}</p>
     ${vids ? `<div class="vids">${vids}</div>` : ""}
     <div class="cta"><a class="btn gold" href="${C.profile}">${z ? "Bilibili 个人主页" : "Bilibili profile"}</a></div>`;
+}
+
+function systemsHTML(lang) {
+  const L = CONTENT.systems.labels[lang];
+  const row = (k, v) => `<div class="sx-row"><dt>${rx(k)}</dt><dd>${rx(v)}</dd></div>`;
+  return `<div class="sx-grid">${CONTENT.systems.topics.map(tp => {
+    const t = tp[lang];
+    return `<article class="sx-card xcard"><p class="kicker">${rx(L.date)}</p><h3>${rx(t.title)}</h3><p class="role">${rx(t.sub)}</p>
+      ${t.groups.map(g => `<div class="sx-group"><h4>${rx(g.h)}</h4>
+        <dl><div class="sx-row"><dt>${rx(L.did)}</dt><dd><ul>${g.did.map(d => `<li>${rx(d)}</li>`).join("")}</ul></dd></div>
+        ${row(L.tools, g.tools)}${row(L.result, g.result)}${row(L.gaps, g.gaps)}${row(L.proof, g.proof)}</dl></div>`).join("")}
+    </article>`;
+  }).join("")}</div>`;
+}
+
+// Only for the targeted "systems" variant (Mobile, Android, Embedded or Security roles). Not in the default one-page résumé.
+function systemsProjects(row, ul) {
+  return row("<b>Game Resource Analysis — Plants vs. Zombies 2 (Chinese version, Android)</b>", "High school · personal project")
+    + ul(["Inspected Android native libraries with MT Manager to find encryption-related constants; used existing tools and recovered key material to decrypt and inspect RTON resource files.",
+          "Studied Rijndael key and IV usage, binary file formats and resource encoding through independent experimentation."])
+    + row("<b>Android & iOS Device Customization — personal experiments</b>", "High school")
+    + ul(["Rooted Android phones, used TWRP Recovery, flashed custom systems (Havoc OS, LineageOS) and experimented with iOS jailbreaking; devices, versions and tools not recorded."]);
 }

@@ -70,7 +70,7 @@ document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 
 /* ---------- language ---------- */
 const ZH=[
- [".nav li:nth-child(1) a","关于"],[".nav li:nth-child(2) a","教育"],[".nav li:nth-child(3) a","领导力"],[".nav li:nth-child(4) a","项目"],[".nav li:nth-child(5) a","开源"],[".nav li:nth-child(6) a","社区"],[".nav li:nth-child(7) a","研究创作"],[".nav li:nth-child(8) a","荣誉"],[".nav li:nth-child(9) a","简历"],["#print","简历 PDF"],["#dlpdf","下载英文 PDF（ATS 友好）"],
+ [".nav li:nth-child(1) a","关于"],[".nav li:nth-child(2) a","教育"],[".nav li:nth-child(3) a","领导力"],[".nav li:nth-child(4) a","项目"],[".nav li:nth-child(5) a","开源"],[".nav li:nth-child(6) a","社区"],[".nav li:nth-child(7) a","研究创作"],[".nav li:nth-child(8) a","系统探索"],[".nav li:nth-child(9) a","荣誉"],[".nav li:nth-child(10) a","简历"],["#print","简历 PDF"],["#dlpdf","下载英文 PDF（ATS 友好）"],
  [".hero .kicker","滑铁卢大学 · 数学荣誉学士（Co-op）· 2026 年 9 月入学"],
  [".tag","<span>复现</span>问题。<span>修补</span>它。<span>证明</span>它不再复发。"],
  [".lede","滑铁卢大学数学荣誉学士（Co-op）大一学生，对软件工程、数据科学和量化开发感兴趣。我开发学生工具、参与开源，也组织同伴小组、参加社区志愿活动，并从短片到音乐动手创作。"],
@@ -103,7 +103,7 @@ function renderAll(){
   $("about-body").innerHTML=aboutHTML(LANG);$("education-body").innerHTML=educationHTML(LANG);
   $("leadership-body").innerHTML=entriesFor("leadership",LANG);$("community-body").innerHTML=entriesFor("community",LANG);
   $("research-body").innerHTML=entriesFor("research",LANG);$("course-body").innerHTML=entriesFor("course",LANG);
-  $("creative-body").innerHTML=creativeHTML(LANG);$("achievements-body").innerHTML=achievementsHTML(LANG);$("contact-body").innerHTML=contactHTML(LANG);
+  $("systems-body").innerHTML=systemsHTML(LANG);$("creative-body").innerHTML=creativeHTML(LANG);$("achievements-body").innerHTML=achievementsHTML(LANG);$("contact-body").innerHTML=contactHTML(LANG);
   $("sheet").innerHTML=resumeSheet(LANG);
 }
 function applyLang(){

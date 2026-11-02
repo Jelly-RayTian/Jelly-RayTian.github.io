@@ -12,7 +12,7 @@ Static site, no build step. Open `index.html` in a browser (or `python3 -m http.
 | `js/videos.js` | Selected Bilibili videos (empty until links are verified) |
 | `js/render.js` | Builds the sections and the one-page résumé from `content.js` |
 | `js/main.js` | Language and theme toggles, PR wall, page-level Chinese strings, effects |
-| `tools/build-resume.mjs` | `node tools/build-resume.mjs` regenerates `assets/Ray-Tian-Resume.pdf` (needs Edge or Chrome). Add `--email … --phone … --out ~/Desktop/file.pdf` for a private application copy |
+| `tools/build-resume.mjs` | `node tools/build-resume.mjs` regenerates `assets/Ray-Tian-Resume.pdf` (needs Edge or Chrome). `--variant systems` makes a targeted copy (Mobile, Android, Embedded or Security roles) that adds the PvZ2 and device-customization lines. Add `--email … --phone … --out ~/Desktop/file.pdf` for a private application copy |
 | `assets/` | WatDesk screenshots and the English résumé PDF (no email or phone) |
 
 Chinese text for static page parts lives in the `ZH` list in `js/main.js`, keyed by CSS selector; section content is bilingual inside `js/content.js`. Fonts load from Google Fonts.

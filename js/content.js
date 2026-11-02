@@ -24,9 +24,13 @@ const CONTENT = {
       en: {k: "Research & creative work", h: "Ideas, <em>stories, presentations.</em>", p: "Course and independent work. It sits below my engineering work in weight, but it shows how I think and communicate."},
       zh: {k: "研究与创作", h: "想法、<em>故事与展示。</em>", p: "课程与自发的研究、创作。分量上低于我的工程工作，但能体现我如何思考和表达。"}
     },
+    systems: {
+      en: {k: "Beyond the code · Systems exploration", h: "Taking things apart <em>to see how they work.</em>", p: "Hands-on experiments from high school, driven by curiosity and self-directed learning. They are personal projects: no job, no published research and no independent third-party verification. Where I no longer remember a detail, I say so instead of filling it in."},
+      zh: {k: "代码之外 · 系统探索", h: "拆开看看，<em>它是怎么运转的。</em>", p: "高中阶段出于好奇和自学的动手实验。这些是个人项目：不是工作，没有发表的研究，也没有第三方独立验证。记不清的细节，我会直接说明，而不是补写。"}
+    },
     creative: {
-      en: {k: "Content creation", h: "Making things <em>people watch.</em>", p: "A long-running video channel about games and technical experiments. The numbers are account-wide snapshots, not the results of any one video."},
-      zh: {k: "内容创作", h: "做出来，<em>给大家看。</em>", p: "一个长期更新的游戏与技术实验视频账号。数字为账号整体的快照，不代表任何单个视频的成绩。"}
+      en: {k: "Digital content creation", h: "Making things <em>people watch.</em>", p: "A video channel with game experiments, modification effects and other creative videos. The numbers are account-wide snapshots, not the results of any one video."},
+      zh: {k: "数字内容创作", h: "做出来，<em>给大家看。</em>", p: "一个发布游戏实验、修改效果和其他创作视频的账号。数字为账号整体的快照，不代表任何单个视频的成绩。"}
     },
     course: {
       en: {k: "Coursework concepts", h: "Business ideas from <em>class.</em>", p: "Team concepts written for courses. They are coursework, not launched products or companies."},
@@ -100,6 +104,79 @@ const CONTENT = {
     zh: "中文 — 母语 · 英语 — IELTS Academic 总分 7.0"
   },
 
+  // Systems exploration (self-reported, high school). No tool, model, version or step is listed unless confirmed.
+  systems: {
+    labels: {
+      en: {did: "What I did", tools: "Confirmed tools", result: "Outcome", gaps: "Not remembered or not claimed", proof: "Public work", date: "High school · personal experiment"},
+      zh: {did: "我做过什么", tools: "已确认的工具", result: "结果", gaps: "记不清或不声称的部分", proof: "公开作品", date: "高中阶段 · 个人实验"}
+    },
+    topics: [
+      {id: "game-resources",
+       en: {title: "Game Resource Reverse Engineering", sub: "Plants vs. Zombies 2, Chinese version, Android",
+            groups: [{h: "Independent game resource analysis",
+              did: ["Inspected Android native library (.so) files with MT Manager to find encryption-related strings and constants associated with the game's resource files.",
+                    "Studied how the Rijndael cipher uses a key and an IV.",
+                    "Used existing tools and recovered key material to decrypt and inspect RTON game data, then read the data that could be opened.",
+                    "Explored binary file formats, resource encoding and game data protection through independent experimentation."],
+              tools: "MT Manager; existing decryption tools (names no longer remembered).",
+              result: "Decrypted RTON resource files and viewed the readable data inside.",
+              gaps: "This was personal learning, not employment. I make no claim of a custom decryption algorithm, of breaking Rijndael/AES, or of a vulnerability confirmed by the publisher. Exact steps are no longer remembered, so none are reconstructed. Keys, IVs and proprietary game data are not published, and other authors' findings are not claimed as mine.",
+              proof: "None published on this site yet."}]},
+       zh: {title: "游戏资源逆向", sub: "《植物大战僵尸 2》中文版 · Android",
+            groups: [{h: "独立游戏资源分析",
+              did: ["用 MT Manager 查看 Android 原生库（.so）文件，找到与游戏资源加密相关的字符串和常量。",
+                    "学习 Rijndael 加密中 Key 与 IV 的使用方式。",
+                    "借助已有工具，并找回密钥材料，解密 RTON 游戏资源文件，查看其中可读取的数据。",
+                    "通过独立实验，了解二进制文件格式、资源编码与游戏数据保护。"],
+              tools: "MT Manager；已有的解密工具（名称已记不清）。",
+              result: "成功解密 RTON 资源文件，并查看其中可读取的数据。",
+              gaps: "这是个人学习，不是工作。不声称自研解密算法、破解 Rijndael/AES，或发现经发行方确认的漏洞。具体步骤已记不清，不做补写。不公开密钥、IV 和专有游戏数据，也不把他人的发现算作自己的成果。",
+              proof: "本站暂未公开相关作品。"}]}},
+      {id: "android-embedded",
+       en: {title: "Android & Embedded Device Customization", sub: "Phones, a children's watch and a learning device",
+            groups: [{h: "Android rooting & custom ROM experimentation",
+              did: ["Rooted Android phones.", "Worked with TWRP Recovery.", "Installed custom systems and flashed ROMs, including experiments with Havoc OS and LineageOS.", "Experimented with flashing Windows onto a device."],
+              tools: "TWRP Recovery; Havoc OS and LineageOS (installed, not developed by me).",
+              result: "Hands-on experience with device customization, Recovery and firmware experiments.",
+              gaps: "Device models, dates, Android versions and success rates are not stated. The Windows experiment's target device, method and outcome are not confirmed, so they are not described. TWRP, Havoc OS and LineageOS are other people's projects; I make no claim of compiling a kernel, modifying bootloader source or building a ROM.",
+              proof: "None published on this site yet."},
+             {h: "Embedded Android device exploration",
+              did: ["Explored system restrictions and Root on a Xiaotiancai (小天才) children's phone watch.", "Explored system modification on a Xiaoai Teacher (小爱老师) learning device."],
+              tools: "Not recorded.",
+              result: "Personal experimentation; outcomes are not recorded here.",
+              gaps: "Product models, system versions, tools and what exactly was done (for example unlocking, Root, flashing or app installation) are not confirmed and are not claimed. No exploit, firmware vulnerability or custom operating system is claimed.",
+              proof: "No screenshots or videos published here yet."}]},
+       zh: {title: "Android 与嵌入式设备定制", sub: "手机、儿童电话手表与学习机",
+            groups: [{h: "Android Root 与自定义系统实验",
+              did: ["给 Android 手机 Root。", "使用 TWRP Recovery。", "安装自定义系统并刷机，包括 Havoc OS 和 LineageOS 的安装实验。", "做过在设备上刷写 Windows 的实验。"],
+              tools: "TWRP Recovery；Havoc OS 与 LineageOS（安装使用，并非我开发）。",
+              result: "获得设备定制、Recovery 与固件实验的动手经验。",
+              gaps: "不写设备型号、日期、Android 版本和成功率。Windows 实验的目标设备、方式和结果尚未确认，因此不做描述。TWRP、Havoc OS 和 LineageOS 是他人的项目；不声称编译过内核、修改过 bootloader 源码或制作过 ROM。",
+              proof: "本站暂未公开相关作品。"},
+             {h: "嵌入式 Android 设备探索",
+              did: ["探索小天才儿童电话手表的系统限制与 Root。", "探索小爱老师学习机的系统修改。"],
+              tools: "未记录。",
+              result: "个人实验；此处不记录具体结果。",
+              gaps: "具体型号、系统版本、使用的工具，以及具体做了什么（例如解锁、Root、刷机或安装应用）尚未确认，不做声称。不声称有漏洞利用、固件漏洞或自制操作系统。",
+              proof: "本站暂未公开截图或视频。"}]}},
+      {id: "ios",
+       en: {title: "iOS Jailbreaking & Mobile Systems Exploration", sub: "Apple devices",
+            groups: [{h: "Hands-on experimentation",
+              did: ["Hands-on experimentation with iOS jailbreaking and device customization."],
+              tools: "Not recorded.",
+              result: "Familiarity with how iOS devices are customized outside the default setup.",
+              gaps: "Tool names, iOS versions, device models and methods are not recorded. I make no claim of developing a jailbreak tool or exploit.",
+              proof: "None published on this site yet."}]},
+       zh: {title: "iOS 越狱与移动系统探索", sub: "Apple 设备",
+            groups: [{h: "动手实验",
+              did: ["亲手进行 iOS 越狱和设备定制实验。"],
+              tools: "未记录。",
+              result: "了解 iOS 设备在默认设置之外如何被定制。",
+              gaps: "越狱工具名称、iOS 版本、设备型号和方法均未记录。不声称开发过越狱工具或漏洞利用。",
+              proof: "本站暂未公开相关作品。"}]}}
+    ]
+  },
+
   // Bilibili account. Account-wide totals; values are snapshots and will drift.
   creative: {
     profile: "https://space.bilibili.com/597194489",
@@ -110,8 +187,8 @@ const CONTENT = {
       {value: "816", label: {en: "uploads", zh: "投稿"}, src: {en: "profile screenshot (a public count query returned 771)", zh: "主页截图（公开计数查询为 771）"}}
     ],
     note: {
-      en: "Account-wide totals across all content, not the performance of any single technical video. Snapshots only; they change over time.",
-      zh: "为账号全部内容的整体数字，不是任何单个技术视频的成绩。仅为快照，会随时间变化。"
+      en: "Account-wide totals across all content. They do not describe any single video: not every video is original technical development, and not every video relates to Plants vs. Zombies 2. Snapshots only; they change over time.",
+      zh: "为账号全部内容的整体数字，不描述任何单个视频：并非每个视频都是原创技术开发，也并非都与《植物大战僵尸 2》有关。仅为快照，会随时间变化。"
     }
   },
 
@@ -179,13 +256,6 @@ const CONTENT = {
      zh: {title: "学生住宿与安全倡议", role: "研究与展示",
           bullets: ["研究加拿大大学国际学生的住宿与安全资源。", "整理信息，制作约五分钟的倡议展示。"],
           tags: "研究 · 倡议 · 展示"}},
-    {id: "game-re", section: "research",
-     en: {title: "Game Reverse Engineering & Technical Exploration", role: "Independent exploration · Plants vs. Zombies 2",
-          bullets: ["Explored how a mobile game works internally, using reverse-engineering tools including IDA Pro to analyse program behaviour.", "Shared experiments and demonstrations on Bilibili; not every demonstration video is an independent reverse-engineering project."],
-          note: "No vendor-confirmed vulnerability, bounty or fix is claimed, and implementation details are not published.", tags: "Reverse engineering · Debugging · Technical exploration"},
-     zh: {title: "游戏逆向与技术探索", role: "独立探索 · Plants vs. Zombies 2",
-          bullets: ["探索一款手机游戏的内部运作，使用包括 IDA Pro 在内的逆向工具分析程序行为。", "在 Bilibili 分享实验与演示；并非每个演示视频都是独立完成的逆向项目。"],
-          note: "不声称存在厂商确认的漏洞、奖励或修复；不公开实现细节。", tags: "逆向工程 · 调试 · 技术探索"}},
     {id: "film", section: "research",
      en: {title: "Multicultural Film Project", role: "Director",
           bullets: ["Directed a cross-cultural short film that blends Chinese and Indigenous mythological elements.", "Took part in storyboarding and editing."],
