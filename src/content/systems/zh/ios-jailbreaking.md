@@ -2,17 +2,17 @@
 pageSlug: "ios-jailbreaking"
 lang: "zh"
 title: "iOS 越狱与移动系统探索"
-subtitle: "签名、侧载、越狱与 IPA 改包 · 高中阶段"
-summary: "亲手进行的 iOS 实验：苹果代码签名原理、AltStore 与 SideStore 侧载、Dopamine 越狱、iPad mini 6 上的 TrollStore、插件，以及自己改包 PVZ2 的 IPA。"
+subtitle: "签名、侧载与越狱 · 高中阶段"
+summary: "亲手进行的 iOS 实验：苹果代码签名原理、AltStore 与 SideStore 侧载、Dopamine 越狱、iPad mini 6 上的 TrollStore，以及插件。"
 order: 3
 updated: "2026-11-02"
-glance: [{"k": "时期", "v": "高中阶段"}, {"k": "工具", "v": "Dopamine、TrollStore、AltStore、SideStore、Filza、第三方软件源"}, {"k": "设备", "v": "iPad mini 6，iOS 15.4.1（Dopamine 和 TrollStore）；之后的设备只用签名"}, {"k": "结果", "v": "完成工具配置并使用；改包 PVZ2 的 IPA"}]
+glance: [{"k": "时期", "v": "高中阶段"}, {"k": "工具", "v": "Dopamine、TrollStore、AltStore、SideStore、Filza、第三方软件源"}, {"k": "设备", "v": "iPad mini 6，iOS 15.4.1（Dopamine 和 TrollStore）；之后的设备只用签名"}, {"k": "结果", "v": "在自己的设备上完成工具配置并使用"}]
 references: [{"label": "Dopamine — opa334 开发的越狱", "url": "https://github.com/opa334/Dopamine"}, {"label": "TrollStore — opa334 开发", "url": "https://github.com/opa334/TrollStore"}]
 ---
 
 ## 概述
 
-高中时，我试验过 iOS 设备定制。我了解了苹果的代码签名机制（开发者证书、免费 Apple ID 签名和企业签名），侧载过应用，使用过 Dopamine 越狱，在 iPad mini 6 上配置过 TrollStore，并且自己改包过一款游戏（植物大战僵尸2）的 IPA。
+高中时，我试验过 iOS 设备定制。我了解了苹果的代码签名机制（开发者证书和免费 Apple ID 签名），侧载过应用，使用过 Dopamine 越狱，并在 iPad mini 6 上配置过 TrollStore。
 
 ## 技术背景
 
@@ -31,12 +31,11 @@ references: [{"label": "Dopamine — opa334 开发的越狱", "url": "https://gi
 - 使用第三方软件源，并用 Filza 浏览文件系统。
 - 用免费 Apple ID（7 天签名）通过 AltStore 和 SideStore 侧载应用。
 - 为应用开启 JIT，并使用 dylib 插件。
-- 为个人学习修改并重新打包了植物大战僵尸2 的 IPA。
-- 之后的设备我只用企业证书或 Apple ID 签名来安装应用（没有越狱）。
+- 之后的设备我只用 Apple ID 签名来安装应用（没有越狱）。
 
 ## 结果
 
-这些工具我都成功运行并使用过，PVZ2 的 IPA 也是我自己改包的。修改后的安装包只用于个人学习，在我自己的设备上运行。
+这些工具我都成功运行并在自己的设备上使用过。
 
 ## 我学到了什么
 
