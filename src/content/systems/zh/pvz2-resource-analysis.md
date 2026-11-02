@@ -7,7 +7,7 @@ summary: "借助社区已有工具，研究一款手机游戏的加密资源文�
 order: 1
 updated: "2026-11-02"
 glance: [{"k": "背景", "v": "高中阶段的个人学习项目，不是工作"}, {"k": "工具", "v": "MT Manager；解包、解密和 RTON 解码使用社区已有工具（名称未记录）"}, {"k": "结果", "v": "解密了 RTON 资源文件，并读取解码后的配置数据"}, {"k": "进行中", "v": "网络流量分析，尚未验证"}]
-references: [{"label": "pyvz2 — 修改 PvZ2 的 Python 脚本（nineteendo），含 RSB 解包工具及格式资料的致谢", "url": "https://github.com/nineteendo/pyvz2"}, {"label": "RETON — RTON 格式文档（h3x4n1um）", "url": "https://github.com/h3x4n1um/RETON"}, {"label": "PopStudio — PopCap 游戏文件格式转换（PopGameTool）", "url": "https://github.com/PopGameTool/PopStudio"}, {"label": "RSB/1BSR 归档格式规范（Watto Studios）", "url": "http://www.watto.org/specs.html?specs=Archive_RSB_1BSR"}, {"label": "1bsr_pgsr.bms — RSB 解包脚本（Luigi Auriemma）", "url": "https://aluigi.altervista.org/bms/1bsr_pgsr.bms"}, {"label": "Lawnstrings-Server — 中文版示例服务器；Base64 转加密 RTON（viiguess）", "url": "https://github.com/viiguess/Lawnstrings-Server"}]
+references: []
 ---
 
 ## 概述
@@ -18,7 +18,7 @@ references: [{"label": "pyvz2 — 修改 PvZ2 的 Python 脚本（nineteendo）�
 
 ## 技术背景
 
-- **RSB** 是 PopCap 游戏使用的资源归档格式，打包游戏的各类资源，社区作者有相关文档（见参考资料）。
+- **RSB** 是 PopCap 游戏使用的资源归档格式，打包游戏的各类资源，社区作者有相关文档。
 - **RTON** 是一种二进制、类似 JSON 的格式，用于游戏配置数据。
 - 中文版用 **Rijndael**（AES 所出自的加密算法家族）加密 RTON 数据。解密需要**密钥（key）**和 **IV（初始化向量）**，而这些必然包含在游戏自己的原生代码里。
 - **MT Manager** 是 Android 上的文件与二进制查看工具，我用它读取游戏的原生库（`.so`）。
@@ -71,7 +71,3 @@ ev=3
 - 游戏如何用对称加密保护数据，以及为什么 key 和 IV 必须能从游戏自己的代码里取到。
 - 面对不熟悉的二进制格式，如何通过阅读社区文档、对照工具输出来推进，而不是靠猜。
 - 实验时要记笔记，方便以后复现；并清楚地说明哪些是我做的，哪些来自已有工具。
-
-## 参考资料
-
-以下是其他作者的成果，仅供参考，均不是我的作品。

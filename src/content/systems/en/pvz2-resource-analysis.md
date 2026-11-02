@@ -7,7 +7,7 @@ summary: "How the encrypted resource files of a mobile game are packed, protecte
 order: 1
 updated: "2026-11-02"
 glance: [{"k": "Context", "v": "Personal learning project in high school; not employment"}, {"k": "Tools", "v": "MT Manager; existing community tools for unpacking, decryption and RTON decoding (names not recorded)"}, {"k": "Outcome", "v": "Decrypted RTON resource files and read the decoded configuration data"}, {"k": "Ongoing", "v": "Network traffic analysis, not yet verified"}]
-references: [{"label": "pyvz2 — Python scripts for modifying PvZ2 (nineteendo), includes an RSB unpacking tool and credits for the format work", "url": "https://github.com/nineteendo/pyvz2"}, {"label": "RETON — documentation of the RTON format (h3x4n1um)", "url": "https://github.com/h3x4n1um/RETON"}, {"label": "PopStudio — converts file types used in PopCap games (PopGameTool)", "url": "https://github.com/PopGameTool/PopStudio"}, {"label": "RSB/1BSR archive format specification (Watto Studios)", "url": "http://www.watto.org/specs.html?specs=Archive_RSB_1BSR"}, {"label": "1bsr_pgsr.bms — RSB unpacking script (Luigi Auriemma)", "url": "https://aluigi.altervista.org/bms/1bsr_pgsr.bms"}, {"label": "Lawnstrings-Server — example server for the Chinese version; Base64 to encrypted RTON (viiguess)", "url": "https://github.com/viiguess/Lawnstrings-Server"}]
+references: []
 ---
 
 ## Overview
@@ -18,7 +18,7 @@ This was personal learning, not paid or professional work. Some implementation d
 
 ## Technical Background
 
-- **RSB** is a resource archive format used by PopCap games. It bundles the game's assets and is documented by community authors (see References).
+- **RSB** is a resource archive format used by PopCap games. It bundles the game's assets and is documented by community authors.
 - **RTON** is a binary, JSON-like format used for the game's configuration data.
 - In the Chinese build, RTON data is encrypted with **Rijndael**, the cipher family that AES comes from. Decrypting needs a **key** and an **IV** (initialisation vector), which the game's own native code has to contain.
 - **MT Manager** is an Android file and binary viewer. I used it to read the game's native library (`.so`).
@@ -71,7 +71,3 @@ The decryption, unpacking and decoding tools are other authors' work. My contrib
 - How a game can protect its data with a symmetric cipher, and why the key and IV have to be reachable from the game's own code.
 - How to approach an unfamiliar binary format by reading community documentation and comparing tool output instead of guessing.
 - To keep notes while experimenting, so a result can be reproduced later, and to say plainly which parts were mine and which came from existing tools.
-
-## References
-
-Other authors' work, listed for context. None of it is mine.

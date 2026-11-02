@@ -116,6 +116,49 @@ In the package used for this article, the RSB is wrapped in an extra `.smf` cont
 
 I am deliberately not claiming what every `flags` bit means; I have not verified it.
 
+### 2.5 Checking the layout on a real RSB
+
+Everything above came from other people's source code. To see whether it holds on a real file, I parsed the 147,292,160-byte RSB from §6 with a short script (Appendix D). What came out:
+
+- The header says version 4 and 30 resource groups. The group records are 204 (`0xCC`) bytes each and start at offset 383,936 (`0x5DBC0`). `headLength` is 397,312 (`0x61000`).
+- The first group starts exactly at `headLength`. Every group starts where the previous one ends, and the last group ends exactly at the end of the file. So `headLength + (sum of group sizes) = 397,312 + 146,894,848 = 147,292,160`: the header accounts for the whole file. A parser can use this as a cheap sanity check.
+- Every group offset and size is a multiple of 4096, which matches the "4 KB alignment" in Pvz2Tool's README.
+- 24 groups use only `part0` and 6 use only `part1`. I do not know what the two parts mean in this build, so I do not interpret them.
+- 19 groups have a first part that begins with the two bytes `10 00`: `Packages` and the 18 `WorldPackages_*` groups. That is the encrypted-RTON marker from §5.
+
+| Group | Offset | Size | part0 | part1 |
+|---|---:|---:|---:|---:|
+| `Credits_1200` | 397,312 | 679,936 | 0 | 675,840 |
+| `Credits_Common` | 1,077,248 | 348,160 | 344,064 | 0 |
+| `LawnStrings` | 1,425,408 | 3,047,424 | 3,043,328 | 0 |
+| `MainMenu_Background_1200` | 4,472,832 | 2,695,168 | 0 | 2,691,072 |
+| `MainMenu_Background_Effect_1200` | 7,168,000 | 22,405,120 | 0 | 22,401,024 |
+| `MainMenu_Background_Effect_Common` | 29,573,120 | 413,696 | 409,600 | 0 |
+| `Packages` | 29,986,816 | 67,760,128 | 67,354,624 | 0 |
+| `UI_AlwaysLoaded_Dynamic_1200` | 97,746,944 | 7,471,104 | 0 | 7,467,008 |
+| `UI_Card_Plant_BG_1200` | 105,218,048 | 3,743,744 | 0 | 3,739,648 |
+| `UI_PVZ1_Temp_1200` | 108,961,792 | 34,975,744 | 0 | 34,971,648 |
+| `UI_PVZ1_Temp_Common` | 143,937,536 | 1,945,600 | 1,941,504 | 0 |
+| `WorldPackages_beach` | 145,883,136 | 40,960 | 36,864 | 0 |
+| `WorldPackages_cowboy` | 145,924,096 | 24,576 | 20,480 | 0 |
+| `WorldPackages_dark` | 145,948,672 | 45,056 | 40,960 | 0 |
+| `WorldPackages_dino` | 145,993,728 | 49,152 | 45,056 | 0 |
+| `WorldPackages_egypt` | 146,042,880 | 20,480 | 16,384 | 0 |
+| `WorldPackages_eighties` | 146,063,360 | 40,960 | 36,864 | 0 |
+| `WorldPackages_future` | 146,104,320 | 28,672 | 24,576 | 0 |
+| `WorldPackages_heian` | 146,132,992 | 28,672 | 24,576 | 0 |
+| `WorldPackages_iceage` | 146,161,664 | 36,864 | 32,768 | 0 |
+| `WorldPackages_kongfu` | 146,198,528 | 20,480 | 16,384 | 0 |
+| `WorldPackages_lostcity` | 146,219,008 | 49,152 | 45,056 | 0 |
+| `WorldPackages_mausoleum` | 146,268,160 | 24,576 | 20,480 | 0 |
+| `WorldPackages_modern` | 146,292,736 | 36,864 | 32,768 | 0 |
+| `WorldPackages_pirate` | 146,329,600 | 28,672 | 24,576 | 0 |
+| `WorldPackages_renai` | 146,358,272 | 28,672 | 24,576 | 0 |
+| `WorldPackages_skycity` | 146,386,944 | 20,480 | 16,384 | 0 |
+| `WorldPackages_steam` | 146,407,424 | 24,576 | 20,480 | 0 |
+| `WorldPackages_tutorial` | 146,432,000 | 8,192 | 4,096 | 0 |
+| `__MANIFESTGROUP__DYNAMIC` | 146,440,192 | 851,968 | 847,872 | 0 |
+
 ## 3. Understanding RTON
 
 RTON is a **binary serialization** format: a compact encoding of JSON-like structured
@@ -170,6 +213,66 @@ more bytes to read and how to interpret them → advance `pos`. Objects and arra
 recursion: seeing `85`, call "read an object" until `FF`. When finished, `pos` must
 equal the file length — a cheap but powerful correctness check.
 
+### 3.6 A real RTON, byte by byte
+
+This is the whole 258-byte file from §6, decrypted, with each line explained by an annotator I wrote (Appendix E). Indentation shows nesting; offsets are in hex.
+
+```text
+0000  52 54 4f 4e                    magic "RTON"
+0004  01 00 00 00                    version = 1 (uint32 LE)
+0008  90 07 76 65 72 73 69 6f ..+1     key, define cache[0] "version"
+0011  24 01                            unsigned varint = 1
+0013  90 07 6f 62 6a 65 63 74 ..+1     key, define cache[1] "objects"
+001C  86 fd 01                         array start, 1 item(s)
+001F  85                                 object start
+0020  90 03 75 69 64                       key, define cache[2] "uid"
+0025  90 0c 32 2e 30 2e 31 34 ..+6         define cache[3] = "2.0.144207b4"
+0033  90 08 6f 62 6a 63 6c 61 ..+2         key, define cache[4] "objclass"
+003D  90 09 57 6f 72 6c 64 44 ..+3         define cache[5] = "WorldData"
+0048  90 07 6f 62 6a 64 61 74 ..+1         key, define cache[6] "objdata"
+0051  85                                   object start
+0052  90 0b 6d 5f 6d 61 70 50 ..+5           key, define cache[7] "m_mapPieces"
+005F  86 fd 00                               array start, 0 item(s)
+0062  fe                                     array end
+0063  90 0b 6d 5f 65 76 65 6e ..+5           key, define cache[8] "m_eventList"
+0070  86 fd 00                               array start, 0 item(s)
+0073  fe                                     array end
+0074  90 0b 6d 5f 77 6f 72 6c ..+5           key, define cache[9] "m_worldName"
+0081  90 05 62 65 61 63 68                   define cache[10] = "beach"
+0088  90 0e 6d 5f 63 72 65 61 ..+8           key, define cache[11] "m_creationTime"
+0098  20 da 8c 47 14                         fixed int, value 340233434
+009D  90 0c 6d 5f 72 65 73 47 ..+6           key, define cache[12] "m_resGroupID"
+00AB  24 07                                  unsigned varint = 7
+00AD  90 0e 6d 5f 62 6f 75 6e ..+8           key, define cache[13] "m_boundingRect"
+00BD  85                                     object start
+00BE  90 02 6d 58                              key, define cache[14] "mX"
+00C2  21                                       int32 zero (no payload) = 0
+00C3  90 02 6d 59                              key, define cache[15] "mY"
+00C7  25 ab 02                                 signed varint = -150
+00CA  90 06 6d 57 69 64 74 68                  key, define cache[16] "mWidth"
+00D2  21                                       int32 zero (no payload) = 0
+00D3  90 07 6d 48 65 69 67 68 ..+1             key, define cache[17] "mHeight"
+00DC  24 ac 02                                 unsigned varint = 300
+00DF  ff                                     object end
+00E0  90 09 6d 5f 77 6f 72 6c ..+3           key, define cache[18] "m_worldId"
+00EB  24 08                                  unsigned varint = 8
+00ED  90 09 6d 5f 76 65 72 73 ..+3           key, define cache[19] "m_version"
+00F8  24 01                                  unsigned varint = 1
+00FA  ff                                   object end
+00FB  ff                                 object end
+00FC  fe                               array end
+00FD  ff                             object end
+00FE  44 4f 4e 45                    footer "DONE"
+```
+
+Things worth noticing:
+
+- Every string, keys and values alike, goes through the cache: there are 20 `90` definitions and no `91` recalls. A recall only appears when a string repeats, and nothing repeats in this small file. Recalls are tested by my synthetic fixture `nested_cache_recall`.
+- An empty array is just `86 FD 00 FE`.
+- `mX` and `mWidth` are `21`: one byte, no payload.
+- `mY = -150` and `mHeight = 300` describe a rectangle centred on y = 0, which is what a sensible bounding box looks like. That is a sanity check on the signed varint, not a proof.
+- `m_creationTime` is `20 DA 8C 47 14`, a 32-bit integer. Read as little-endian it is 340,233,434. This file alone cannot tell me whether little-endian is right, because I do not know what value to expect.
+
 ## 4. Building a Minimal RTON Decoder
 
 **Disclosure.** I wrote this decoder with the help of an AI coding assistant (Claude Code), starting from the community format notes cited above and from my own earlier ideas about how the format works. I have read the code and can explain each function. It is not hand-written, and it is not a novel implementation.
@@ -193,6 +296,30 @@ no `82`/`92`/`93` UTF-8 strings, no 64-bit integers, no RTID. Integer byte order
 16/32-bit values is assumed little-endian and is **not yet confirmed on a real file**.
 All fixtures are synthetic, so this section shows the decoder agrees with my reading
 of the spec, **not** that it decodes real PVZ2 files. Only §6 can say that.
+
+### 4.1 Reading the decoder, function by function
+
+The full code is in Appendix A. This is what each part does and why.
+
+**`Reader`.** Holds `data`, the cursor `pos`, and the string `cache`. Keeping `cache` on the object, not in a global, means two decodes cannot interfere with each other.
+
+**`read_bytes(n)`.** The only place that touches `data` and moves `pos`. It checks `pos + n` against the length first, so a truncated file raises `RtonError("truncated ...")` instead of quietly returning fewer bytes. Everything else is built on it, so the bounds check exists exactly once.
+
+**`read_int(size, signed)`.** Converts `size` bytes with `int.from_bytes(..., "little", signed=...)`. This is where the little-endian assumption lives, in one place.
+
+**`read_uvarint()`.** The loop from §3.3: take the low 7 bits (`byte & 0x7F`), shift them into place, stop when the high bit is 0 (`byte < 0x80`), otherwise add 7 to the shift. It gives up past 63 bits so a file full of `FF` bytes cannot loop forever.
+
+**`read_svarint()`.** Reads an unsigned varint `n` and applies the mapping: `n // 2` if even, `-(n + 1) // 2` if odd.
+
+**`read_string(tag)`.** Three tags share one function. `81` reads a length-prefixed string. `90` does the same and appends the result to `cache`. `91` reads an index and returns `cache[index]`, raising `RtonError` if the index is out of range.
+
+**`read_value(tag, depth)`.** A chain of `if` checks, one per supported tag. Anything not listed ends in `raise RtonError("unsupported tag ...")`: the decoder refuses to guess. `depth` is passed down so deeply nested input stops at 64 levels instead of exhausting Python's stack.
+
+**`read_object` and `read_array`.** They call `read_value` for each child, so nesting needs no special code. An object reads a key (always a string tag) and then a value until it meets `FF`. An array requires `FD`, reads a count, reads that many values, and requires `FE`.
+
+**`decode(data)`.** Checks the magic and version, reads the top-level object, then requires `DONE` and that `pos` equals the file length. The last check catches files with trailing bytes.
+
+The design choice that matters most: every function either returns a correct value or raises. There is no "best effort" path, so a wrong tag shows up as an error with an offset, not as quietly wrong data.
 
 ## 5. Understanding Rijndael Encryption
 
@@ -241,6 +368,35 @@ is key *extraction*, not cryptanalysis. Rijndael itself was not attacked in any 
 ### 5.5 My own exploration
 
 **What I did back then (from memory, not a result of this article's experiments).** In middle school I opened the APK itself with MT Manager on my phone and browsed the native library (`.so`), where I saw the string `[removed]`. I remember a key-related word near it but not which word. (When I looked again in 2026, the nearest key-related string at that spot was `No public key loaded`; I cannot say it is the word I remembered.) Later, my team built a decryption tool (I was not one of its developers): you type that string in, the tool derives the key and IV with [removed], and decrypts the file. I only used it. I decrypted level files with it, got JSON I could read directly, and opened it in Notepad++ on a computer. I no longer remember the tool's name or the exact order of my steps, which is why §6 re-runs the chain with my own scripts.
+
+### 5.6 CBC decryption, step by step
+
+CBC (cipher block chaining) cuts the data into blocks of the cipher's block size, 24 bytes here. Decrypting works like this:
+
+```text
+plaintext[i] = Decrypt(key, ciphertext[i]) XOR ciphertext[i-1]      with ciphertext[-1] = IV
+```
+
+Each block is decrypted on its own with the raw cipher and then XORed with the *previous ciphertext block*; for the first block the "previous block" is the IV. Three consequences are useful in practice:
+
+1. **The IV only matters for the first block.** A wrong IV garbles block 0 but leaves every later block correct, which is a handy way to tell a wrong IV from a wrong key.
+2. **Decrypting block i needs only two ciphertext blocks.** So I could decrypt a long region and read just its first file, without knowing where that file ends.
+3. **Identical plaintext blocks encrypt differently**, because each is mixed with the previous ciphertext. That is the reason to use CBC rather than encrypting block by block (ECB).
+
+The raw single-block cipher comes from the `py3rijndael` library. The chaining is code I wrote (Appendix F):
+
+```python
+def rijndael_cbc_decrypt(ct, key, iv, block=24):
+    cipher = Rijndael(key, block_size=block)
+    out, prev = bytearray(), iv
+    for i in range(0, len(ct), block):
+        blk = ct[i:i + block]
+        out += bytes(a ^ b for a, b in zip(cipher.decrypt(blk), prev))
+        prev = blk
+    return bytes(out)
+```
+
+Before decrypting I skip the first two bytes (`10 00`): they are a marker, not ciphertext. The 36,862 bytes after the marker are not a multiple of 24 and hold more than one file (the file I decoded is only 258 bytes), so I decrypt the first 1,535 whole blocks and stop. I do not claim to know where each file's ciphertext ends.
 
 ## 6. Reproducing the Workflow
 
@@ -296,6 +452,55 @@ from this one file. I added a synthetic fixture modelled on it.
 - zlib compression was not exercised (see above). Other builds may differ.
 - Which steps of this chain I did in middle school, and with which tool, remain my own memory, not something this run proves.
 
+### 6.1 The RSLB container, field by field
+
+The `.smf` file is 69,183,497 bytes and expands to 147,292,160. All numbers are little-endian. The header:
+
+| Offset | Field | Value in this file |
+|---|---|---|
+| `0x00` | magic | `RSLB` |
+| `0x04` | version | 1 |
+| `0x08` | total uncompressed size | 147,292,160 |
+| `0x10` | packed size | 69,183,465 (= file size − 32) |
+| `0x18` | block size | 33,554,432 (32 MiB) |
+| `0x1C` | block count | 5 |
+
+After the header comes a table of 36-byte records, one per block. Decoded for this file:
+
+| Block | Uncompressed start | Uncompressed size | Data offset | Compressed size | LZMA dictionary |
+|---:|---:|---:|---:|---:|---:|
+| 0 | 0 | 33,554,432 | 212 | 10,267,186 | 33,554,432 |
+| 1 | 33,554,432 | 33,554,432 | 10,267,398 | 22,168,257 | 33,554,432 |
+| 2 | 67,108,864 | 33,554,432 | 32,435,655 | 18,241,763 | 33,554,432 |
+| 3 | 100,663,296 | 33,554,432 | 50,677,418 | 14,198,046 | 33,554,432 |
+| 4 | 134,217,728 | 13,074,432 | 64,875,464 | 4,308,033 | 13,631,488 |
+
+Each block's data begins with 5 bytes of LZMA properties (`5D` plus a 4-byte dictionary size) followed by a raw LZMA1 stream with no end marker; the table supplies the size to stop at. The properties byte `0x5D` = 93 unpacks as `lc = 93 mod 9 = 3`, `lp = (93 div 9) mod 5 = 0`, `pb = 93 div 45 = 2`.
+
+Checks that came out right: block 0's data starts at 212 = `0x20` + 5 × 36, right after the table; each block starts where the previous one ends (212 + 10,267,186 = 10,267,398); the five uncompressed sizes add up to 147,292,160; and the five compressed sizes plus the 212-byte header and table add up to the file size. The last block is shorter and uses a smaller dictionary; I do not know why.
+
+### 6.2 What went wrong first
+
+I kept the failures because they show what the checks are for. The scripts were written and run with the AI assistant described in §4.
+
+1. **One stream or many?** The first attempt decompressed the `.smf` as a single LZMA stream after the header. It started well (`1bsr`, so the idea was right) and then failed with "Corrupt input data" after about 33.6 MB. The container is chunked into 32 MiB blocks; the fix was to read the block table.
+2. **A wrong header offset.** The first end-to-end script read part0's offset from the wrong position in the RSGP header. The "decrypted" output was garbage and the `RTON` magic check failed at once. I fixed the offset and added an assertion that the RSGP header and the RSB's group record agree.
+3. **A tag the notes were unsure about.** The decoder stopped at `0x21` (see above).
+
+None of these would have been caught by synthetic tests alone.
+
+### 6.3 Reproducing it yourself
+
+You need an Android APK of the game that you are entitled to use, Python 3, and `py3rijndael` (`pip install py3rijndael`). The scripts are in the appendices.
+
+1. An APK is a zip file. Take out `assets/dynamic.rsb.smf` (`unzip app.apk assets/dynamic.rsb.smf`).
+2. `python3 rslb.py dynamic.rsb.smf dynamic.rsb`. For the build I analysed, expect 147,292,160 bytes starting with `1bsr`. Other builds will differ.
+3. `python3 rsb_probe.py dynamic.rsb`. Expect version 4 and 30 groups, and `Credits_1200` first.
+4. Run `reproduce.py` (Appendix F), with `MINI_RTON_SRC` set to the folder that contains the `mini_rton` package. It prints the decoded object.
+5. Optionally, save the decrypted bytes and run `annotate_rton.py` (Appendix E) on them to get the byte-by-byte view from §3.6.
+
+If a step gives a different number, trust your number and check which build you have: that is the point of recording the SHA-256 of the APK.
+
 ## 7. Lessons Learned
 
 This project gave me a more complete picture of how mobile apps are packaged. What I actually analysed this time was an Android APK: at bottom it is a zip archive holding native libraries (`.so`), `assets` and configuration. In Grade 9 I also analysed iOS IPA files, which introduced me to Apple's signing certificates (such as enterprise signing) and to the jailbreak ecosystem (TrollStore, package sources, Filza), and I modified an IPA myself, then repackaged and signed it. These are personal experiences written from memory and are not part of this article's experiments; I did not reproduce them here.
@@ -305,6 +510,31 @@ It was also my first fairly systematic contact with encryption: I learned about 
 On method, writing tests from the spec before the code paid off. After every synthetic test passed, the real file still exposed a tag, `0x21`, that the notes had not made clear, which taught me that format documents and real data always differ somewhat and have to be checked against data. Reading the decoded JSON also taught me to read structured data and see how the game describes a world or a level as data.
 
 Next I want to treat the network protocol (encrypted HTTP requests) as a separate study: finish reproducible experiments first, then write a second article.
+
+## 8. FAQ and glossary
+
+**Is the RSB itself encrypted?** Not in this build. After the `.smf` wrapper is removed, the RSB header parses normally and the groups are stored uncompressed. The RTON files inside carry the `10 00` marker and are encrypted.
+
+**Is Rijndael the same as AES?** AES is Rijndael restricted to a 128-bit block. This game uses a 192-bit block, so a standard AES library cannot decrypt it.
+
+**Did finding the key break the encryption?** No. The game has to carry the key to decrypt its own data. Finding it is extraction; the cipher was not attacked.
+
+**Does the decoder work on every PVZ2 file?** No. It decodes one real file from one build and a set of synthetic cases. Floats, 64-bit integers, UTF-8 strings and RTID are not implemented, and I do not know which of those the other files use.
+
+**Is the decoder original work?** It is my implementation of a documented format, written with an AI assistant and read and understood by me. It is not a new discovery; see §4 and the references.
+
+**Glossary**
+
+- **Magic number**: fixed bytes at the start of a file that identify its type (`1bsr`, `pgsr`, `RTON`, `RSLB`).
+- **Offset / length**: where data starts and how many bytes it spans; the basis of almost every binary format.
+- **RSB**: a PopCap resource bundle holding many files in resource groups.
+- **RSGP**: one resource group inside an RSB.
+- **SMF / RSLB**: the wrapper seen in this build that stores an RSB as LZMA-compressed blocks.
+- **RTON**: PopCap's binary serialization format for JSON-like data.
+- **Varint**: a variable-length integer; small numbers take fewer bytes.
+- **Block cipher / block size**: an encryption algorithm that works on fixed-size chunks; Rijndael allows 128, 192 or 256 bits.
+- **IV (initialization vector)**: the starting value that CBC mixes into the first block.
+- **CBC**: cipher block chaining; each block is mixed with the previous ciphertext block.
 
 ## Appendix A: the decoder (`mini_rton/decoder.py`)
 
@@ -562,6 +792,282 @@ FIXTURES = {
         {"x": 254},
     ),
 }
+```
+
+## Appendix C: RSLB (.smf) decompressor (`rslb.py`)
+
+MIT licence, copyright 2026 Ray Tian. Written with an AI assistant; the layout comes from the format description cited in the references.
+
+```python
+"""Decompress an RSLB (.smf) container: a header, a block table, then one raw LZMA1 stream per block.
+
+Layout (from the format description in yhzxcv/Z-Editor's RslbDecompressor comments;
+this implementation is written independently):
+  0x00 "RSLB" | 0x04 u32 version | 0x08 u64 total_uncompressed | 0x10 u64 packed_size
+  0x18 u32 block_size | 0x1C u32 block_count | 0x20 block table, 36 bytes each:
+    u64 cum_offset, u32 usize, u32 reserved, u64 data_offset, u32 csize (incl. 5-byte props),
+    u8 lzma_props, u32 dict_size, 3 pad
+  each block at data_offset: 5 bytes (props + dict) then raw LZMA1 data (no end marker).
+"""
+import lzma
+import struct
+import sys
+
+
+def decompress(src_path, dst_path):
+    with open(src_path, "rb") as f:
+        data = f.read()
+    magic, version, total, packed, block_size, count = struct.unpack_from("<4sIQQII", data, 0)
+    if magic != b"RSLB":
+        raise ValueError("not an RSLB file")
+    produced = 0
+    with open(dst_path, "wb") as out:
+        for i in range(count):
+            cum, usize, _res, doff, csize, props, dict_size = struct.unpack_from(
+                "<QIIQIBI", data, 0x20 + i * 36)
+            if cum != produced:
+                raise ValueError(f"block {i}: offset gap")
+            lc = props % 9
+            lp = (props // 9) % 5
+            pb = props // 45
+            filters = [{"id": lzma.FILTER_LZMA1, "dict_size": dict_size, "lc": lc, "lp": lp, "pb": pb}]
+            stream = data[doff + 5: doff + csize]
+            chunk = lzma.LZMADecompressor(format=lzma.FORMAT_RAW, filters=filters).decompress(
+                stream, max_length=usize)
+            if len(chunk) != usize:
+                raise ValueError(f"block {i}: got {len(chunk)} bytes, expected {usize}")
+            out.write(chunk)
+            produced += usize
+    if produced != total:
+        raise ValueError(f"total {produced} != declared {total}")
+    return produced
+
+
+if __name__ == "__main__":
+    print(decompress(sys.argv[1], sys.argv[2]), "bytes written")
+```
+
+
+## Appendix D: RSB header and group table reader (`rsb_probe.py`)
+
+Field order follows the layout described in Pvz2Tool (MIT). Read-only: it extracts nothing.
+
+```python
+"""Read an RSB header and its resource-group (RSGP) table.
+
+Field order follows the layout described by Pvz2Tool's RsbHeadInfo / RsbRsgpInfo
+(MIT). Written independently; read-only, extracts nothing.
+"""
+import struct
+import sys
+
+HEADER_FIELDS = [
+    "magic", "version", "zero0", "headLength", "fileList_Length", "fileList_BeginOffset",
+    "zero1", "zero2", "rsgpList_Length", "rsgpList_BeginOffset", "rsgp_Number",
+    "rsgpInfo_BeginOffset", "rsgpInfo_EachLength", "composite_Number", "compositeInfo_BeginOffset",
+    "compositeInfo_EachLength", "compositeList_Length", "compositeList_BeginOffset",
+    "autopool_Number", "autopoolInfo_BeginOffset", "autopoolInfo_EachLength", "ptx_Number",
+    "ptxInfo_BeginOffset", "ptxInfo_EachLength", "xmlPart1", "xmlPart2", "xmlPart3",
+]
+
+GROUP_FIELDS = ["offset", "size", "pool_index", "flags", "fileOffset", "p0_offset", "p0_zsize",
+                "p0_size", "p0_size2", "p1_offset", "p1_zsize", "p1_size"]
+
+
+def read_header(data):
+    vals = struct.unpack_from("<" + "I" * len(HEADER_FIELDS), data, 0)
+    h = dict(zip(HEADER_FIELDS, vals))
+    if data[:4] != b"1bsr":
+        raise ValueError("bad RSB magic")
+    return h
+
+
+def read_groups(data, h):
+    groups = []
+    base, each = h["rsgpInfo_BeginOffset"], h["rsgpInfo_EachLength"]
+    for i in range(h["rsgp_Number"]):
+        rec = data[base + i * each: base + (i + 1) * each]
+        name = rec[:0x80].split(b"\0", 1)[0].decode("ascii", "replace")
+        nums = struct.unpack_from("<" + "I" * len(GROUP_FIELDS), rec, 0x80)
+        groups.append({"name": name, **dict(zip(GROUP_FIELDS, nums))})
+    return groups
+
+
+if __name__ == "__main__":
+    data = open(sys.argv[1], "rb").read()
+    h = read_header(data)
+    for k in ("version", "headLength", "rsgp_Number", "rsgpInfo_BeginOffset", "rsgpInfo_EachLength",
+              "ptxInfo_EachLength"):
+        print(f"{k} = {h[k]} (0x{h[k]:X})")
+    print("zero fields ok:", h["zero0"] == h["zero1"] == h["zero2"] == 0)
+    for g in read_groups(data, h)[:12]:
+        print(g["name"], "off", g["offset"], "size", g["size"], "p0", g["p0_zsize"], "->", g["p0_size"],
+              "p1", g["p1_zsize"], "->", g["p1_size"], "flags", g["flags"])
+```
+
+
+## Appendix E: Annotated RTON dump (`annotate_rton.py`)
+
+Uses the same tag rules as the decoder; prints the walk-through shown in §3.6.
+
+```python
+"""Print an annotated hex walk-through of an (unencrypted) RTON using the same tag rules as mini_rton.
+Prints facts only. Usage: python3 -I annotate_rton.py file.rton"""
+import struct, sys
+
+def uvarint(d, p):
+    r = s = 0
+    while True:
+        b = d[p]; p += 1
+        r |= (b & 0x7F) << s
+        if b < 0x80: return r, p
+        s += 7
+
+def walk(d):
+    rows = []; cache = []; p = 0
+    def row(a, b, text, depth): rows.append((a, d[a:b], '  ' * depth + text))
+    row(0, 4, 'magic "RTON"', 0); row(4, 8, 'version = 1 (uint32 LE)', 0); p = 8
+    def val(p, depth):
+        t = d[p]
+        if t in (0, 1): row(p, p+1, 'false' if t == 0 else 'true', depth); return p+1
+        if t in (0x08, 0x0A, 0x10, 0x12, 0x20):
+            n = {0x08:1,0x0A:1,0x10:2,0x12:2,0x20:4}[t]; sg = t in (0x08,0x10,0x20)
+            v = int.from_bytes(d[p+1:p+1+n], 'little', signed=sg)
+            row(p, p+1+n, f'fixed int, value {v}', depth); return p+1+n
+        if t == 0x21: row(p, p+1, 'int32 zero (no payload) = 0', depth); return p+1
+        if t in (0x24, 0x25):
+            n, q = uvarint(d, p+1); v = n if t == 0x24 else (n//2 if n % 2 == 0 else -(n+1)//2)
+            row(p, q, ('unsigned' if t == 0x24 else 'signed') + f' varint = {v}', depth); return q
+        if t == 0x81:
+            n, q = uvarint(d, p+1); s = d[q:q+n].decode(); row(p, q+n, f'string "{s}"', depth); return q+n
+        if t == 0x90:
+            n, q = uvarint(d, p+1); s = d[q:q+n].decode(); cache.append(s)
+            row(p, q+n, f'define cache[{len(cache)-1}] = "{s}"', depth); return q+n
+        if t == 0x91:
+            n, q = uvarint(d, p+1); row(p, q, f'recall cache[{n}] = "{cache[n]}"', depth); return q
+        if t == 0x85: row(p, p+1, 'object start', depth); return obj(p+1, depth+1)
+        if t == 0x86:
+            assert d[p+1] == 0xFD; n, q = uvarint(d, p+2); row(p, q, f'array start, {n} item(s)', depth)
+            for _ in range(n): q = val(q, depth+1)
+            assert d[q] == 0xFE; row(q, q+1, 'array end', depth); return q+1
+        raise ValueError(hex(t))
+    def key(p, depth):
+        t = d[p]
+        if t == 0x81 or t == 0x90:
+            n, q = uvarint(d, p+1); s = d[q:q+n].decode()
+            if t == 0x90: cache.append(s)
+            row(p, q+n, ('key, define cache[%d]' % (len(cache)-1) if t == 0x90 else 'key') + f' "{s}"', depth); return q+n
+        n, q = uvarint(d, p+1); row(p, q, f'key, recall cache[{n}] = "{cache[n]}"', depth); return q
+    def obj(p, depth):
+        while d[p] != 0xFF:
+            p = key(p, depth); p = val(p, depth)
+        row(p, p+1, 'object end', depth-1); return p+1
+    p = obj(p, 1)
+    row(p, p+4, 'footer "DONE"', 0)
+    assert p + 4 == len(d)
+    return rows, cache
+
+if __name__ == '__main__':
+    d = open(sys.argv[1], 'rb').read()
+    rows, cache = walk(d)
+    def short(b):
+        return b.hex(' ') if len(b) <= 8 else b[:8].hex(' ') + f' ..+{len(b) - 8}'
+    for a, b, t in rows: print(f'{a:04X}  {short(b):<30} {t}')
+    print('CACHE', cache)
+```
+
+
+## Appendix F: End-to-end reproduction (`reproduce.py`)
+
+Needs `py3rijndael`. Set `MINI_RTON_SRC` to the folder containing the `mini_rton` package, and put `rslb.py` and `rsb_probe.py` next to it.
+
+```python
+"""End-to-end reproduction on a locally owned APK. Prints facts only; writes nothing outside work/.
+
+APK -> assets/dynamic.rsb.smf -> (RSLB/LZMA) -> RSB -> RSGP 'WorldPackages_beach' part0
+    -> (Rijndael-192 CBC) -> RTON -> JSON via mini_rton
+
+Run with the venv python (needs py3rijndael):  .venv/bin/python -I tools/reproduce.py <apk>
+"""
+import hashlib
+import json
+import os
+import struct
+import sys
+import zipfile
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+sys.path.insert(0, os.environ["MINI_RTON_SRC"])
+
+from py3rijndael import Rijndael  # noqa: E402
+
+import rslb  # noqa: E402
+from mini_rton import decode  # noqa: E402
+from rsb_probe import read_groups, read_header  # noqa: E402
+
+[removed] = b"[removed]"
+
+
+def sha256(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def rijndael_cbc_decrypt(ct, key, iv, block=24):
+    cipher = Rijndael(key, block_size=block)
+    out, prev = bytearray(), iv
+    for i in range(0, len(ct), block):
+        blk = ct[i:i + block]
+        out += bytes(a ^ b for a, b in zip(cipher.decrypt(blk), prev))
+        prev = blk
+    return bytes(out)
+
+
+def main(apk):
+    work = os.path.join(os.path.dirname(HERE), "work")
+    print("APK sha256:", sha256(apk))
+    with zipfile.ZipFile(apk) as z:
+        smf = z.read("assets/dynamic.rsb.smf")
+    smf_path = os.path.join(work, "repro_dynamic.rsb.smf")
+    rsb_path = os.path.join(work, "repro_dynamic.rsb")
+    open(smf_path, "wb").write(smf)
+    print("SMF magic:", smf[:4], "size:", len(smf))
+    n = rslb.decompress(smf_path, rsb_path)
+    data = open(rsb_path, "rb").read()
+    print("RSB bytes:", n, "magic:", data[:4])
+
+    h = read_header(data)
+    groups = read_groups(data, h)
+    print("RSB version:", h["version"], "groups:", h["rsgp_Number"],
+          "all groups stored uncompressed (ZSize==Size):",
+          all(g["p0_zsize"] == g["p0_size"] and g["p1_zsize"] == g["p1_size"] for g in groups))
+
+    g = next(x for x in groups if x["name"] == "WorldPackages_beach")
+    base = g["offset"]
+    magic, ver = struct.unpack_from("<4sI", data, base)
+    p0_off, p0_size = struct.unpack_from("<I", data, base + 0x18)[0], g["p0_size"]
+    assert p0_off == g["p0_offset"], "RSGP header and RSB group record disagree"
+    blob = data[base + p0_off: base + p0_off + p0_size]
+    print("RSGP magic:", magic, "version:", ver, "part0 bytes:", len(blob),
+          "starts with 10 00:", blob[:2] == b"\x10\x00")
+
+    key = [removed]([removed]).hexdigest().encode()
+    iv = [removed]
+    body = blob[2:]
+    plain = rijndael_cbc_decrypt(body[: len(body) // 24 * 24], key, iv)
+    end = plain.find(b"DONE") + 4
+    rton = plain[:end]
+    print("decrypted RTON bytes:", len(rton), "magic:", rton[:4])
+    result = decode(rton)
+    print(json.dumps(result, indent=1))
+
+
+if __name__ == "__main__":
+    main(sys.argv[1])
 ```
 
 ## References
