@@ -1,0 +1,10 @@
+---
+interface Props { p: any; href?: string }
+const { p, href } = Astro.props;
+const d = p.data;
+const Tag = href ? 'a' : 'div';
+---
+<Tag class="pv" href={href} aria-label={d.title}>
+  {d.icon && <img class="pv-icon" src={d.icon} alt="" width="72" height="72" loading="lazy" />}
+  <ol>{(d.flow ?? []).map((s: string) => <li>{s}</li>)}</ol>
+</Tag>

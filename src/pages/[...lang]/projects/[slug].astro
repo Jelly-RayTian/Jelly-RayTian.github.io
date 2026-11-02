@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
+import ProjectVisual from '../../../components/ProjectVisual.astro';
 import { route, t, type Lang } from '../../../i18n/ui';
 export async function getStaticPaths() {
   const all = await getCollection('projects');
@@ -27,6 +28,7 @@ const { Content } = await render(entry);
         {d.imageDark && <img class="d" src={d.imageDark} alt={d.title} width="800" height="500" />}
       </figure>
     )}
+    {!d.image && d.flow && <ProjectVisual p={entry} />}
     {d.status && <p class="statusline">{d.status}</p>}
     <div class="prose"><Content /></div>
     {d.links.length > 0 && (

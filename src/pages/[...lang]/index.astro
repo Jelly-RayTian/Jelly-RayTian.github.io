@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PrWall from '../../components/PrWall.astro';
+import ProjectVisual from '../../components/ProjectVisual.astro';
 import { getCollection } from 'astro:content';
 import { localePaths } from '../../lib/paths';
 import { home } from '../../content/data/pages';
@@ -119,7 +120,7 @@ const leadership = content.entries.filter((e) => ['peer-listening', 'academic-co
         {featured.map((p) => (
           <article class="feat xcard">
             {p.data.image && <a class="feat-img" href={route(lang, `/projects/${p.data.pageSlug}/`)}><img class="l" src={p.data.image} alt={p.data.title} loading="lazy" width="800" height="500" />{p.data.imageDark && <img class="d" src={p.data.imageDark} alt="" loading="lazy" width="800" height="500" />}</a>}
-            {!p.data.image && <a class="feat-img feat-ph" href={route(lang, `/projects/${p.data.pageSlug}/`)} aria-hidden="true" tabindex="-1"><span>{(p.data.stack ?? '').split('·').map((x) => <i>{x.trim()}</i>)}</span></a>}
+            {!p.data.image && p.data.flow && <ProjectVisual p={p} href={route(lang, `/projects/${p.data.pageSlug}/`)} />}
             <div class="feat-body">
               <p class="kicker">{p.data.period} · {p.data.stack}</p>
               <h3><a href={route(lang, `/projects/${p.data.pageSlug}/`)}>{p.data.title}</a></h3>

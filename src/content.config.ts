@@ -19,6 +19,8 @@ const projects = defineCollection({
     status: z.string().optional(),
     image: z.string().optional(),
     imageDark: z.string().optional(),
+    icon: z.string().optional(),
+    flow: z.array(z.string()).optional(),
     links: z.array(link).default([]),
   }),
 });
