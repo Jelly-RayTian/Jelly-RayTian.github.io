@@ -3,32 +3,27 @@ pageSlug: "pvz2-resource-analysis"
 lang: "zh"
 title: "深入 PvZ2：RSB、RTON 与 Rijndael"
 subtitle: "《植物大战僵尸 2》中文版(Android)· 2026 年复现与迷你解码器"
-summary: "一款手机游戏的资源文件如何分层、一个从零写成的小型 RTON 解码器，以及在一个真实文件上的检验，并列出未验证的部分。"
+summary: "一款手机游戏的资源文件如何分层、一个从零写成的小型 RTON 解码器，以及对真实版本容器层的检验。"
 order: 1
 updated: "2026-11-02"
-glance: [{"k": "背景", "v": "2026 年的个人学习项目"}, {"k": "工具", "v": "Python；用 py3rijndael 做解密检验；社区格式笔记"}, {"k": "结果", "v": "从一个 APK 端到端解码了一个真实 RTON；合成数据上 14 个单元测试通过"}]
-references: [{"label": "RETON — RTON 格式笔记(h3x4n1um)", "url": "https://github.com/h3x4n1um/RETON"}, {"label": "Pvz2Tool — RSB/RSGP 头部定义(DreamMoonCai,MIT)", "url": "https://github.com/DreamMoonCai/Pvz2Tool"}, {"label": "[removed] — RTON 加密发现([removed])", "url": "https://[removed]"}, {"label": "Z-Editor — 代码注释中描述的 RSLB 容器布局(yhzxcv,GPL-3.0；仅作为格式说明参考，未复制代码）", "url": "https://github.com/yhzxcv/Z-Editor"}, {"label": "PvZ2ModdingGuide — 社区指南(apples1949)", "url": "https://github.com/apples1949/PvZ2ModdingGuide"}, {"label": "The Design of Rijndael — Daemen 与 Rijmen(Springer)", "url": "https://link.springer.com/book/10.1007/978-3-662-04722-4"}, {"label": "FIPS 197：高级加密标准(NIST)", "url": "https://csrc.nist.gov/pubs/fips/197/final"}]
+glance: [{"k": "背景", "v": "2026 年的个人学习项目"}, {"k": "工具", "v": "Python；社区格式笔记"}, {"k": "结果", "v": "分析了真实版本的容器层；RTON 解码器在合成数据上 14 个测试通过"}]
+references: [{"label": "RETON — RTON 格式笔记(h3x4n1um)", "url": "https://github.com/h3x4n1um/RETON"}, {"label": "Pvz2Tool — RSB/RSGP 头部定义(DreamMoonCai,MIT)", "url": "https://github.com/DreamMoonCai/Pvz2Tool"}, {"label": "Z-Editor — 代码注释中描述的 RSLB 容器布局(yhzxcv,GPL-3.0；仅作为格式说明参考，未复制代码）", "url": "https://github.com/yhzxcv/Z-Editor"}, {"label": "PvZ2ModdingGuide — 社区指南(apples1949)", "url": "https://github.com/apples1949/PvZ2ModdingGuide"}, {"label": "The Design of Rijndael — Daemen 与 Rijmen(Springer)", "url": "https://link.springer.com/book/10.1007/978-3-662-04722-4"}, {"label": "FIPS 197：高级加密标准(NIST)", "url": "https://csrc.nist.gov/pubs/fips/197/final"}]
 ---
 
 ## 1. 引言
 
-我初二到初三的时候开始研究《植物大战僵尸 2》中文版的游戏文件。起因有两个：一是当时出了一个新模式"潘妮的追击"，关卡数据存在加密的文件里，我想知道能不能读出里面的内容，比如每一关怎么出怪；二是我想改动游戏的一些小功能，比如用金币购买阳光能量豆。这些问题把我带进了二进制文件格式和加密的世界。
+我初二到初三的时候开始研究《植物大战僵尸 2》中文版的数据文件。当时出了一个新模式"潘妮的追击"，我想弄明白游戏是怎样存放关卡数据的，比如一关的出怪这类信息怎么用数据来描述。这份好奇心把我带进了二进制文件格式的世界。
 
 一个 PVZ2 资源文件要经过三层相互独立的处理：
 
-<figure class="flow" aria-label="所分析安卓版本的真实资源链路,从 APK 到 JSON">
-<ol class="flow-main"><li><b>APK</b><small>zip 压缩包</small></li><li class="tool"><b>解开 .smf</b><small>RSLB · LZMA 分块</small></li><li class="tool"><b>RSB → RSGP</b><small>偏移量 + 大小</small></li><li><b>加密 RTON</b><small>以 10 00 开头</small></li><li class="tool"><b>Rijndael 解密</b><small>192 位分组 · CBC</small></li><li class="tool"><b>RTON → JSON</b><small>我的迷你解码器</small></li></ol>
-<div class="flow-aux"><span class="mine"><b>密钥材料查找</b><small>.so 字符串 · 十六进制查看器</small></span><span class="flow-link">密钥和 IV 的来源字符串用于解密这一步</span></div>
-<figcaption>我在一个中文版 APK 上验证的链路(第 6 节)。金色边框的步骤用到了我写的或查阅过的代码;额外的 .smf 层是这个版本里意料之外的一层。虚线框是对原生库的手动查找。</figcaption>
+<figure class="flow" aria-label="所分析安卓版本的资源链路;解密不在范围内">
+<ol class="flow-main"><li><b>APK</b><small>zip 压缩包</small></li><li class="tool"><b>解开 .smf</b><small>RSLB · LZMA 分块</small></li><li class="tool"><b>RSB → RSGP</b><small>偏移量 + 大小</small></li><li><b>加密 RTON</b><small>以 10 00 开头</small></li><li><b>解密</b><small>本文不涉及</small></li><li class="tool"><b>RTON → JSON</b><small>我的迷你解码器</small></li></ol>
+<figcaption>所分析版本里的链路。金色边框的步骤是本文所讲的内容;解密有意不在范围内。</figcaption>
 </figure>
 
-另外有一条辅助路径，用来*找到*解密所需的材料：
+解密所需的密钥和解密步骤，本文有意不涉及。
 
-```
-Android APK ──▶ 原生库 (.so) ──▶ 检查字符串 ──▶ 密钥材料
-```
-
-这些格式是由 PVZ2 的修改(mod)社区逐步摸清的，出处见[参考资料](#references)。我自己的部分是讲解、一个为学习 RTON 而写的小解码器，以及在真实文件上验证过的记录。代码在 [GitHub](https://github.com/Jelly-RayTian/pvz2-format-exploration)。
+这些格式是由 PVZ2 的修改(mod)社区逐步摸清的，出处见[参考资料](#references)。我自己的部分是讲解、一个为学习 RTON 而写的小解码器，以及在真实版本的容器层上验证过的记录。代码在 [GitHub](https://github.com/Jelly-RayTian/pvz2-format-exploration)。
 
 这次分析在本机完成，仅为学习。不公开任何游戏文件、账号或会话令牌，解码器的测试数据全部是合成的，代码见附录。
 
@@ -161,7 +156,7 @@ JSON 把一切写成文本；RTON 把每个值写成*一个字节的类型标记
 | `08` / `0A` | int8 / uint8,1 字节 |
 | `10` / `12` | int16 / uint16,2 字节（字节序假定为小端） |
 | `20` | int32,4 字节（字节序假定为小端） |
-| `21` | int32 零值，无载荷（仅有一个真实文件佐证，见第 6 节） |
+| `21` | int32 零值，无载荷（笔记中标为未确认；暂时支持） |
 | `24` | 无符号 varint |
 | `25` | 有符号 varint |
 | `81` | 字符串：varint 字节长度 + 字节 |
@@ -191,9 +186,9 @@ varint 用尽量少的字节存数字：每字节 7 位有效数据，最高位�
 对象和数组是递归：见到 `85` 就调用"读对象"，直到 `FF`。结束时 `pos` 必须等于文件长度，
 这是一个简单而有效的正确性检查。
 
-### 3.6 逐字节读一个真实的 RTON
+### 3.6 逐字节读一个示例 RTON
 
-下面是第 6 节那个完整的 258 字节文件（已解密），每一行都由我写的注释脚本（附录 E)解释出来。缩进表示嵌套，偏移用十六进制。
+下面是我用一个小编码器构造的完整 237 字节 RTON。里面的每个值都是编出来的，但结构仿照典型的对象文件：一个版本号，然后是一个由对象组成的数组，对象带有 `uid`、`objclass` 和 `objdata`。每一行都由我写的注释脚本（附录 E)解释。缩进表示嵌套，偏移用十六进制。
 
 ```text
 0000  52 54 4f 4e                    magic "RTON"
@@ -201,55 +196,87 @@ varint 用尽量少的字节存数字：每字节 7 位有效数据，最高位�
 0008  90 07 76 65 72 73 69 6f ..+1     key, define cache[0] "version"
 0011  24 01                            unsigned varint = 1
 0013  90 07 6f 62 6a 65 63 74 ..+1     key, define cache[1] "objects"
-001C  86 fd 01                         array start, 1 item(s)
+001C  86 fd 02                         array start, 2 item(s)
 001F  85                                 object start
 0020  90 03 75 69 64                       key, define cache[2] "uid"
-0025  90 0c 32 2e 30 2e 31 34 ..+6         define cache[3] = "2.0.144207b4"
-0033  90 08 6f 62 6a 63 6c 61 ..+2         key, define cache[4] "objclass"
-003D  90 09 57 6f 72 6c 64 44 ..+3         define cache[5] = "WorldData"
-0048  90 07 6f 62 6a 64 61 74 ..+1         key, define cache[6] "objdata"
-0051  85                                   object start
-0052  90 0b 6d 5f 6d 61 70 50 ..+5           key, define cache[7] "m_mapPieces"
-005F  86 fd 00                               array start, 0 item(s)
-0062  fe                                     array end
-0063  90 0b 6d 5f 65 76 65 6e ..+5           key, define cache[8] "m_eventList"
-0070  86 fd 00                               array start, 0 item(s)
-0073  fe                                     array end
-0074  90 0b 6d 5f 77 6f 72 6c ..+5           key, define cache[9] "m_worldName"
-0081  90 05 62 65 61 63 68                   define cache[10] = "beach"
-0088  90 0e 6d 5f 63 72 65 61 ..+8           key, define cache[11] "m_creationTime"
-0098  20 da 8c 47 14                         fixed int, value 340233434
-009D  90 0c 6d 5f 72 65 73 47 ..+6           key, define cache[12] "m_resGroupID"
-00AB  24 07                                  unsigned varint = 7
-00AD  90 0e 6d 5f 62 6f 75 6e ..+8           key, define cache[13] "m_boundingRect"
-00BD  85                                     object start
-00BE  90 02 6d 58                              key, define cache[14] "mX"
-00C2  21                                       int32 zero (no payload) = 0
-00C3  90 02 6d 59                              key, define cache[15] "mY"
-00C7  25 ab 02                                 signed varint = -150
-00CA  90 06 6d 57 69 64 74 68                  key, define cache[16] "mWidth"
-00D2  21                                       int32 zero (no payload) = 0
-00D3  90 07 6d 48 65 69 67 68 ..+1             key, define cache[17] "mHeight"
-00DC  24 ac 02                                 unsigned varint = 300
-00DF  ff                                     object end
-00E0  90 09 6d 5f 77 6f 72 6c ..+3           key, define cache[18] "m_worldId"
-00EB  24 08                                  unsigned varint = 8
-00ED  90 09 6d 5f 76 65 72 73 ..+3           key, define cache[19] "m_version"
-00F8  24 01                                  unsigned varint = 1
-00FA  ff                                   object end
-00FB  ff                                 object end
-00FC  fe                               array end
-00FD  ff                             object end
-00FE  44 4f 4e 45                    footer "DONE"
+0025  90 05 31 2e 30 2e 31                 define cache[3] = "1.0.1"
+002C  90 08 6f 62 6a 63 6c 61 ..+2         key, define cache[4] "objclass"
+0036  90 08 44 65 6d 6f 44 61 ..+2         define cache[5] = "DemoData"
+0040  90 07 6f 62 6a 64 61 74 ..+1         key, define cache[6] "objdata"
+0049  85                                   object start
+004A  90 04 6e 61 6d 65                      key, define cache[7] "name"
+0050  90 04 64 65 6d 6f                      define cache[8] = "demo"
+0056  90 05 69 74 65 6d 73                   key, define cache[9] "items"
+005D  86 fd 00                               array start, 0 item(s)
+0060  fe                                     array end
+0061  90 04 66 6c 61 67                      key, define cache[10] "flag"
+0067  01                                     true
+0068  90 05 63 6f 75 6e 74                   key, define cache[11] "count"
+006F  24 f4 03                               unsigned varint = 500
+0072  90 06 6f 72 69 67 69 6e                key, define cache[12] "origin"
+007A  25 95 01                               signed varint = -75
+007D  90 04 7a 65 72 6f                      key, define cache[13] "zero"
+0083  21                                     int32 zero (no payload) = 0
+0084  90 03 62 6f 78                         key, define cache[14] "box"
+0089  85                                     object start
+008A  90 01 78                                 key, define cache[15] "x"
+008D  21                                       int32 zero (no payload) = 0
+008E  90 01 79                                 key, define cache[16] "y"
+0091  25 95 01                                 signed varint = -75
+0094  90 01 77                                 key, define cache[17] "w"
+0097  21                                       int32 zero (no payload) = 0
+0098  90 01 68                                 key, define cache[18] "h"
+009B  24 c8 01                                 unsigned varint = 200
+009E  ff                                     object end
+009F  ff                                   object end
+00A0  ff                                 object end
+00A1  85                                 object start
+00A2  91 02                                key, recall cache[2] = "uid"
+00A4  90 05 31 2e 30 2e 32                 define cache[19] = "1.0.2"
+00AB  91 04                                key, recall cache[4] = "objclass"
+00AD  91 05                                recall cache[5] = "DemoData"
+00AF  91 06                                key, recall cache[6] = "objdata"
+00B1  85                                   object start
+00B2  91 07                                  key, recall cache[7] = "name"
+00B4  90 05 64 65 6d 6f 32                   define cache[20] = "demo2"
+00BB  91 09                                  key, recall cache[9] = "items"
+00BD  86 fd 02                               array start, 2 item(s)
+00C0  24 01                                    unsigned varint = 1
+00C2  24 02                                    unsigned varint = 2
+00C4  fe                                     array end
+00C5  91 0a                                  key, recall cache[10] = "flag"
+00C7  00                                     false
+00C8  91 0b                                  key, recall cache[11] = "count"
+00CA  24 07                                  unsigned varint = 7
+00CC  91 0c                                  key, recall cache[12] = "origin"
+00CE  21                                     int32 zero (no payload) = 0
+00CF  91 0d                                  key, recall cache[13] = "zero"
+00D1  21                                     int32 zero (no payload) = 0
+00D2  91 0e                                  key, recall cache[14] = "box"
+00D4  85                                     object start
+00D5  91 0f                                    key, recall cache[15] = "x"
+00D7  24 05                                    unsigned varint = 5
+00D9  91 10                                    key, recall cache[16] = "y"
+00DB  25 01                                    signed varint = -1
+00DD  91 11                                    key, recall cache[17] = "w"
+00DF  21                                       int32 zero (no payload) = 0
+00E0  91 12                                    key, recall cache[18] = "h"
+00E2  24 09                                    unsigned varint = 9
+00E4  ff                                     object end
+00E5  ff                                   object end
+00E6  ff                                 object end
+00E7  fe                               array end
+00E8  ff                             object end
+00E9  44 4f 4e 45                    footer "DONE"
 ```
 
 值得注意的几点：
 
-- 所有字符串，无论是键还是值，都走缓存：共 20 次 `90` 定义，没有一次 `91` 引用。只有字符串重复出现时才会引用，而这个小文件里没有重复。`91` 引用由我的合成测试数据 `nested_cache_recall` 测试。
+- 第一个对象用 `90` 定义了 21 个字符串。第二个对象用 `91` 加下标*引用*这些键和重复出现的值 `"DemoData"`，所以短得多。这就是字符串缓存在起作用。
 - 空数组就是 `86 FD 00 FE`。
-- `mX` 和 `mWidth` 是 `21`：一个字节，没有载荷。
-- `mY = -150`、`mHeight = 300` 描述的是以 y = 0 为中心的矩形，这正是一个合理边界框的样子。这是对有符号 varint 的合理性检查，不是证明。
-- `m_creationTime` 是 `20 DA 8C 47 14`,32 位整数。按小端读是 340,233,434。单凭这个文件我无法判断小端是否正确，因为我不知道应该是什么值。
+- `zero` 和 `x` 是 `21`：一个字节，没有载荷。
+- 负数（例如 `-75`)用 `25` 加一个 varint 存储：`95 01` 是 149，为奇数，所以解码为 -(149 + 1) / 2 = -75。
+- 定长整数(`08`、`10`、`20`)出现在我的测试里而不是这个样例里，因为这个样例用的是紧凑的 varint 形式。
 
 ## 4. 实现最小 RTON 解码器
 
@@ -259,13 +286,13 @@ varint 用尽量少的字节存数字：每字节 7 位有效数据，最高位�
 `read_value` 看标记后分派。对象和数组递归调用 `read_value`，所以嵌套无需特殊处理。
 遇到不认识的标记就报错，不去猜。
 
-**先写测试。** `tests/fixtures.py` 里有 11 组手工算出的字节串和期望的 Python 值，逐字节注释。
+**先写测试。** `tests/fixtures.py` 里有 12 组手工算出的字节串和期望的 Python 值，逐字节注释。
 另有 11 个错误测试：魔数错误、版本错误、缺少尾部、尾部多余字节、字符串被截断、缓存下标错误、
 不支持的标记、数组缺少结束符、无限长 varint、嵌套过深、非法 UTF-8。
 
 **结果。** `python -m unittest` 共 14 个测试，全部通过(2026-11-02 运行）。
 
-**范围。** 支持的标记：`00 01 08 0A 10 12 20 21 24 25 81 85 86 90 91`。浮点数、64 位整数、UTF-8 字符串(`82`、`92`、`93`)和 RTID 是接下来要加的。合成测试数据用来对照我对规格的理解，第 6 节则在真实文件上运行它。
+**范围。** 支持的标记：`00 01 08 0A 10 12 20 21 24 25 81 85 86 90 91`。浮点数、64 位整数、UTF-8 字符串(`82`、`92`、`93`)和 RTID 是接下来要加的。合成测试数据用来对照我对规格的理解；本文不解码真实的游戏文件。
 
 ### 4.1 逐函数读解码器
 
@@ -299,38 +326,25 @@ Rijndael 是 Joan Daemen 与 Vincent Rijmen 设计的分组密码家族。AES �
 分组固定 128 位，密钥 128/192/256 位。Rijndael 本身允许分组为 128、192、256 位，且与密钥长度相互独立。
 所以当分组不是 128 位时，"AES"和"Rijndael"不能互换。
 
-### 5.2 社区对 PVZ2 RTON 的发现
+### 5.2 这个游戏里的 Rijndael：公开已知的部分
 
-来自 [removed] 的笔记（从某修改工具的原生库逆向而来）:
+社区研究记录了这个游戏加密 RTON 文件的两个特征：文件以两个标记字节 `10 00` 开头；使用 CBC 模式的 Rijndael，分组为 **192 位(24 字节）**。实际后果是：标准 AES 库的分组固定为 128 位，不能原样用于这类数据，需要支持另一种分组大小的 Rijndael 实现。
 
-- 加密的 RTON 以两个字节 `10 00` 开头；
-- 算法：**Rijndael CBC 模式**,**32 字节密钥**,**24 字节(192 位）分组**;
-- IV 24 字节；填充：零填充到 24 字节的整数倍；解密时去掉最后一块末尾的零字节。
+### 5.3 密钥和 IV：它们是什么，以及本文不涉及什么
 
-[来源：[removed]/NEW 的 `tools/RTON_ANALYSIS.md` 和 `tools/rton_crypto_cli.py`。
-该仓库没有 LICENSE 文件，所以我只引用它的*发现*，不复制它的代码。]
+*密钥*是给密码算法设定的秘密参数，Rijndael 接受 128、192 或 256 位的密钥。*IV（初始化向量）*是 CBC 的起始值，大小和分组相同。密钥可以写成原始字节、ASCII 文本或十六进制，把这几种搞混是经典的 bug 来源：32 个 ASCII 字符是 32 字节，而 32 个十六进制字符只有 16 字节。
 
-实际后果：标准 AES 库(128 位分组）**无法**解密这类数据，需要支持 192 位分组的 Rijndael 实现。
+本文不公开、不推导、也不查找任何密钥，也不演示如何解密任何游戏文件。本文的主题是容器的结构，以及针对格式*解密后*形式的解码器。凡是某一步需要密钥的地方，我只说明需要，然后停下。
 
-### 5.3 密钥材料从哪来
+### 5.4 这个设计给我们的启示
 
-我用 Python `hashlib` 自己验证过一个对应关系：取字符串 `[removed]`,
-计算 [removed]，写成 32 个小写十六进制字符，这 32 个 ASCII 字符就是密钥；IV 是这 32 位密钥的第 4–27 位共 24 个字符(Python:`[removed]`)。
-两者都和社区文档里的值一致。（我不在文中列出推导出的值，读者用三行代码就能算出来。）
-
-这也说明了 ASCII 密钥与十六进制密钥的区别：这 32 个字符是*当作 ASCII 字节*直接使用的，
-不是把十六进制还原成 16 字节。
-
-### 5.4 为什么找到密钥不等于"破解"
-
-算法是公开的，强度没有变化。客户端要解密自己的数据，就必须包含密钥，所以任何能读这个 App 的人都能找到它。
-这是密钥*提取*，不是密码分析。Rijndael 本身没有被攻击。
+无论用什么算法，要解密自己数据的客户端应用，总得把密钥放在设备上的某个地方。所以客户端加密只能防止随手查看，并不是强保护，真正重要的东西应该放在服务器端。这是关于系统设计的启示，不是操作指南。
 
 ### 5.5 我自己的探索
 
-**当年的经历（来自我的记忆，不是本文的实验结果）。** 初中时，我在手机上用 MT Manager 直接打开 APK 本身，浏览其中的原生库(`.so`)，看到了字符串 `[removed]`。我记得它附近有一个和 key 有关的词，但记不清是哪个词。(2026 年重新查看时，同一位置附近与 key 相关的字符串是 `No public key loaded`，但我不能确定它就是当年记得的那个词。）之后，我的团队做了一个解密工具（我不是它的开发者）：把上面那个字符串输入进去，工具会用 [removed] 算出密钥和 IV，再解密文件。我只是使用它。我用它解密了关卡文件，得到能直接阅读的 JSON，并在电脑上用 Notepad++ 打开查看。具体的工具名称和操作顺序我已记不清，所以本文第 6 节用自己写的脚本重新走了一遍这条链路。
+**我当年做的事（来自记忆）。** 初中时，我在手机上用 MT Manager 打开 APK，浏览里面的内容，并了解到游戏的数据文件是加密的，社区里有工具可以读取它们。这些工具不是我写的。我已经记不清它们的名字和我当时的操作顺序，本文也不会重复其中任何一项。
 
-### 5.6 逐步看 CBC 解密
+### 5.6 逐步看 CBC
 
 CBC（密码分组链接）把数据切成与算法分组大小相同的块，这里是 24 字节。解密是这样的：
 
@@ -341,35 +355,19 @@ CBC（密码分组链接）把数据切成与算法分组大小相同的块，�
 每个块先单独用原始的分组算法解密，再与*前一个密文块*做异或；第一个块的"前一块"就是 IV。实际中有三个有用的推论：
 
 1. **IV 只影响第一个块。** IV 错了只会让第 0 块乱码，后面的块仍然正确，这是区分"IV 错"和"密钥错"的一个好办法。
-2. **解密第 i 块只需要两个密文块。** 所以我可以解密一大段区域，只读其中第一个文件，而不必知道这个文件在哪里结束。
+2. **解密第 i 块只需要两个密文块**，所以很长的输入可以分段处理。
 3. **相同的明文块会加密成不同的密文**，因为每块都混入了前一块密文。这就是用 CBC 而不是逐块独立加密(ECB)的原因。
 
-单个分组的原始算法来自 `py3rijndael` 库，链接部分是我写的代码（附录 F):
+本节讲的是这种模式，不针对任何具体文件。
 
-```python
-def rijndael_cbc_decrypt(ct, key, iv, block=24):
-    cipher = Rijndael(key, block_size=block)
-    out, prev = bytearray(), iv
-    for i in range(0, len(ct), block):
-        blk = ct[i:i + block]
-        out += bytes(a ^ b for a, b in zip(cipher.decrypt(blk), prev))
-        prev = blk
-    return bytes(out)
-```
+## 6. 在真实版本上验证容器层
 
-解密前我跳过最前面两个字节(`10 00`)：它们是标记，不是密文。标记之后的 36,862 字节不是 24 的整数倍，而且包含不止一个文件（我解码的那个文件只有 258 字节），所以我只解密前 1,535 个完整的块就停下。我不声称知道每个文件的密文在哪里结束。
+**输入。** 一个中文版 Android APK(`baokai_4.2.7_1885_715_dj2.0-4.0.1.apk`,2,271,163,986 字节，SHA-256 `7c09515d…90a5d7`),2026-11-02 从游戏网站 <https://pvz2.hrgame.com.cn/> 下载，在本机分析。我只看容器层（外层封装、RSB 头部和资源组表），这里不解密也不解码游戏自己的数据。
 
-## 6. 复现工作流
-
-**输入。** 一个中文版 Android APK(`baokai_4.2.7_1885_715_dj2.0-4.0.1.apk`,2,271,163,986 字节，SHA-256 `7c09515d…90a5d7`),2026-11-02 从游戏网站 <https://pvz2.hrgame.com.cn/> 下载，在本机分析。下面所有步骤于同一天用附录里的脚本运行。
-
-**一个我没预料到的额外层。** 这个 APK 里的 RSB 不是裸文件：`assets/dynamic.rsb.smf` 以 ASCII 魔数 `RSLB` 开头。
-它是一个分块容器：32 字节头、若干 36 字节的块记录，然后每块一个原始 LZMA1 流
-（块大小 32 MiB,LZMA 参数 `lc=3 lp=0 pb=2`)。我是从社区解压器的注释里找到布局的，解压器是自己写的；
-它输出的正好是头部声明的 147,292,160 字节。所以这个版本的真实链路是：
+**一个我没预料到的额外层。** 这个 APK 里的 RSB 不是裸文件：`assets/dynamic.rsb.smf` 以 ASCII 魔数 `RSLB` 开头。它是一个分块容器：32 字节头、若干 36 字节的块记录，然后每块一个原始 LZMA1 流（块大小 32 MiB,LZMA 参数 `lc=3 lp=0 pb=2`)。我是从社区解压器的注释里找到布局的，解压器是自己写的；它输出的正好是头部声明的 147,292,160 字节。所以这个版本的链路是：
 
 ```
-APK ─▶ .rsb.smf (RSLB, LZMA 分块) ─▶ RSB ─▶ RSGP ─▶ 加密 RTON ─▶ Rijndael ─▶ RTON ─▶ JSON
+APK -> .rsb.smf (RSLB, LZMA 分块) -> RSB -> RSGP -> RTON 文件(已加密,本文不涉及)
 ```
 
 | 步骤 | 在这个 APK 上的结果 |
@@ -377,31 +375,11 @@ APK ─▶ .rsb.smf (RSLB, LZMA 分块) ─▶ RSB ─▶ RSGP ─▶ 加密 RTO
 | 解开 `dynamic.rsb.smf` | 147,292,160 字节，以 `1bsr` 开头，与声明大小一致 |
 | 读 RSB 头 | 版本 4,30 个资源组，组记录 `0xCC` 字节，PTX 记录 `0x18` 字节(Pvz2Tool 提到的"二代"变体） |
 | 压缩 | 30 个资源组全部 `ZSize == Size`:**这个版本没有用到 zlib**，我完全没有实际测试过 zlib |
-| 读一个 RSGP(`WorldPackages_beach`) | 魔数 `pgsr`，版本 4;part0 以 `10 00` 开头，即加密 RTON 标记 |
-| Rijndael 解密 | 密钥 = 上述字符串的 [removed] 十六进制，IV = `[removed]`,24 字节分组，CBC；第一个文件解出 `RTON`、版本 1，以 `DONE` 结尾(258 字节） |
-| 用 `mini_rton` 解码 | 完整解码，`pos` 正好停在文件末尾 |
-| 原生库 | 该字符串在 `lib/arm64-v8a/libSrc.so` 和 `lib/armeabi-v7a/libSrc.so` 中各出现一次 |
-
-解码出的对象（世界地图记录，不含个人或账号数据）:
-
-```json
-{"version": 1, "objects": [{"uid": "2.0.144207b4", "objclass": "WorldData",
-  "objdata": {"m_worldName": "beach", "m_worldId": 8, "m_resGroupID": 7,
-              "m_boundingRect": {"mX": 0, "mY": -150, "mWidth": 0, "mHeight": 300},
-              "m_mapPieces": [], "m_eventList": [], "m_creationTime": 340233434,
-              "m_version": 1}}]}
-```
-
-**真实文件教给解码器的东西。** 我第一次运行停在标记 `0x21`，格式笔记只把它列为未确认的"int32 零值"。
-数据里 `mX` 和 `mWidth` 后面直接跟着 `21`、没有载荷，`mY` 是 `25 AB 02`（有符号 varint,−150),
-`mHeight` 是 `24 AC 02`(300)。把 `21` 当作"值 0、无载荷"之后，整个文件解码完成并正好停在文件尾，
-这是来自这一个文件的支持证据。我据此补了一个合成测试数据。
+| 读一个 RSGP(`WorldPackages_beach`) | 魔数 `pgsr`，版本 4；第一部分以 `10 00` 开头，即加密 RTON 标记 |
 
 **接下来。**
-- 解码这个资源组里的其他 RTON 文件以及其余 29 个资源组。
 - 读取 RSGP 的文件名表，还原完整路径。
-- 在更多真实数据上确认 16 位和 32 位整数的字节序。
-- 加入浮点数、64 位整数、UTF-8 字符串和 RTID。
+- 给解码器加入浮点数、64 位整数、UTF-8 字符串和 RTID，并配上新的合成测试数据。
 - 在资源组有压缩的版本上实际测试 zlib。
 
 ### 6.1 RSLB 容器逐字段解读
@@ -436,42 +414,40 @@ APK ─▶ .rsb.smf (RSLB, LZMA 分块) ─▶ RSB ─▶ RSGP ─▶ 加密 RTO
 我保留了这些失败，因为它们说明各项检查有什么用。这些脚本是在第 4 节所说的 AI 助手协助下写成并运行的。
 
 1. **一个流还是多个流?** 第一次尝试把 `.smf` 头部之后当作一个 LZMA 流解压。开头很顺利(`1bsr`，说明思路对），但解到约 33.6 MB 就报"Corrupt input data"。容器是按 32 MiB 分块的，修正办法是去读块表。
-2. **头部偏移读错。** 第一个端到端脚本从 RSGP 头部的错误位置读取 part0 的偏移。"解密"出来是乱码，`RTON` 魔数检查立刻失败。我改正了偏移，并加了一条断言：RSGP 头部和 RSB 里的组记录必须一致。
-3. **笔记不确定的标记。** 解码器停在 `0x21`（见上文）。
+2. **头部偏移读错。** 第一个端到端脚本从 RSGP 头部的错误位置读取第一部分的偏移，`10 00` 标记检查立刻失败。我改正了偏移，并加了一条断言：RSGP 头部和 RSB 里的组记录必须一致。
 
-这些问题只靠合成测试都抓不到。
+这两个问题只靠合成测试都抓不到。
 
-### 6.3 自己复现一遍
+### 6.3 复现容器层的检查
 
-你需要一个你有权使用的游戏安卓 APK、Python 3 和 `py3rijndael`(`pip install py3rijndael`)。脚本都在附录里。
+你需要一个你有权使用的游戏安卓 APK 和 Python 3。脚本都在附录里。
 
 1. APK 是 zip 文件。取出 `assets/dynamic.rsb.smf`(`unzip app.apk assets/dynamic.rsb.smf`)。
-2. `python3 rslb.py dynamic.rsb.smf dynamic.rsb`。对我分析的那个版本，应得到 147,292,160 字节，以 `1bsr` 开头。其他版本会不同。
-3. `python3 rsb_probe.py dynamic.rsb`。应看到版本 4、30 个资源组，第一个是 `Credits_1200`。
-4. 运行 `reproduce.py`（附录 F)，并把 `MINI_RTON_SRC` 设为包含 `mini_rton` 包的文件夹。它会打印解码出的对象。
-5. 可选：把解密后的字节保存下来，用 `annotate_rton.py`（附录 E)得到 3.6 节那样的逐字节视图。
+2. `python3 rslb.py dynamic.rsb.smf dynamic.rsb`（附录 C)。对我分析的那个版本，应得到 147,292,160 字节，以 `1bsr` 开头。其他版本会不同。
+3. `python3 rsb_probe.py dynamic.rsb`（附录 D)。应看到版本 4、30 个资源组，第一个是 `Credits_1200`。
+4. 或者用 `python3 inspect_build.py app.apk`（附录 F)一次完成第 1 到 3 步以及一致性检查。
 
 如果某一步的数字不一样，请相信你自己的数字，并检查你的版本：这正是记录 APK 的 SHA-256 的意义。
 
 ## 7. 收获
 
-这个项目让我对手机应用的安装包有了更整体的理解。这次我实际分析的是 Android 的 APK：它本质上是一个 zip 包，里面有原生库(`.so`)、`assets` 资源和配置。此外，初三那年我也分析过 iOS 的 IPA，由此接触到苹果的签名证书（例如企业签名），以及越狱相关的工具和生态，如 TrollStore、软件源和 Filza，并且自己修改过 IPA，再重新打包、签名。我是凭记忆描述这些的，它们不属于本文的实验。
+这个项目让我对手机应用的安装包有了更整体的理解。这里我分析的是 Android 的 APK：它本质上是一个 zip 包，里面有原生库(`.so`)、`assets` 资源和配置。初三那年我也研究过 iOS 的应用安装包(IPA)，了解了苹果代码签名的原理，这不属于本文的实验。
 
-我也第一次比较系统地接触了加解密：知道了密钥和 IV 的长度要求、不同加密算法的区别，以及 AES 和 Rijndael 的关系（这次遇到的是 192 位分组，标准 AES 库解不了）。同时我明白了"找到密钥"和"破解算法"是两回事。
+我也第一次比较系统地接触了加密的基本概念：密钥和 IV 的长度、不同分组密码的区别，以及 AES 和 Rijndael 的关系（这里分组大小不是 AES 的那一种，所以标准 AES 库并不适用）。
 
-在方法上，先依据规格写测试再写代码很有用。合成数据全部通过之后，真实文件仍然暴露出一个规格里没写清楚的标记 `0x21`，让我体会到格式文档和真实数据之间总有差距，必须用数据去验证。分析解码出来的 JSON，也让我学会了阅读结构化数据，看懂游戏如何把一个世界、一个关卡描述成数据。
+在方法上，先依据规格写测试再写代码很有用：这些测试数据逼着我在写任何解码器代码之前，先手算出 varint 和字符串缓存是怎么回事。逐字节注释一个样例文件，也让我学会了阅读结构化的二进制数据。
 
 接下来我想把网络协议(HTTP 请求的加密）作为独立的研究，先完成可复现的实验，再另写一篇文章。
 
 ## 8. 常见问题与术语表
 
-**RSB 本身加密了吗?** 这个版本没有。去掉 `.smf` 外层之后，RSB 头部能正常解析，各资源组都是未压缩存放的。里面的 RTON 文件带有 `10 00` 标记，是加密的。
+**RSB 本身加密了吗?** 这个版本没有。去掉 `.smf` 外层之后，RSB 头部能正常解析，各资源组都是未压缩存放的。里面的 RTON 文件带有 `10 00` 标记，说明它们是加密的。
 
-**Rijndael 就是 AES 吗?** AES 是分组固定为 128 位的 Rijndael。这个游戏用的是 192 位分组，所以标准 AES 库解不了。
+**Rijndael 就是 AES 吗?** AES 是分组固定为 128 位的 Rijndael。这个游戏用的是 192 位分组，所以标准 AES 库并不适用。
 
-**找到密钥就算破解了加密吗?** 不算。游戏要解密自己的数据，就必须带着密钥。找到它只是提取，算法本身没有被攻击。
+**本文演示如何解密游戏数据吗?** 不演示。本文讲容器层，以及针对格式解密后形式的解码器，并用合成样例测试。文中没有密钥，也没有解密步骤。
 
-**这个解码器能处理所有 PVZ2 文件吗?** 不能。它解码了一个版本里的一个真实文件，以及一组合成用例。浮点数、64 位整数、UTF-8 字符串和 RTID 都没实现，其他文件用到哪些我也不知道。
+**这个解码器能处理真实的 PVZ2 文件吗?** 本文没有测试这一点。它在合成样例上处理已有文档的那部分格式。浮点数、64 位整数、UTF-8 字符串和 RTID 都没实现，其他文件用到哪些我也不知道。
 
 **解码器是原创的吗?** 这是我对一个已有文档的格式的实现，在 AI 助手协助下写成，我已读懂。它不是新发现，见第 4 节和参考资料。
 
@@ -602,7 +578,7 @@ class Reader:
         if tag == TAG_INT32:
             return self.read_int(4, True)
         if tag == TAG_INT32_ZERO:
-            return 0  # no payload; seen in a real sample (mX / mWidth), see docs
+            return 0  # no payload; listed as unconfirmed in the format notes
         if tag == TAG_UVARINT:
             return self.read_uvarint()
         if tag == TAG_SVARINT:
@@ -654,9 +630,10 @@ def decode(data):
     return result
 ```
 
+
 ## 附录 B：合成测试数据(`tests/fixtures.py`)
 
-每个字节都有注释。错误处理的测试因篇幅省略。
+每个字节都有注释，或由一个小编码器生成。错误处理的测试因篇幅省略。
 
 ```python
 """Hand-built RTON byte strings, each with its expected decoded value.
@@ -720,11 +697,28 @@ FIXTURES = {
         {"w": -300, "i": 70000},
     ),
 
-    # {"mX": 0, "mY": -150}  -- modelled on a real sample: 21 = int32 zero (no payload);
+    # {"mX": 0, "mY": -150}  -- 21 = int32 zero (no payload);
     # 25 AB 02 -> varint 0x2B + (2 << 7) = 299 (odd) -> -(299+1)/2 = -150
     "int32_zero_and_signed": (
         HEADER + bytes.fromhex("81 02 6D 58 21  81 02 6D 59 25 AB 02  FF") + FOOTER,
         {"mX": 0, "mY": -150},
+    ),
+
+    # A made-up sample with the same *shape* as a typical object file: a version, then an array of
+    # objects (uid / objclass / objdata). The second object reuses keys and values through the string
+    # cache (91). Built with a small encoder; annotated byte by byte in the article (section 3.6).
+    "showcase": (
+        bytes.fromhex(
+            "52 54 4f 4e 01 00 00 00 90 07 76 65 72 73 69 6f 6e 24 01 90 07 6f 62 6a 65 63 74 73 86 fd 02 85"
+            "90 03 75 69 64 90 05 31 2e 30 2e 31 90 08 6f 62 6a 63 6c 61 73 73 90 08 44 65 6d 6f 44 61 74 61"
+            "90 07 6f 62 6a 64 61 74 61 85 90 04 6e 61 6d 65 90 04 64 65 6d 6f 90 05 69 74 65 6d 73 86 fd 00"
+            "fe 90 04 66 6c 61 67 01 90 05 63 6f 75 6e 74 24 f4 03 90 06 6f 72 69 67 69 6e 25 95 01 90 04 7a"
+            "65 72 6f 21 90 03 62 6f 78 85 90 01 78 21 90 01 79 25 95 01 90 01 77 21 90 01 68 24 c8 01 ff ff"
+            "ff 85 91 02 90 05 31 2e 30 2e 32 91 04 91 05 91 06 85 91 07 90 05 64 65 6d 6f 32 91 09 86 fd 02"
+            "24 01 24 02 fe 91 0a 00 91 0b 24 07 91 0c 21 91 0d 21 91 0e 85 91 0f 24 05 91 10 25 01 91 11 21"
+            "91 12 24 09 ff ff ff fe ff 44 4f 4e 45"
+        ),
+        {'version': 1, 'objects': [{'uid': '1.0.1', 'objclass': 'DemoData', 'objdata': {'name': 'demo', 'items': [], 'flag': True, 'count': 500, 'origin': -75, 'zero': 0, 'box': {'x': 0, 'y': -75, 'w': 0, 'h': 200}}}, {'uid': '1.0.2', 'objclass': 'DemoData', 'objdata': {'name': 'demo2', 'items': [1, 2], 'flag': False, 'count': 7, 'origin': 0, 'zero': 0, 'box': {'x': 5, 'y': -1, 'w': 0, 'h': 9}}}]},
     ),
 
     # --- varint fixtures ---
@@ -745,6 +739,7 @@ FIXTURES = {
     ),
 }
 ```
+
 
 ## 附录 C:RSLB(.smf)解压脚本(`rslb.py`)
 
@@ -860,7 +855,7 @@ if __name__ == "__main__":
 
 ## 附录 E:RTON 逐字节注释脚本(`annotate_rton.py`)
 
-使用与解码器相同的标记规则；输出 3.6 节展示的逐字节解读。
+使用与解码器相同的标记规则；对任何未加密的 RTON 输出 3.6 节展示的逐字节解读。
 
 ```python
 """Print an annotated hex walk-through of an (unencrypted) RTON using the same tag rules as mini_rton.
@@ -929,93 +924,51 @@ if __name__ == '__main__':
 ```
 
 
-## 附录 F：端到端复现脚本(`reproduce.py`)
+## 附录 F：容器检查脚本(`inspect_build.py`)
 
-需要 `py3rijndael`。把 `MINI_RTON_SRC` 设为包含 `mini_rton` 包的文件夹，并把 `rslb.py` 和 `rsb_probe.py` 放在它旁边。
+解开 `.smf`，读取 RSB 头部和资源组表，并做一致性检查。它不解密也不解码任何游戏数据。请把 `rslb.py` 和 `rsb_probe.py` 放在它旁边。
 
 ```python
-"""End-to-end reproduction on a locally owned APK. Prints facts only; writes nothing outside work/.
+"""Container-level inspection of a locally owned APK: unwrap assets/dynamic.rsb.smf, read the RSB header
+and group table, and run consistency checks. It does not decrypt or decode any game data and writes
+nothing outside a temporary folder.
 
-APK -> assets/dynamic.rsb.smf -> (RSLB/LZMA) -> RSB -> RSGP 'WorldPackages_beach' part0
-    -> (Rijndael-192 CBC) -> RTON -> JSON via mini_rton
+APK -> assets/dynamic.rsb.smf -> (RSLB / LZMA blocks) -> RSB -> resource groups
 
-Run with the venv python (needs py3rijndael):  .venv/bin/python -I tools/reproduce.py <apk>
+Usage:  python3 -I tools/inspect_build.py path/to/game.apk
 """
-import hashlib
-import json
 import os
-import struct
 import sys
+import tempfile
 import zipfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-sys.path.insert(0, os.environ["MINI_RTON_SRC"])
-
-from py3rijndael import Rijndael  # noqa: E402
 
 import rslb  # noqa: E402
-from mini_rton import decode  # noqa: E402
 from rsb_probe import read_groups, read_header  # noqa: E402
-
-[removed] = b"[removed]"
-
-
-def sha256(path):
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            h.update(chunk)
-    return h.hexdigest()
-
-
-def rijndael_cbc_decrypt(ct, key, iv, block=24):
-    cipher = Rijndael(key, block_size=block)
-    out, prev = bytearray(), iv
-    for i in range(0, len(ct), block):
-        blk = ct[i:i + block]
-        out += bytes(a ^ b for a, b in zip(cipher.decrypt(blk), prev))
-        prev = blk
-    return bytes(out)
 
 
 def main(apk):
-    work = os.path.join(os.path.dirname(HERE), "work")
-    print("APK sha256:", sha256(apk))
-    with zipfile.ZipFile(apk) as z:
-        smf = z.read("assets/dynamic.rsb.smf")
-    smf_path = os.path.join(work, "repro_dynamic.rsb.smf")
-    rsb_path = os.path.join(work, "repro_dynamic.rsb")
-    open(smf_path, "wb").write(smf)
-    print("SMF magic:", smf[:4], "size:", len(smf))
-    n = rslb.decompress(smf_path, rsb_path)
-    data = open(rsb_path, "rb").read()
-    print("RSB bytes:", n, "magic:", data[:4])
-
+    with tempfile.TemporaryDirectory() as tmp:
+        smf_path, rsb_path = os.path.join(tmp, "x.smf"), os.path.join(tmp, "x.rsb")
+        with zipfile.ZipFile(apk) as z:
+            open(smf_path, "wb").write(z.read("assets/dynamic.rsb.smf"))
+        print("SMF magic:", open(smf_path, "rb").read(4))
+        size = rslb.decompress(smf_path, rsb_path)
+        data = open(rsb_path, "rb").read()
     h = read_header(data)
     groups = read_groups(data, h)
-    print("RSB version:", h["version"], "groups:", h["rsgp_Number"],
-          "all groups stored uncompressed (ZSize==Size):",
+    print("RSB bytes:", size, "magic:", data[:4], "version:", h["version"], "groups:", h["rsgp_Number"])
+    print("first group starts at headLength:", groups[0]["offset"] == h["headLength"])
+    print("groups are contiguous:", all(groups[i]["offset"] + groups[i]["size"] == groups[i + 1]["offset"]
+                                        for i in range(len(groups) - 1)))
+    print("last group ends at end of file:", groups[-1]["offset"] + groups[-1]["size"] == len(data))
+    print("all offsets/sizes multiples of 4096:", all(g["offset"] % 4096 == 0 and g["size"] % 4096 == 0 for g in groups))
+    print("every group stored uncompressed (ZSize == Size):",
           all(g["p0_zsize"] == g["p0_size"] and g["p1_zsize"] == g["p1_size"] for g in groups))
-
-    g = next(x for x in groups if x["name"] == "WorldPackages_beach")
-    base = g["offset"]
-    magic, ver = struct.unpack_from("<4sI", data, base)
-    p0_off, p0_size = struct.unpack_from("<I", data, base + 0x18)[0], g["p0_size"]
-    assert p0_off == g["p0_offset"], "RSGP header and RSB group record disagree"
-    blob = data[base + p0_off: base + p0_off + p0_size]
-    print("RSGP magic:", magic, "version:", ver, "part0 bytes:", len(blob),
-          "starts with 10 00:", blob[:2] == b"\x10\x00")
-
-    key = [removed]([removed]).hexdigest().encode()
-    iv = [removed]
-    body = blob[2:]
-    plain = rijndael_cbc_decrypt(body[: len(body) // 24 * 24], key, iv)
-    end = plain.find(b"DONE") + 4
-    rton = plain[:end]
-    print("decrypted RTON bytes:", len(rton), "magic:", rton[:4])
-    result = decode(rton)
-    print(json.dumps(result, indent=1))
+    for g in groups:
+        print(f"  {g['name']:36s} offset={g['offset']:>11,} size={g['size']:>11,}")
 
 
 if __name__ == "__main__":

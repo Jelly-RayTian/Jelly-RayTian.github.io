@@ -3,32 +3,27 @@ pageSlug: "pvz2-resource-analysis"
 lang: "en"
 title: "Inside PvZ2: RSB, RTON and Rijndael"
 subtitle: "Plants vs. Zombies 2 (Chinese version, Android) · 2026 reproduction and a mini decoder"
-summary: "How the resource files of a mobile game are layered, a small RTON decoder written from scratch, and a check against one real file, with the unverified parts listed."
+summary: "How the resource files of a mobile game are layered, a small RTON decoder written from scratch, and a check of the container layers of a real build."
 order: 1
 updated: "2026-11-02"
-glance: [{"k": "Context", "v": "Personal learning project, 2026"}, {"k": "Tools", "v": "Python; py3rijndael for the decrypt check; community format notes"}, {"k": "Outcome", "v": "One real RTON decoded end to end from an APK; 14 unit tests pass on synthetic data"}]
-references: [{"label": "RETON — RTON format notes (h3x4n1um)", "url": "https://github.com/h3x4n1um/RETON"}, {"label": "Pvz2Tool — RSB/RSGP header definitions (DreamMoonCai, MIT)", "url": "https://github.com/DreamMoonCai/Pvz2Tool"}, {"label": "[removed] — RTON encryption findings ([removed])", "url": "https://[removed]"}, {"label": "Z-Editor — RSLB container layout described in code comments (yhzxcv, GPL-3.0; used as a format description only, no code copied)", "url": "https://github.com/yhzxcv/Z-Editor"}, {"label": "PvZ2ModdingGuide — community guide (apples1949)", "url": "https://github.com/apples1949/PvZ2ModdingGuide"}, {"label": "The Design of Rijndael — Daemen and Rijmen (Springer)", "url": "https://link.springer.com/book/10.1007/978-3-662-04722-4"}, {"label": "FIPS 197: Advanced Encryption Standard (NIST)", "url": "https://csrc.nist.gov/pubs/fips/197/final"}]
+glance: [{"k": "Context", "v": "Personal learning project, 2026"}, {"k": "Tools", "v": "Python; community format notes"}, {"k": "Outcome", "v": "Container layers of a real build analysed; RTON decoder with 14 passing tests on synthetic data"}]
+references: [{"label": "RETON — RTON format notes (h3x4n1um)", "url": "https://github.com/h3x4n1um/RETON"}, {"label": "Pvz2Tool — RSB/RSGP header definitions (DreamMoonCai, MIT)", "url": "https://github.com/DreamMoonCai/Pvz2Tool"}, {"label": "Z-Editor — RSLB container layout described in code comments (yhzxcv, GPL-3.0; used as a format description only, no code copied)", "url": "https://github.com/yhzxcv/Z-Editor"}, {"label": "PvZ2ModdingGuide — community guide (apples1949)", "url": "https://github.com/apples1949/PvZ2ModdingGuide"}, {"label": "The Design of Rijndael — Daemen and Rijmen (Springer)", "url": "https://link.springer.com/book/10.1007/978-3-662-04722-4"}, {"label": "FIPS 197: Advanced Encryption Standard (NIST)", "url": "https://csrc.nist.gov/pubs/fips/197/final"}]
 ---
 
 ## 1. Introduction
 
-In middle school (around Grades 8–9), I started poking at the files of the Chinese version of *Plants vs. Zombies 2*. I had two motivations. A new mode, Penny's Pursuit, had just come out, and its level data lived in encrypted files; I wanted to read what was inside, such as how zombies are spawned in each level. I also wanted to change small features of the game, for example buying Plant Food with coins. Those questions led me into binary file formats and encryption.
+In middle school (around Grades 8–9), I started looking at the data files of the Chinese version of *Plants vs. Zombies 2*. A new mode, Penny's Pursuit, had just come out, and I wanted to understand how the game stores its level data, for example how the spawns of a level can be described as data. That curiosity led me into binary file formats.
 
 This article explains three separate layers that a PVZ2 asset passes through:
 
-<figure class="flow" aria-label="Real resource chain of the analysed Android build, from APK to JSON">
-<ol class="flow-main"><li><b>APK</b><small>zip archive</small></li><li class="tool"><b>Unwrap .smf</b><small>RSLB · LZMA blocks</small></li><li class="tool"><b>RSB → RSGP</b><small>offsets + sizes</small></li><li><b>Encrypted RTON</b><small>starts 10 00</small></li><li class="tool"><b>Rijndael decrypt</b><small>192-bit block · CBC</small></li><li class="tool"><b>RTON → JSON</b><small>my mini decoder</small></li></ol>
-<div class="flow-aux"><span class="mine"><b>Key-material search</b><small>.so strings · hex viewer</small></span><span class="flow-link">the string behind the key and IV feeds the decrypt step</span></div>
-<figcaption>The chain I verified on one Chinese-version APK (§6). Gold-edged steps used code I wrote or read about; the extra .smf layer was a surprise in this build. The dashed box is the manual search of the native library.</figcaption>
+<figure class="flow" aria-label="Resource chain of the analysed Android build; decryption is out of scope">
+<ol class="flow-main"><li><b>APK</b><small>zip archive</small></li><li class="tool"><b>Unwrap .smf</b><small>RSLB · LZMA blocks</small></li><li class="tool"><b>RSB → RSGP</b><small>offsets + sizes</small></li><li><b>Encrypted RTON</b><small>starts 10 00</small></li><li><b>Decryption</b><small>not covered here</small></li><li class="tool"><b>RTON → JSON</b><small>my mini decoder</small></li></ol>
+<figcaption>The chain in the analysed build. Gold-edged steps are what this article covers; decryption is deliberately out of scope.</figcaption>
 </figure>
 
-and a side path used to *find* the decryption material:
+Decryption keys and decryption steps are deliberately left out of this article.
 
-```
-Android APK ──▶ native library (.so) ──▶ inspect strings ──▶ key material
-```
-
-The formats were mapped out by the modding community; the sources are in [References](#references). My part is the explanation, a small decoder I built to learn the RTON layer, and a record of what I verified on a real file. The code is on [GitHub](https://github.com/Jelly-RayTian/pvz2-format-exploration).
+The formats were mapped out by the modding community; the sources are in [References](#references). My part is the explanation, a small decoder I built to learn the RTON layer, and a record of what I verified on the container layers of a real build. The code is on [GitHub](https://github.com/Jelly-RayTian/pvz2-format-exploration).
 
 I did this analysis locally, for learning. No game files, account data or session tokens are published, and the test data for my decoder is synthetic; the code is in the appendices.
 
@@ -172,7 +167,7 @@ text; RTON spells each value as *a one-byte type tag followed by its payload*.
 | `08` / `0A` | int8 / uint8, 1 byte |
 | `10` / `12` | int16 / uint16, 2 bytes (byte order assumed little-endian) |
 | `20` | int32, 4 bytes (byte order assumed little-endian) |
-| `21` | int32 zero, no payload (confirmed only by one real file, see §6) |
+| `21` | int32 zero, no payload (listed as unconfirmed in the notes; supported provisionally) |
 | `24` | unsigned varint |
 | `25` | signed varint |
 | `81` | string: varint byte-length, then bytes |
@@ -206,9 +201,9 @@ more bytes to read and how to interpret them → advance `pos`. Objects and arra
 recursion: seeing `85`, call "read an object" until `FF`. When finished, `pos` must
 equal the file length — a cheap but powerful correctness check.
 
-### 3.6 A real RTON, byte by byte
+### 3.6 A sample RTON, byte by byte
 
-This is the whole 258-byte file from §6, decrypted, with each line explained by an annotator I wrote (Appendix E). Indentation shows nesting; offsets are in hex.
+This is a complete 237-byte RTON that I built with a small encoder. Every value in it is made up, but its shape follows the typical object file: a version, then an array of objects with `uid`, `objclass` and `objdata`. An annotator I wrote (Appendix E) explains each line. Indentation shows nesting; offsets are in hex.
 
 ```text
 0000  52 54 4f 4e                    magic "RTON"
@@ -216,55 +211,87 @@ This is the whole 258-byte file from §6, decrypted, with each line explained by
 0008  90 07 76 65 72 73 69 6f ..+1     key, define cache[0] "version"
 0011  24 01                            unsigned varint = 1
 0013  90 07 6f 62 6a 65 63 74 ..+1     key, define cache[1] "objects"
-001C  86 fd 01                         array start, 1 item(s)
+001C  86 fd 02                         array start, 2 item(s)
 001F  85                                 object start
 0020  90 03 75 69 64                       key, define cache[2] "uid"
-0025  90 0c 32 2e 30 2e 31 34 ..+6         define cache[3] = "2.0.144207b4"
-0033  90 08 6f 62 6a 63 6c 61 ..+2         key, define cache[4] "objclass"
-003D  90 09 57 6f 72 6c 64 44 ..+3         define cache[5] = "WorldData"
-0048  90 07 6f 62 6a 64 61 74 ..+1         key, define cache[6] "objdata"
-0051  85                                   object start
-0052  90 0b 6d 5f 6d 61 70 50 ..+5           key, define cache[7] "m_mapPieces"
-005F  86 fd 00                               array start, 0 item(s)
-0062  fe                                     array end
-0063  90 0b 6d 5f 65 76 65 6e ..+5           key, define cache[8] "m_eventList"
-0070  86 fd 00                               array start, 0 item(s)
-0073  fe                                     array end
-0074  90 0b 6d 5f 77 6f 72 6c ..+5           key, define cache[9] "m_worldName"
-0081  90 05 62 65 61 63 68                   define cache[10] = "beach"
-0088  90 0e 6d 5f 63 72 65 61 ..+8           key, define cache[11] "m_creationTime"
-0098  20 da 8c 47 14                         fixed int, value 340233434
-009D  90 0c 6d 5f 72 65 73 47 ..+6           key, define cache[12] "m_resGroupID"
-00AB  24 07                                  unsigned varint = 7
-00AD  90 0e 6d 5f 62 6f 75 6e ..+8           key, define cache[13] "m_boundingRect"
-00BD  85                                     object start
-00BE  90 02 6d 58                              key, define cache[14] "mX"
-00C2  21                                       int32 zero (no payload) = 0
-00C3  90 02 6d 59                              key, define cache[15] "mY"
-00C7  25 ab 02                                 signed varint = -150
-00CA  90 06 6d 57 69 64 74 68                  key, define cache[16] "mWidth"
-00D2  21                                       int32 zero (no payload) = 0
-00D3  90 07 6d 48 65 69 67 68 ..+1             key, define cache[17] "mHeight"
-00DC  24 ac 02                                 unsigned varint = 300
-00DF  ff                                     object end
-00E0  90 09 6d 5f 77 6f 72 6c ..+3           key, define cache[18] "m_worldId"
-00EB  24 08                                  unsigned varint = 8
-00ED  90 09 6d 5f 76 65 72 73 ..+3           key, define cache[19] "m_version"
-00F8  24 01                                  unsigned varint = 1
-00FA  ff                                   object end
-00FB  ff                                 object end
-00FC  fe                               array end
-00FD  ff                             object end
-00FE  44 4f 4e 45                    footer "DONE"
+0025  90 05 31 2e 30 2e 31                 define cache[3] = "1.0.1"
+002C  90 08 6f 62 6a 63 6c 61 ..+2         key, define cache[4] "objclass"
+0036  90 08 44 65 6d 6f 44 61 ..+2         define cache[5] = "DemoData"
+0040  90 07 6f 62 6a 64 61 74 ..+1         key, define cache[6] "objdata"
+0049  85                                   object start
+004A  90 04 6e 61 6d 65                      key, define cache[7] "name"
+0050  90 04 64 65 6d 6f                      define cache[8] = "demo"
+0056  90 05 69 74 65 6d 73                   key, define cache[9] "items"
+005D  86 fd 00                               array start, 0 item(s)
+0060  fe                                     array end
+0061  90 04 66 6c 61 67                      key, define cache[10] "flag"
+0067  01                                     true
+0068  90 05 63 6f 75 6e 74                   key, define cache[11] "count"
+006F  24 f4 03                               unsigned varint = 500
+0072  90 06 6f 72 69 67 69 6e                key, define cache[12] "origin"
+007A  25 95 01                               signed varint = -75
+007D  90 04 7a 65 72 6f                      key, define cache[13] "zero"
+0083  21                                     int32 zero (no payload) = 0
+0084  90 03 62 6f 78                         key, define cache[14] "box"
+0089  85                                     object start
+008A  90 01 78                                 key, define cache[15] "x"
+008D  21                                       int32 zero (no payload) = 0
+008E  90 01 79                                 key, define cache[16] "y"
+0091  25 95 01                                 signed varint = -75
+0094  90 01 77                                 key, define cache[17] "w"
+0097  21                                       int32 zero (no payload) = 0
+0098  90 01 68                                 key, define cache[18] "h"
+009B  24 c8 01                                 unsigned varint = 200
+009E  ff                                     object end
+009F  ff                                   object end
+00A0  ff                                 object end
+00A1  85                                 object start
+00A2  91 02                                key, recall cache[2] = "uid"
+00A4  90 05 31 2e 30 2e 32                 define cache[19] = "1.0.2"
+00AB  91 04                                key, recall cache[4] = "objclass"
+00AD  91 05                                recall cache[5] = "DemoData"
+00AF  91 06                                key, recall cache[6] = "objdata"
+00B1  85                                   object start
+00B2  91 07                                  key, recall cache[7] = "name"
+00B4  90 05 64 65 6d 6f 32                   define cache[20] = "demo2"
+00BB  91 09                                  key, recall cache[9] = "items"
+00BD  86 fd 02                               array start, 2 item(s)
+00C0  24 01                                    unsigned varint = 1
+00C2  24 02                                    unsigned varint = 2
+00C4  fe                                     array end
+00C5  91 0a                                  key, recall cache[10] = "flag"
+00C7  00                                     false
+00C8  91 0b                                  key, recall cache[11] = "count"
+00CA  24 07                                  unsigned varint = 7
+00CC  91 0c                                  key, recall cache[12] = "origin"
+00CE  21                                     int32 zero (no payload) = 0
+00CF  91 0d                                  key, recall cache[13] = "zero"
+00D1  21                                     int32 zero (no payload) = 0
+00D2  91 0e                                  key, recall cache[14] = "box"
+00D4  85                                     object start
+00D5  91 0f                                    key, recall cache[15] = "x"
+00D7  24 05                                    unsigned varint = 5
+00D9  91 10                                    key, recall cache[16] = "y"
+00DB  25 01                                    signed varint = -1
+00DD  91 11                                    key, recall cache[17] = "w"
+00DF  21                                       int32 zero (no payload) = 0
+00E0  91 12                                    key, recall cache[18] = "h"
+00E2  24 09                                    unsigned varint = 9
+00E4  ff                                     object end
+00E5  ff                                   object end
+00E6  ff                                 object end
+00E7  fe                               array end
+00E8  ff                             object end
+00E9  44 4f 4e 45                    footer "DONE"
 ```
 
 Things worth noticing:
 
-- Every string, keys and values alike, goes through the cache: there are 20 `90` definitions and no `91` recalls. A recall only appears when a string repeats, and nothing repeats in this small file. Recalls are tested by my synthetic fixture `nested_cache_recall`.
+- The first object defines 21 strings with `90`. The second object *recalls* the keys and the repeated value `"DemoData"` with `91` and an index, so it is much shorter. This is the string cache at work.
 - An empty array is just `86 FD 00 FE`.
-- `mX` and `mWidth` are `21`: one byte, no payload.
-- `mY = -150` and `mHeight = 300` describe a rectangle centred on y = 0, which is what a sensible bounding box looks like. That is a sanity check on the signed varint, not a proof.
-- `m_creationTime` is `20 DA 8C 47 14`, a 32-bit integer. Read as little-endian it is 340,233,434. This file alone cannot tell me whether little-endian is right, because I do not know what value to expect.
+- `zero` and `x` are `21`: one byte, no payload.
+- A negative number such as `-75` is stored as `25` followed by a varint: `95 01` is 149, which is odd, so it decodes to -(149 + 1) / 2 = -75.
+- Fixed-width integers (`08`, `10`, `20`) appear in my tests rather than here, because this sample uses the compact varint forms.
 
 ## 4. Building a Minimal RTON Decoder
 
@@ -276,7 +303,7 @@ dispatches. Objects and arrays call `read_value` recursively, so nesting works
 without special cases. The decoder rejects anything it does not recognise instead of
 guessing.
 
-**Tests first.** Eleven fixtures in `tests/fixtures.py` are hand-computed byte strings
+**Tests first.** Twelve fixtures in `tests/fixtures.py` are hand-computed byte strings
 with their expected Python values, each annotated byte by byte. A further eleven
 tests cover errors: bad magic, bad version, missing footer, trailing bytes, truncated
 string, bad cache index, unsupported tag, missing array end, runaway varint,
@@ -284,7 +311,7 @@ excessive nesting, invalid UTF-8.
 
 **Result.** `python -m unittest` runs 14 tests, all passing (run on 2 Nov 2026).
 
-**Scope.** Supported tags: `00 01 08 0A 10 12 20 21 24 25 81 85 86 90 91`. Floats, 64-bit integers, UTF-8 strings (`82`, `92`, `93`) and RTID are the next things to add. The synthetic fixtures check the decoder against my reading of the spec; §6 runs it on a real file.
+**Scope.** Supported tags: `00 01 08 0A 10 12 20 21 24 25 81 85 86 90 91`. Floats, 64-bit integers, UTF-8 strings (`82`, `92`, `93`) and RTID are the next things to add. The synthetic fixtures check the decoder against my reading of the spec. This article does not decode real game files.
 
 ### 4.1 Reading the decoder, function by function
 
@@ -320,45 +347,25 @@ Rijndael itself allows block sizes 128, 192 or 256 bits independently of the key
 size. So "AES" and "Rijndael" are not interchangeable when the block size is not
 128 bits.
 
-### 5.2 What the community found for PVZ2 RTON
+### 5.2 Rijndael in this game: what is publicly known
 
-From the [removed] notes (reverse-engineered from a modding toolkit's native
-library):
+Community research has documented two things about the encrypted RTON files of this game: they start with the two marker bytes `10 00`, and they use Rijndael in CBC mode with a **192-bit (24-byte) block**. A practical consequence is that a standard AES library, which fixes the block at 128 bits, cannot be used for them as it is; you need a Rijndael implementation that supports the other block size.
 
-- an encrypted RTON starts with the two bytes `10 00`;
-- cipher: **Rijndael in CBC mode**, **32-byte key**, **24-byte (192-bit) block**;
-- IV: 24 bytes; padding: zero-padding to a 24-byte block; on decryption trailing
-  zero bytes of the last block are stripped.
+### 5.3 Keys and IVs: what they are, and what this article leaves out
 
-[Source: [removed]/NEW, `tools/RTON_ANALYSIS.md` and `tools/rton_crypto_cli.py`. That
-repository shows no license file, so I cite its *findings* and do not copy its code.]
+A *key* is the secret value the cipher is parameterised by; Rijndael accepts 128-, 192- or 256-bit keys. An *IV* (initialization vector) is a starting value for CBC and has the same size as the block. A key can be written as raw bytes, as ASCII text or as hex, and mixing these up is a classic source of bugs: 32 ASCII characters are 32 bytes, while 32 hex characters are only 16.
 
-A practical consequence: a standard AES library (128-bit block) will **not** decrypt
-this data. You need a Rijndael implementation that supports a 192-bit block.
+This article does not publish, derive or search for any key, and it does not walk through decrypting any game file. Its subject is the structure of the containers and the decoder for the *decrypted* form of the format. Where a step would need a key, I say so and stop.
 
-### 5.3 Where the key material comes from
+### 5.4 What the design teaches
 
-I checked one relationship myself with Python's `hashlib`: take the string
-`[removed]`, compute its [removed], write the digest as
-32 lowercase hex characters, and use those 32 ASCII characters as the key. The IV is
-the 24 characters at positions 4–27 of that 32-character key (Python: `[removed]`). Both matched the values
-documented by the community. (I do not print the derived values here; readers can
-compute them in three lines.)
-
-This also illustrates ASCII key vs. hex key: the 32 characters are used *as ASCII
-bytes*, not decoded from hex into 16 bytes.
-
-### 5.4 Why finding the key is not "breaking" the cipher
-
-The algorithm is public and its strength is unchanged. A client app that decrypts
-its own data must contain the key, so anyone who can read the app can find it. That
-is key *extraction*, not cryptanalysis. Rijndael itself was not attacked in any way.
+Whatever the algorithm, a client application that decrypts its own data has to hold the key somewhere on the device. Client-side encryption therefore deters casual reading, but it is not a strong protection, and anything that really matters belongs on a server. That is a lesson about system design; it is not a how-to.
 
 ### 5.5 My own exploration
 
-**What I did back then (from memory, not a result of this article's experiments).** In middle school I opened the APK itself with MT Manager on my phone and browsed the native library (`.so`), where I saw the string `[removed]`. I remember a key-related word near it but not which word. (When I looked again in 2026, the nearest key-related string at that spot was `No public key loaded`; I cannot say it is the word I remembered.) Later, my team built a decryption tool (I was not one of its developers): you type that string in, the tool derives the key and IV with [removed], and decrypts the file. I only used it. I decrypted level files with it, got JSON I could read directly, and opened it in Notepad++ on a computer. I no longer remember the tool's name or the exact order of my steps, which is why §6 re-runs the chain with my own scripts.
+**What I did back then (from memory).** In middle school I opened the APK with MT Manager on my phone and browsed its contents, and I learned that the game's data files were encrypted and that community tools could read them. I did not write those tools. I no longer remember their names or the order of my steps, and this article does not repeat any of them.
 
-### 5.6 CBC decryption, step by step
+### 5.6 CBC, step by step
 
 CBC (cipher block chaining) cuts the data into blocks of the cipher's block size, 24 bytes here. Decrypting works like this:
 
@@ -369,37 +376,19 @@ plaintext[i] = Decrypt(key, ciphertext[i]) XOR ciphertext[i-1]      with ciphert
 Each block is decrypted on its own with the raw cipher and then XORed with the *previous ciphertext block*; for the first block the "previous block" is the IV. Three consequences are useful in practice:
 
 1. **The IV only matters for the first block.** A wrong IV garbles block 0 but leaves every later block correct, which is a handy way to tell a wrong IV from a wrong key.
-2. **Decrypting block i needs only two ciphertext blocks.** So I could decrypt a long region and read just its first file, without knowing where that file ends.
+2. **Decrypting block i needs only two ciphertext blocks**, so long inputs can be processed in pieces.
 3. **Identical plaintext blocks encrypt differently**, because each is mixed with the previous ciphertext. That is the reason to use CBC rather than encrypting block by block (ECB).
 
-The raw single-block cipher comes from the `py3rijndael` library. The chaining is code I wrote (Appendix F):
+This section describes the mode, not any particular file.
 
-```python
-def rijndael_cbc_decrypt(ct, key, iv, block=24):
-    cipher = Rijndael(key, block_size=block)
-    out, prev = bytearray(), iv
-    for i in range(0, len(ct), block):
-        blk = ct[i:i + block]
-        out += bytes(a ^ b for a, b in zip(cipher.decrypt(blk), prev))
-        prev = blk
-    return bytes(out)
-```
+## 6. Verifying the container layers on a real build
 
-Before decrypting I skip the first two bytes (`10 00`): they are a marker, not ciphertext. The 36,862 bytes after the marker are not a multiple of 24 and hold more than one file (the file I decoded is only 258 bytes), so I decrypt the first 1,535 whole blocks and stop. I do not claim to know where each file's ciphertext ends.
+**Input.** One Chinese-version Android APK (`baokai_4.2.7_1885_715_dj2.0-4.0.1.apk`, 2,271,163,986 bytes, SHA-256 `7c09515d…90a5d7`), downloaded from the game's website <https://pvz2.hrgame.com.cn/> on 2 Nov 2026 and analysed locally. I look only at the container layers (the wrapper, the RSB header and the group table). I do not decrypt or decode the game's own data here.
 
-## 6. Reproducing the Workflow
-
-**Input.** One Chinese-version Android APK (`baokai_4.2.7_1885_715_dj2.0-4.0.1.apk`, 2,271,163,986 bytes, SHA-256 `7c09515d…90a5d7`), downloaded from the game's website <https://pvz2.hrgame.com.cn/> on 2 Nov 2026 and analysed locally. Everything below ran the same day with the scripts in the appendices.
-
-**An extra layer I did not expect.** The RSB files in this APK are not stored bare:
-`assets/dynamic.rsb.smf` begins with the ASCII magic `RSLB`. It is a block container:
-a 32-byte header, a table of 36-byte block records, then one raw LZMA1 stream per block
-(32 MiB blocks, LZMA properties `lc=3 lp=0 pb=2`). I found the layout in a community
-decompressor's comments and wrote my own decompressor; it produced exactly the 147,292,160
-bytes the header declares. So the real chain for this build is:
+**An extra layer I did not expect.** The RSB files in this APK are not stored bare: `assets/dynamic.rsb.smf` begins with the ASCII magic `RSLB`. It is a block container: a 32-byte header, a table of 36-byte block records, then one raw LZMA1 stream per block (32 MiB blocks, LZMA properties `lc=3 lp=0 pb=2`). I found the layout in a community decompressor's comments and wrote my own decompressor; it produced exactly the 147,292,160 bytes the header declares. So the chain for this build is:
 
 ```
-APK -> .rsb.smf (RSLB, LZMA blocks) -> RSB -> RSGP -> encrypted RTON -> Rijndael -> RTON -> JSON
+APK -> .rsb.smf (RSLB, LZMA blocks) -> RSB -> RSGP -> RTON files (encrypted; not covered here)
 ```
 
 | Step | Result on this APK |
@@ -407,33 +396,11 @@ APK -> .rsb.smf (RSLB, LZMA blocks) -> RSB -> RSGP -> encrypted RTON -> Rijndael
 | Unwrap `dynamic.rsb.smf` | 147,292,160 bytes; starts with `1bsr`; matches the declared size |
 | Read RSB header | version 4, 30 resource groups, group records `0xCC` bytes, PTX records `0x18` bytes (the "second-generation" variant noted in Pvz2Tool) |
 | Compression | In every one of the 30 groups `ZSize == Size`: **no zlib was involved in this build.** I did not exercise zlib at all |
-| Read one RSGP (`WorldPackages_beach`) | magic `pgsr`, version 4; its part0 begins with `10 00`, the encrypted-RTON marker |
-| Rijndael decrypt | key = [removed]-hex of the string above, IV = `[removed]`, 24-byte blocks, CBC; the first file decrypts to `RTON`, version 1, and ends with `DONE` (258 bytes) |
-| Decode with `mini_rton` | decodes completely; `pos` ends exactly at the end of the file |
-| Native library | the key-source string appears once in each of `lib/arm64-v8a/libSrc.so` and `lib/armeabi-v7a/libSrc.so` |
-
-The decoded object (a world-map record, no personal or account data):
-
-```json
-{"version": 1, "objects": [{"uid": "2.0.144207b4", "objclass": "WorldData",
-  "objdata": {"m_worldName": "beach", "m_worldId": 8, "m_resGroupID": 7,
-              "m_boundingRect": {"mX": 0, "mY": -150, "mWidth": 0, "mHeight": 300},
-              "m_mapPieces": [], "m_eventList": [], "m_creationTime": 340233434,
-              "m_version": 1}}]}
-```
-
-**What the real file taught the decoder.** My first run stopped at tag `0x21`, which the
-format notes list only as an unconfirmed "int32 zero". In the data, `mX` and `mWidth`
-are followed directly by `21` with no payload, `mY` is `25 AB 02` (signed varint, -150)
-and `mHeight` is `24 AC 02` (300). Treating `21` as "the value 0, no payload" made the
-whole file decode and end exactly at the footer, which is evidence for that reading
-from this one file. I added a synthetic fixture modelled on it.
+| Read one RSGP (`WorldPackages_beach`) | magic `pgsr`, version 4; its first part begins with `10 00`, the encrypted-RTON marker |
 
 **What's next.**
-- Decode the other RTON files in this group and the other 29 groups.
 - Read the RSGP file-name table to recover full paths.
-- Confirm 16-bit and 32-bit integer byte order on more real data.
-- Add floats, 64-bit integers, UTF-8 strings and RTID.
+- Add floats, 64-bit integers, UTF-8 strings and RTID to the decoder, with new synthetic fixtures.
 - Exercise zlib on a build whose groups are compressed.
 
 ### 6.1 The RSLB container, field by field
@@ -468,42 +435,40 @@ Checks that came out right: block 0's data starts at 212 = `0x20` + 5 × 36, rig
 I kept the failures because they show what the checks are for. The scripts were written and run with the AI assistant described in §4.
 
 1. **One stream or many?** The first attempt decompressed the `.smf` as a single LZMA stream after the header. It started well (`1bsr`, so the idea was right) and then failed with "Corrupt input data" after about 33.6 MB. The container is chunked into 32 MiB blocks; the fix was to read the block table.
-2. **A wrong header offset.** The first end-to-end script read part0's offset from the wrong position in the RSGP header. The "decrypted" output was garbage and the `RTON` magic check failed at once. I fixed the offset and added an assertion that the RSGP header and the RSB's group record agree.
-3. **A tag the notes were unsure about.** The decoder stopped at `0x21` (see above).
+2. **A wrong header offset.** The first end-to-end script read the first part's offset from the wrong position in the RSGP header. The `10 00` marker check failed at once. I fixed the offset and added an assertion that the RSGP header and the RSB's group record agree.
 
-None of these would have been caught by synthetic tests alone.
+Neither would have been caught by synthetic tests alone.
 
-### 6.3 Reproducing it yourself
+### 6.3 Reproducing the container checks
 
-You need an Android APK of the game that you are entitled to use, Python 3, and `py3rijndael` (`pip install py3rijndael`). The scripts are in the appendices.
+You need an Android APK of the game that you are entitled to use and Python 3. The scripts are in the appendices.
 
 1. An APK is a zip file. Take out `assets/dynamic.rsb.smf` (`unzip app.apk assets/dynamic.rsb.smf`).
-2. `python3 rslb.py dynamic.rsb.smf dynamic.rsb`. For the build I analysed, expect 147,292,160 bytes starting with `1bsr`. Other builds will differ.
-3. `python3 rsb_probe.py dynamic.rsb`. Expect version 4 and 30 groups, and `Credits_1200` first.
-4. Run `reproduce.py` (Appendix F), with `MINI_RTON_SRC` set to the folder that contains the `mini_rton` package. It prints the decoded object.
-5. Optionally, save the decrypted bytes and run `annotate_rton.py` (Appendix E) on them to get the byte-by-byte view from §3.6.
+2. `python3 rslb.py dynamic.rsb.smf dynamic.rsb` (Appendix C). For the build I analysed, expect 147,292,160 bytes starting with `1bsr`. Other builds will differ.
+3. `python3 rsb_probe.py dynamic.rsb` (Appendix D). Expect version 4 and 30 groups, with `Credits_1200` first.
+4. Or run steps 1 to 3 and the consistency checks in one go with `python3 inspect_build.py app.apk` (Appendix F).
 
 If a step gives a different number, trust your number and check which build you have: that is the point of recording the SHA-256 of the APK.
 
 ## 7. Lessons Learned
 
-This project gave me a more complete picture of how mobile apps are packaged. What I actually analysed this time was an Android APK: at bottom it is a zip archive holding native libraries (`.so`), `assets` and configuration. In Grade 9 I also analysed iOS IPA files, which introduced me to Apple's signing certificates (such as enterprise signing) and to the jailbreak ecosystem (TrollStore, package sources, Filza), and I modified an IPA myself, then repackaged and signed it. I describe these from memory; they are not part of this article's experiments.
+This project gave me a more complete picture of how mobile apps are packaged. What I analysed here was an Android APK: at bottom it is a zip archive holding native libraries (`.so`), `assets` and configuration. In Grade 9 I also looked at iOS app packages (IPA) and learned how Apple's code signing works; that is outside this article's experiments.
 
-It was also my first fairly systematic contact with encryption: I learned about key and IV lengths, how different ciphers differ, and how AES relates to Rijndael (here the block size was 192 bits, which a standard AES library cannot handle). I also understood that "finding the key" and "breaking the algorithm" are different things.
+It was also my first fairly systematic contact with encryption concepts: key and IV lengths, how block ciphers differ, and how AES relates to Rijndael (here the block size is not the AES one, so a standard AES library does not fit).
 
-On method, writing tests from the spec before the code paid off. After every synthetic test passed, the real file still exposed a tag, `0x21`, that the notes had not made clear, which taught me that format documents and real data always differ somewhat and have to be checked against data. Reading the decoded JSON also taught me to read structured data and see how the game describes a world or a level as data.
+On method, writing tests from the spec before the code paid off: the fixtures forced me to work out varints and the string cache by hand before any decoder code existed. Annotating a sample file byte by byte also taught me to read structured binary data.
 
 Next I want to treat the network protocol (encrypted HTTP requests) as a separate study: finish reproducible experiments first, then write a second article.
 
 ## 8. FAQ and glossary
 
-**Is the RSB itself encrypted?** Not in this build. After the `.smf` wrapper is removed, the RSB header parses normally and the groups are stored uncompressed. The RTON files inside carry the `10 00` marker and are encrypted.
+**Is the RSB itself encrypted?** Not in this build. After the `.smf` wrapper is removed, the RSB header parses normally and the groups are stored uncompressed. The RTON files inside carry the `10 00` marker, which marks them as encrypted.
 
-**Is Rijndael the same as AES?** AES is Rijndael restricted to a 128-bit block. This game uses a 192-bit block, so a standard AES library cannot decrypt it.
+**Is Rijndael the same as AES?** AES is Rijndael restricted to a 128-bit block. This game uses a 192-bit block, so a standard AES library does not fit.
 
-**Did finding the key break the encryption?** No. The game has to carry the key to decrypt its own data. Finding it is extraction; the cipher was not attacked.
+**Does this article show how to decrypt the game's data?** No. It covers the container layers and a decoder for the decrypted form of the format, tested on synthetic samples. It contains no keys and no decryption steps.
 
-**Does the decoder work on every PVZ2 file?** No. It decodes one real file from one build and a set of synthetic cases. Floats, 64-bit integers, UTF-8 strings and RTID are not implemented, and I do not know which of those the other files use.
+**Does the decoder work on real PVZ2 files?** This article does not test that. It handles the documented subset on synthetic samples. Floats, 64-bit integers, UTF-8 strings and RTID are not implemented, and I do not know which of those other files use.
 
 **Is the decoder original work?** It is my implementation of a documented format, written with an AI assistant and read and understood by me. It is not a new discovery; see §4 and the references.
 
@@ -634,7 +599,7 @@ class Reader:
         if tag == TAG_INT32:
             return self.read_int(4, True)
         if tag == TAG_INT32_ZERO:
-            return 0  # no payload; seen in a real sample (mX / mWidth), see docs
+            return 0  # no payload; listed as unconfirmed in the format notes
         if tag == TAG_UVARINT:
             return self.read_uvarint()
         if tag == TAG_SVARINT:
@@ -686,9 +651,10 @@ def decode(data):
     return result
 ```
 
+
 ## Appendix B: synthetic test fixtures (`tests/fixtures.py`)
 
-Every byte is annotated. The error-handling tests are omitted here for length.
+Every byte is annotated or built by a small encoder. The error-handling tests are omitted here for length.
 
 ```python
 """Hand-built RTON byte strings, each with its expected decoded value.
@@ -752,11 +718,28 @@ FIXTURES = {
         {"w": -300, "i": 70000},
     ),
 
-    # {"mX": 0, "mY": -150}  -- modelled on a real sample: 21 = int32 zero (no payload);
+    # {"mX": 0, "mY": -150}  -- 21 = int32 zero (no payload);
     # 25 AB 02 -> varint 0x2B + (2 << 7) = 299 (odd) -> -(299+1)/2 = -150
     "int32_zero_and_signed": (
         HEADER + bytes.fromhex("81 02 6D 58 21  81 02 6D 59 25 AB 02  FF") + FOOTER,
         {"mX": 0, "mY": -150},
+    ),
+
+    # A made-up sample with the same *shape* as a typical object file: a version, then an array of
+    # objects (uid / objclass / objdata). The second object reuses keys and values through the string
+    # cache (91). Built with a small encoder; annotated byte by byte in the article (section 3.6).
+    "showcase": (
+        bytes.fromhex(
+            "52 54 4f 4e 01 00 00 00 90 07 76 65 72 73 69 6f 6e 24 01 90 07 6f 62 6a 65 63 74 73 86 fd 02 85"
+            "90 03 75 69 64 90 05 31 2e 30 2e 31 90 08 6f 62 6a 63 6c 61 73 73 90 08 44 65 6d 6f 44 61 74 61"
+            "90 07 6f 62 6a 64 61 74 61 85 90 04 6e 61 6d 65 90 04 64 65 6d 6f 90 05 69 74 65 6d 73 86 fd 00"
+            "fe 90 04 66 6c 61 67 01 90 05 63 6f 75 6e 74 24 f4 03 90 06 6f 72 69 67 69 6e 25 95 01 90 04 7a"
+            "65 72 6f 21 90 03 62 6f 78 85 90 01 78 21 90 01 79 25 95 01 90 01 77 21 90 01 68 24 c8 01 ff ff"
+            "ff 85 91 02 90 05 31 2e 30 2e 32 91 04 91 05 91 06 85 91 07 90 05 64 65 6d 6f 32 91 09 86 fd 02"
+            "24 01 24 02 fe 91 0a 00 91 0b 24 07 91 0c 21 91 0d 21 91 0e 85 91 0f 24 05 91 10 25 01 91 11 21"
+            "91 12 24 09 ff ff ff fe ff 44 4f 4e 45"
+        ),
+        {'version': 1, 'objects': [{'uid': '1.0.1', 'objclass': 'DemoData', 'objdata': {'name': 'demo', 'items': [], 'flag': True, 'count': 500, 'origin': -75, 'zero': 0, 'box': {'x': 0, 'y': -75, 'w': 0, 'h': 200}}}, {'uid': '1.0.2', 'objclass': 'DemoData', 'objdata': {'name': 'demo2', 'items': [1, 2], 'flag': False, 'count': 7, 'origin': 0, 'zero': 0, 'box': {'x': 5, 'y': -1, 'w': 0, 'h': 9}}}]},
     ),
 
     # --- varint fixtures ---
@@ -777,6 +760,7 @@ FIXTURES = {
     ),
 }
 ```
+
 
 ## Appendix C: RSLB (.smf) decompressor (`rslb.py`)
 
@@ -890,9 +874,9 @@ if __name__ == "__main__":
 ```
 
 
-## Appendix E: Annotated RTON dump (`annotate_rton.py`)
+## Appendix E: annotated RTON dump (`annotate_rton.py`)
 
-Uses the same tag rules as the decoder; prints the walk-through shown in §3.6.
+Uses the same tag rules as the decoder; prints the walk-through shown in §3.6 for any unencrypted RTON.
 
 ```python
 """Print an annotated hex walk-through of an (unencrypted) RTON using the same tag rules as mini_rton.
@@ -961,93 +945,51 @@ if __name__ == '__main__':
 ```
 
 
-## Appendix F: End-to-end reproduction (`reproduce.py`)
+## Appendix F: container inspection (`inspect_build.py`)
 
-Needs `py3rijndael`. Set `MINI_RTON_SRC` to the folder containing the `mini_rton` package, and put `rslb.py` and `rsb_probe.py` next to it.
+Unwraps the `.smf`, reads the RSB header and group table and runs consistency checks. It does not decrypt or decode any game data. Put `rslb.py` and `rsb_probe.py` next to it.
 
 ```python
-"""End-to-end reproduction on a locally owned APK. Prints facts only; writes nothing outside work/.
+"""Container-level inspection of a locally owned APK: unwrap assets/dynamic.rsb.smf, read the RSB header
+and group table, and run consistency checks. It does not decrypt or decode any game data and writes
+nothing outside a temporary folder.
 
-APK -> assets/dynamic.rsb.smf -> (RSLB/LZMA) -> RSB -> RSGP 'WorldPackages_beach' part0
-    -> (Rijndael-192 CBC) -> RTON -> JSON via mini_rton
+APK -> assets/dynamic.rsb.smf -> (RSLB / LZMA blocks) -> RSB -> resource groups
 
-Run with the venv python (needs py3rijndael):  .venv/bin/python -I tools/reproduce.py <apk>
+Usage:  python3 -I tools/inspect_build.py path/to/game.apk
 """
-import hashlib
-import json
 import os
-import struct
 import sys
+import tempfile
 import zipfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-sys.path.insert(0, os.environ["MINI_RTON_SRC"])
-
-from py3rijndael import Rijndael  # noqa: E402
 
 import rslb  # noqa: E402
-from mini_rton import decode  # noqa: E402
 from rsb_probe import read_groups, read_header  # noqa: E402
-
-[removed] = b"[removed]"
-
-
-def sha256(path):
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            h.update(chunk)
-    return h.hexdigest()
-
-
-def rijndael_cbc_decrypt(ct, key, iv, block=24):
-    cipher = Rijndael(key, block_size=block)
-    out, prev = bytearray(), iv
-    for i in range(0, len(ct), block):
-        blk = ct[i:i + block]
-        out += bytes(a ^ b for a, b in zip(cipher.decrypt(blk), prev))
-        prev = blk
-    return bytes(out)
 
 
 def main(apk):
-    work = os.path.join(os.path.dirname(HERE), "work")
-    print("APK sha256:", sha256(apk))
-    with zipfile.ZipFile(apk) as z:
-        smf = z.read("assets/dynamic.rsb.smf")
-    smf_path = os.path.join(work, "repro_dynamic.rsb.smf")
-    rsb_path = os.path.join(work, "repro_dynamic.rsb")
-    open(smf_path, "wb").write(smf)
-    print("SMF magic:", smf[:4], "size:", len(smf))
-    n = rslb.decompress(smf_path, rsb_path)
-    data = open(rsb_path, "rb").read()
-    print("RSB bytes:", n, "magic:", data[:4])
-
+    with tempfile.TemporaryDirectory() as tmp:
+        smf_path, rsb_path = os.path.join(tmp, "x.smf"), os.path.join(tmp, "x.rsb")
+        with zipfile.ZipFile(apk) as z:
+            open(smf_path, "wb").write(z.read("assets/dynamic.rsb.smf"))
+        print("SMF magic:", open(smf_path, "rb").read(4))
+        size = rslb.decompress(smf_path, rsb_path)
+        data = open(rsb_path, "rb").read()
     h = read_header(data)
     groups = read_groups(data, h)
-    print("RSB version:", h["version"], "groups:", h["rsgp_Number"],
-          "all groups stored uncompressed (ZSize==Size):",
+    print("RSB bytes:", size, "magic:", data[:4], "version:", h["version"], "groups:", h["rsgp_Number"])
+    print("first group starts at headLength:", groups[0]["offset"] == h["headLength"])
+    print("groups are contiguous:", all(groups[i]["offset"] + groups[i]["size"] == groups[i + 1]["offset"]
+                                        for i in range(len(groups) - 1)))
+    print("last group ends at end of file:", groups[-1]["offset"] + groups[-1]["size"] == len(data))
+    print("all offsets/sizes multiples of 4096:", all(g["offset"] % 4096 == 0 and g["size"] % 4096 == 0 for g in groups))
+    print("every group stored uncompressed (ZSize == Size):",
           all(g["p0_zsize"] == g["p0_size"] and g["p1_zsize"] == g["p1_size"] for g in groups))
-
-    g = next(x for x in groups if x["name"] == "WorldPackages_beach")
-    base = g["offset"]
-    magic, ver = struct.unpack_from("<4sI", data, base)
-    p0_off, p0_size = struct.unpack_from("<I", data, base + 0x18)[0], g["p0_size"]
-    assert p0_off == g["p0_offset"], "RSGP header and RSB group record disagree"
-    blob = data[base + p0_off: base + p0_off + p0_size]
-    print("RSGP magic:", magic, "version:", ver, "part0 bytes:", len(blob),
-          "starts with 10 00:", blob[:2] == b"\x10\x00")
-
-    key = [removed]([removed]).hexdigest().encode()
-    iv = [removed]
-    body = blob[2:]
-    plain = rijndael_cbc_decrypt(body[: len(body) // 24 * 24], key, iv)
-    end = plain.find(b"DONE") + 4
-    rton = plain[:end]
-    print("decrypted RTON bytes:", len(rton), "magic:", rton[:4])
-    result = decode(rton)
-    print(json.dumps(result, indent=1))
+    for g in groups:
+        print(f"  {g['name']:36s} offset={g['offset']:>11,} size={g['size']:>11,}")
 
 
 if __name__ == "__main__":
