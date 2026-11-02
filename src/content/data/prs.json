@@ -258,6 +258,22 @@
    "summary": "fix(n-up): honour the /Rotate of source pages"
   },
   {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 292,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/292",
+   "title": "fix(uniform-resize): honour the /Rotate of source pages",
+   "status": "open",
+   "summary": "fix(uniform-resize): honour the /Rotate of source pages"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 293,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/293",
+   "title": "fix(ci): normalize extracted AppDir permissions before repacking the Linux AppImage",
+   "status": "open",
+   "summary": "fix(ci): normalize extracted AppDir permissions before repacking the Linux AppImage"
+  },
+  {
    "repo": "willfaust/Madeira",
    "number": 396,
    "url": "https://github.com/willfaust/Madeira/pull/396",
