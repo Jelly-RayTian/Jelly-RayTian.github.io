@@ -246,3 +246,45 @@ html[data-lang=zh] .localized[data-lang=en],html:not([data-lang=zh]) .localized[
   .resume-activities>h4:first-child{margin-top:0}
   .sheet .resume-entry{margin-bottom:20px}
 }
+
+/* ---------- content sections (about, education, leadership, community, research, honours) ---------- */
+.nav ul{gap:18px;font-size:13px} @media(max-width:1180px){.nav ul{display:none}}
+.xcard{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.sub-sh{margin-top:70px}
+.about-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:36px;align-items:start}
+.about-text{font:400 clamp(19px,2.2vw,24px)/1.55 var(--display);color:var(--ink);max-width:46ch}
+.mini-h{font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0}
+.chips li{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 14px;font-size:14px}
+.edu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.edu-card{border:1px solid var(--line);border-radius:20px;background:var(--card);padding:26px 26px 22px;min-width:0}
+.edu-card h3{font:400 clamp(26px,3vw,34px)/1.15 var(--display);margin:10px 0 6px}
+.edu-card .role{font-weight:600;font-size:15px}
+.edu-place{color:var(--muted);font-size:14px;margin:4px 0 14px}
+.edu-cw{font-size:13px;color:var(--muted);margin-bottom:8px}
+.skills-panel{border:1px solid var(--line);border-radius:20px;background:var(--card);padding:24px 26px;margin-top:18px}
+.skills-panel h3{font:400 28px/1.2 var(--display);margin-bottom:12px}
+.skills-panel dl{display:grid;gap:10px}
+.skills-panel dl>div{display:grid;grid-template-columns:150px 1fr;gap:14px;font-size:15px}
+.skills-panel dt{font:500 12px/1.9 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.skills-panel dd{margin:0}
+.xlist{padding-left:18px;margin:4px 0 0;color:var(--muted);font-size:15px;max-width:62ch}
+.xlist li{margin:5px 0}
+.xnote{font-size:13px;color:var(--muted);font-style:italic;margin-top:10px}
+.honours{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.honour{border:1px solid var(--line);border-radius:18px;background:var(--card);padding:22px 24px}
+.honour h3{font:400 28px/1.2 var(--display);margin-bottom:4px} .honour p{color:var(--muted);font-size:15px}
+#contact .cta{margin-top:0}
+.sheet .sub2{font-size:12.5px;color:#555;margin:1px 0 4px}
+.sheet .item{margin-top:10px}
+@media(max-width:760px){.about-grid,.edu-grid{grid-template-columns:1fr}.skills-panel dl>div{grid-template-columns:1fr;gap:2px}}
+
+.cstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.cstat{border:1px solid var(--line);border-radius:18px;background:var(--card);padding:20px 22px;display:flex;flex-direction:column;gap:2px}
+.cstat b{font:400 40px/1 var(--display);letter-spacing:-.02em}.cstat span{font-size:14px}
+.cstat small{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.4}
+#creative .xnote{margin:14px 0 18px;max-width:80ch}
+.vids{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:6px 0 20px}
+.vid{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:14px;text-decoration:none;display:flex;flex-direction:column;gap:6px}
+.vid img{width:100%;border-radius:10px;display:block}.vid small{color:var(--muted);font-size:12px}

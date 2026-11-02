@@ -4,14 +4,18 @@ Static site, no build step. Open `index.html` in a browser (or `python3 -m http.
 
 | File | What it holds |
 |---|---|
-| `index.html` | Page structure and all visible English text, including the two résumé sheets (English and Chinese) |
-| `css/style.css` | Colours (CSS variables at the top), layout, animations, print styles for the résumé sheet |
+| `index.html` | Page skeleton, hero, PR wall, projects, open-source case studies and the full PR list |
+| `css/style.css` | Colours (CSS variables at the top), layout, animations, print styles |
 | `js/data.js` | Verified PR list and statuses (generated; regenerate when statuses change) |
-| `js/cases.js` | Case-study text, English (`CASES`) and Chinese (`CASEZ`) |
-| `js/main.js` | Chinese strings for the page (`ZH` list), language and theme toggles, PR wall, effects (background network, tilt, cursor) |
-| `assets/` | WatDesk screenshots |
+| `js/cases.js` | Open-source case studies, English and Chinese |
+| `js/content.js` | **All personal content** (about, education, leadership, community, research, honours), English and Chinese. Edit here |
+| `js/videos.js` | Selected Bilibili videos (empty until links are verified) |
+| `js/render.js` | Builds the sections and the one-page résumé from `content.js` |
+| `js/main.js` | Language and theme toggles, PR wall, page-level Chinese strings, effects |
+| `tools/build-resume.mjs` | `node tools/build-resume.mjs` regenerates `assets/Ray-Tian-Resume.pdf` (needs Edge or Chrome). Add `--email … --phone … --out ~/Desktop/file.pdf` for a private application copy |
+| `assets/` | WatDesk screenshots and the English résumé PDF (no email or phone) |
 
-Chinese text for static page parts lives in the `ZH` list in `js/main.js`, keyed by CSS selector. Fonts load from Google Fonts.
+Chinese text for static page parts lives in the `ZH` list in `js/main.js`, keyed by CSS selector; section content is bilingual inside `js/content.js`. Fonts load from Google Fonts.
 
 Source of truth and the PR-refresh scripts: github.com/Jelly-RayTian/Jelly-RayTian.
 

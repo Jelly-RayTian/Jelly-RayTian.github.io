@@ -1,4 +1,3 @@
-const CONTACT = {email:"", linkedin:"https://www.linkedin.com/in/dong-guo-604726444/"};
 const ST = {
   merged:{n:"Merged",c:"--ok",d:"GitHub marks it merged; merge commit is on the default branch."},
   squashed:{n:"Squashed onto main",c:"--gold",d:"Closed, but the maintainer applied it to main as my commit."},
@@ -30,19 +29,6 @@ function buildLegend(){
   $("legend").innerHTML=order.filter(cnt).map(s=>`<div class="leg"><span class="sw t-${s}"></span><div><b data-n="${cnt(s)}">0</b>${nm(s)}<br><span style="font-size:12.5px">${ds(s)}</span></div></div>`).join("");
   document.querySelectorAll(".leg b").forEach(b=>{const to=+b.dataset.n;let v=0;const t=setInterval(()=>{v++;b.textContent=v;if(v>=to)clearInterval(t)},Math.max(30,600/to))});
 }
-const by=r=>prs.filter(p=>p.repo===r), m=(r,s)=>by(r).filter(p=>p.status===s).length;
-function fill(){
-  const R=(r,k)=>m(r,k);
-  const txt={
-    mad:z=>z?`${by("willfaust/Madeira").length} 个 PR：${R("willfaust/Madeira","merged")} 已合并 · ${R("willfaust/Madeira","squashed")} 已 squash · ${R("willfaust/Madeira","consolidated")} 已整合`:`${by("willfaust/Madeira").length} PRs: ${R("willfaust/Madeira","merged")} merged · ${R("willfaust/Madeira","squashed")} squashed · ${R("willfaust/Madeira","consolidated")} consolidated`,
-    pdf:z=>z?`${by("PDFCraftTool/pdfcraft").length} 个 PR：${R("PDFCraftTool/pdfcraft","merged")} 已合并 · ${R("PDFCraftTool/pdfcraft","open")} 审核中`:`${by("PDFCraftTool/pdfcraft").length} PRs: ${R("PDFCraftTool/pdfcraft","merged")} merged · ${R("PDFCraftTool/pdfcraft","open")} open`,
-    job:z=>z?`${by("DaKheera47/job-ops").length} 个 PR：${R("DaKheera47/job-ops","merged")} 已合并 · ${R("DaKheera47/job-ops","open")} 审核中`:`${by("DaKheera47/job-ops").length} PRs: ${R("DaKheera47/job-ops","merged")} merged · ${R("DaKheera47/job-ops","open")} open`,
-    total:z=>z?`${prs.length} 个 PR——${cnt("merged")} 已合并，${cnt("squashed")} 已 squash 进 main，${cnt("consolidated")} 已整合，${cnt("open")+cnt("draft")} 审核中/草稿`:`${prs.length} PRs — ${cnt("merged")} merged, ${cnt("squashed")} squashed onto main, ${cnt("consolidated")} consolidated, ${cnt("open")+cnt("draft")} open/draft`
-  };
-  document.querySelectorAll("[data-fill]").forEach(el=>el.textContent=txt[el.dataset.fill](el.closest(".sheet").dataset.lang==="zh"));
-}
-if(CONTACT.email||CONTACT.linkedin)document.querySelectorAll(".contact").forEach(e=>e.innerHTML=(CONTACT.email?` · ${esc(CONTACT.email)}`:"")+(CONTACT.linkedin?` · <a href="${esc(CONTACT.linkedin)}">LinkedIn</a>`:""));
-
 /* case studies (hand-written; mirrors CASE_STUDIES.md) */
 let cur=0;
 function showCase(i){
@@ -77,7 +63,6 @@ const root=document.documentElement;
 try{const t=localStorage.getItem("theme");if(t)root.dataset.theme=t}catch(e){}
 const tb=$("theme"),sync=()=>tb.textContent=LANG==="zh"?(root.dataset.theme==="dark"?"浅色":"深色"):(root.dataset.theme==="dark"?"Light":"Dark");
 tb.onclick=()=>{root.dataset.theme=root.dataset.theme==="dark"?"light":"dark";sync();try{localStorage.setItem("theme",root.dataset.theme)}catch(e){}};
-$("print").onclick=()=>{document.getElementById("resume").scrollIntoView();setTimeout(()=>print(),250)};
 addEventListener("pointermove",e=>{const h=document.querySelector(".hero");h.style.setProperty("--mx",e.clientX+"px");h.style.setProperty("--my",(e.clientY+scrollY)+"px")},{passive:true});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
@@ -85,12 +70,12 @@ document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 
 /* ---------- language ---------- */
 const ZH=[
- [".nav li:nth-child(1) a","贡献"],[".nav li:nth-child(2) a","案例"],[".nav li:nth-child(3) a","项目"],[".nav li:nth-child(4) a","简历"],[".nav li:nth-child(5) a","全部 PR"],[".experience-nav","经历"],["#print","简历 PDF"],
+ [".nav li:nth-child(1) a","关于"],[".nav li:nth-child(2) a","教育"],[".nav li:nth-child(3) a","领导力"],[".nav li:nth-child(4) a","项目"],[".nav li:nth-child(5) a","开源"],[".nav li:nth-child(6) a","社区"],[".nav li:nth-child(7) a","研究创作"],[".nav li:nth-child(8) a","荣誉"],[".nav li:nth-child(9) a","简历"],["#print","简历 PDF"],["#dlpdf","下载英文 PDF（ATS 友好）"],
  [".hero .kicker","滑铁卢大学 · 数学荣誉学士（Co-op）· 2026 年 9 月入学"],
  [".tag","<span>复现</span>问题。<span>修补</span>它。<span>证明</span>它不再复发。"],
- [".lede","数学系大一学生，对软件工程、数据科学和量化开发感兴趣。我开发学生工具、参与开源，也通过团队创业项目、研究展示与短片创作探索想法。工程实践从可复现的问题开始，以验证证据收尾。"],
+ [".lede","滑铁卢大学数学荣誉学士（Co-op）大一学生，对软件工程、数据科学和量化开发感兴趣。我开发学生工具、参与开源，也组织同伴小组、参加社区志愿活动，并从短片到音乐动手创作。"],
  [".hero .cta a:nth-child(1)","查看证据 →"],[".hero .cta a:nth-child(3)","简历"],
- [".facts span:nth-child(1)","<b>求职</b> 软件工程 Co-op / 实习"],[".facts span:nth-child(2)","<b>语言</b> TypeScript · Rust · C"],[".facts span:nth-child(3)","<b>时区</b> America/Toronto"],
+ [".facts span:nth-child(1)","<b>求职</b> 软件工程 Co-op / 实习"],[".facts span:nth-child(2)","<b>所在地</b> 加拿大安大略省滑铁卢"],[".facts span:nth-child(3)","<b>语言</b> 中文 · English"],
  [".wallhead h2",`<i id="total">${prs.length}</i> 个提交给他人项目的 pull request。<br>每个一块方块。`],
  [".wallhead p","悬停或点按方块查看 PR。颜色代表状态，已对照 GitHub 和各项目 <code>main</code> 的历史核实。没有任何重复计数。"],
  [".wallbox .fine","“squash”和“整合”的 PR 单独标示，<b>不</b>计为已合并。这些工作大多借助 AI 编程助手完成（PR 描述中已注明）；我负责界定问题、审查 diff、检查测试。我自己仓库里的 PR 不包含在内。"],
@@ -98,8 +83,8 @@ const ZH=[
  [".method div:nth-child(2) h3","修补"],[".method div:nth-child(2) p","针对根因做最小改动，方便维护者审查。"],
  [".method div:nth-child(3) h3","验证"],[".method div:nth-child(3) p","证明修复前失败、修复后通过，并如实说明哪些没测。"],
  [".method div:nth-child(4) h3","上游"],[".method div:nth-child(4) p","回复维护者，然后附上证明已落地的提交链接。"],
- ["#cases .sh .kicker","案例研究"],["#cases .sh h2","修复前、修复后，<em>附上凭证。</em>"],["#cases .sh p","左侧的数字是我的 PR 自述的结果；右侧的链条是维护者实际做了什么。这是两类不同的证据，页面上分开标注。"],
- ["#projects .sh .kicker","原创作品"],["#projects .sh h2","我<em>做的东西。</em>"],["#projects .sh p","独立项目，与上面的贡献数字分开。"],
+ ["#cases .sh .kicker","开源案例研究"],["#cases .sh h2","修复前、修复后，<em>附上凭证。</em>"],["#cases .sh p","左侧的数字是我的 PR 自述的结果；右侧的链条是维护者实际做了什么。这是两类不同的证据，页面上分开标注。"],
+ ["#projects .sh:not(.sub-sh) .kicker","原创作品"],["#projects .sh:not(.sub-sh) h2","我<em>做的东西。</em>"],["#projects .sh:not(.sub-sh) p","独立项目，与上面的贡献数字分开。"],
  [".feature .kicker","Edge 扩展 · TypeScript · v1.9.0"],
  [".feature p:not(.fine)","把 LEARN、Crowdmark、Odyssey 上的 Waterloo 截止日期、考试和成绩放进同一个侧边栏。它在你自己已登录的会话里读取各站点，数据留在浏览器里，从不接触密码，也不会替你提交任何内容。"],
  [".feature .fine","独立学生项目，不是滑铁卢大学的产品。Edge 加载项商店的上架还在审核中；可从 GitHub Releases 安装。"],
@@ -108,18 +93,25 @@ const ZH=[
  [".mini a:nth-child(2) p","本地优先的桌面应用，帮助理解不熟悉的代码库。"],
  [".mini a:nth-child(3) p","注重隐私的桌面应用，用于重新发现文件活动。"],
  [".mini a:nth-child(4) p","非官方研究分支：在 iPad 上探索 Windows x64 Vulkan。尚未完成；不是官方移植。"],
- ["#resume .sh .kicker","简历"],["#resume .sh h2","完整<em>简历。</em>"],["#resume .sh p","教育、工程实践与精选活动。顶部“简历 PDF”打印当前语言版本，活动经历单独排在第二页。"],
  ["#explorer .sh .kicker","完整记录"],["#explorer .sh h2","每一个 <em>pull request。</em>"],
  ["#explorer .sh p",`<span id="count">${prs.length}</span> 个外部 pull request，数据与上方马赛克墙相同。更新于 <span id="gen">${DATA.generated_on}</span>。`],
- ["footer .big",`阅读<a href="https://github.com/Jelly-RayTian/Jelly-RayTian/blob/main/OPEN_SOURCE_CONTRIBUTIONS.md">完整记录</a>。`],
- ["footer p",`开源贡献附有 PR、维护者评论或提交链接；活动与教育信息来自个人简历及项目记录。贡献源码与数据：<a href="https://github.com/Jelly-RayTian/Jelly-RayTian">Jelly-RayTian/Jelly-RayTian</a>。`]
+ ["#footbig",`阅读<a href="https://github.com/Jelly-RayTian/Jelly-RayTian/blob/main/OPEN_SOURCE_CONTRIBUTIONS.md">完整记录</a>。`],
+ ["#footp",`开源贡献附有 PR、维护者评论或提交链接；个人活动为自述，措辞保守。贡献源码与数据：<a href="https://github.com/Jelly-RayTian/Jelly-RayTian">Jelly-RayTian/Jelly-RayTian</a>。`]
 ];
+function renderAll(){
+  document.querySelectorAll("[data-sec]").forEach(el=>el.innerHTML=sectionHead(el.dataset.sec,LANG));
+  $("about-body").innerHTML=aboutHTML(LANG);$("education-body").innerHTML=educationHTML(LANG);
+  $("leadership-body").innerHTML=entriesFor("leadership",LANG);$("community-body").innerHTML=entriesFor("community",LANG);
+  $("research-body").innerHTML=entriesFor("research",LANG);$("course-body").innerHTML=entriesFor("course",LANG);
+  $("creative-body").innerHTML=creativeHTML(LANG);$("achievements-body").innerHTML=achievementsHTML(LANG);$("contact-body").innerHTML=contactHTML(LANG);
+  $("sheet").innerHTML=resumeSheet(LANG);
+}
 function applyLang(){
   root.dataset.lang=LANG;root.lang=LANG==="zh"?"zh-CN":"en";
   ZH.forEach(([sel,zh])=>document.querySelectorAll(sel).forEach(el=>{if(el.dataset.en===undefined)el.dataset.en=el.innerHTML;el.innerHTML=LANG==="zh"?zh:el.dataset.en}));
   $("lang").textContent=LANG==="zh"?"EN":"中文";
   document.title=LANG==="zh"?"Ray Tian — 作品集":"Ray Tian — Portfolio";
-  buildLegend();fill();buildTabs();showCase(cur);buildSelects();render();sync();
+  renderAll();buildLegend();buildTabs();showCase(cur);buildSelects();render();sync();
 }
 $("lang").onclick=()=>{LANG=LANG==="zh"?"en":"zh";try{localStorage.setItem("lang",LANG)}catch(e){}applyLang()};
 
