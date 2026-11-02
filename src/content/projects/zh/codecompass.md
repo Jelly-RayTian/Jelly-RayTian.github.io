@@ -5,7 +5,7 @@ title: "CodeCompass"
 summary: "本地优先的桌面应用，帮助理解不熟悉的代码库。"
 kind: "software"
 order: 3
-featured: true
+featured: false
 stack: "Rust · Tauri · React · SQLite"
 period: "Jun – Jul 2026"
 status: "7 个正式发布版，v0.1.1 至 v1.0.2。"

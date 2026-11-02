@@ -10,15 +10,18 @@ export const getStaticPaths = localePaths;
 const { lang } = Astro.props as { lang: Lang };
 const pg = pages[lang].projects;
 const all = (await getCollection('projects')).filter((p) => p.data.lang === lang).sort((a, b) => a.data.order - b.data.order);
-const software = all.filter((p) => p.data.kind === 'software');
+const software = all.filter((p) => p.data.kind === 'software' && p.data.featured);
+const smaller = all.filter((p) => p.data.kind === 'software' && !p.data.featured);
 const course = all.filter((p) => p.data.kind === 'coursework');
 ---
 <BaseLayout lang={lang} path="/projects/" title={pg.k} description={pg.p}>
   <section class="block"><div class="wrap">
     <PageHead k={pg.k} h={pg.h} p={pg.p} />
     <div class="pgrid">{software.map((p) => <ProjectCard p={p} lang={lang} />)}</div>
+    <h2 class="sub-h">{lang === 'zh' ? '较小的项目' : 'Smaller projects'}</h2>
+    <div class="pgrid pgrid-sm">{smaller.map((p) => <ProjectCard p={p} lang={lang} />)}</div>
     <h2 class="sub-h">{t(lang, 'coursework2')}</h2>
-    <p class="muted">{lang === 'zh' ? '为课程完成的团队构想。属于课程作业，不是已上线的产品或公司。' : 'Team concepts written for courses. They are coursework, not launched products or companies.'}</p>
+    <p class="muted">{lang === 'zh' ? '为课程完成的团队构想。' : 'Team concepts written for courses.'}</p>
     <div class="pgrid">{course.map((p) => <ProjectCard p={p} lang={lang} />)}</div>
   </div></section>
 </BaseLayout>

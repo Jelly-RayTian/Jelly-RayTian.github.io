@@ -5,7 +5,7 @@ title: "CodeCompass"
 summary: "A local-first desktop app for understanding unfamiliar codebases."
 kind: "software"
 order: 3
-featured: true
+featured: false
 stack: "Rust · Tauri · React · SQLite"
 period: "Jun – Jul 2026"
 status: "7 tagged releases, v0.1.1 to v1.0.2."

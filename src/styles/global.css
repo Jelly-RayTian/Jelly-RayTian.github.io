@@ -282,6 +282,9 @@ main{min-height:60vh}main:focus{outline:none}
 /* cards & grids */
 .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
 .pcard{display:block;border:1px solid var(--line);border-radius:18px;padding:24px;text-decoration:none;background:var(--card);transition:.25s}
+.pgrid-sm .pcard{padding:16px 18px;border-radius:14px}
+.pgrid-sm .pcard b{font-size:19px}
+.pgrid-sm .pcard p{font-size:13.5px}
 .pcard:hover{border-color:var(--gold);transform:translateY(-4px)}
 .pcard b{font:400 26px/1.15 var(--display);display:flex;justify-content:space-between;gap:10px}
 .pcard p{font-size:14.5px;color:var(--muted);margin-top:8px}
