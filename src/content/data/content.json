@@ -573,5 +573,35 @@
         "tags": "学业"
       }
     }
+  ],
+  "admissions": [
+    {
+      "en": "University of Toronto (St. George, Scarborough, Mississauga)",
+      "zh": "多伦多大学（St. George、Scarborough、Mississauga 校区）"
+    },
+    {
+      "en": "University of British Columbia (Vancouver)",
+      "zh": "英属哥伦比亚大学（温哥华）"
+    },
+    {
+      "en": "Queen's University",
+      "zh": "女王大学（Queen's University）"
+    },
+    {
+      "en": "McMaster University",
+      "zh": "麦克马斯特大学（McMaster University）"
+    },
+    {
+      "en": "Western University",
+      "zh": "西安大略大学（Western University）"
+    },
+    {
+      "en": "York University",
+      "zh": "约克大学（York University）"
+    },
+    {
+      "en": "University of Alberta",
+      "zh": "阿尔伯塔大学（University of Alberta）"
+    }
   ]
 }

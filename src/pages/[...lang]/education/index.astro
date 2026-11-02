@@ -30,6 +30,9 @@ const honours = entriesFor('achievements');
         );
       })}
     </div>
+    <h2 class="sub-h">{lang === 'zh' ? '录取' : 'University admissions'}</h2>
+    <p class="muted">{lang === 'zh' ? '除滑铁卢大学外，我还收到了以下大学的录取：' : 'Besides Waterloo, I received offers of admission from:'}</p>
+    <ul class="chips">{content.admissions.map((x) => <li>{x[lang]}</li>)}</ul>
     <h2 class="sub-h">{lang === 'zh' ? '荣誉与资格' : 'Honours & qualifications'}</h2>
     <p class="muted">{lang === 'zh' ? '竞赛成绩、音乐等级和学校荣誉。' : 'A contest score, a music level and a school honour.'}</p>
     <div class="honours">
