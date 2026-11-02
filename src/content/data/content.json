@@ -1,519 +1,565 @@
 {
- "about": {
-  "en": "I'm Ray Tian, a first-year Honours Mathematics (Co-op) student at the University of Waterloo. I'm interested in software engineering, data science and quantitative development. I like problems that start from something concrete: a bug I can reproduce, a tool classmates actually need, a group that needs organizing. Away from the keyboard I play table tennis and piano, follow open-source projects, and enjoy rhythm games and interactive digital experiences.",
-  "zh": "我是 Ray Tian，滑铁卢大学数学荣誉学士（Co-op）大一学生，对软件工程、数据科学和量化开发感兴趣。我喜欢从具体问题出发：一个可以复现的 bug、同学真正需要的工具、一个需要有人组织的小组。离开键盘，我打乒乓球、弹钢琴，关注开源项目，也喜欢节奏游戏和互动式数字体验。"
- },
- "interests": [
-  {
-   "en": "Table tennis",
-   "zh": "乒乓球"
+  "about": {
+    "en": "I'm Ray Tian, a first-year Honours Mathematics (Co-op) student at the University of Waterloo. I'm interested in software engineering, data science and quantitative development. I like problems that start from something concrete: a bug I can reproduce, a tool classmates actually need, a group that needs organizing. Away from the keyboard I play table tennis and piano, follow open-source projects, and enjoy rhythm games and interactive digital experiences.",
+    "zh": "我是 Ray Tian，滑铁卢大学数学荣誉学士（Co-op）大一学生，对软件工程、数据科学和量化开发感兴趣。我喜欢从具体问题出发：一个可以复现的 bug、同学真正需要的工具、一个需要有人组织的小组。离开键盘，我打乒乓球、弹钢琴，关注开源项目，也喜欢节奏游戏和互动式数字体验。"
   },
-  {
-   "en": "Piano / music",
-   "zh": "钢琴 / 音乐"
-  },
-  {
-   "en": "Open-source software",
-   "zh": "开源软件"
-  },
-  {
-   "en": "Applied mathematics",
-   "zh": "应用数学"
-  },
-  {
-   "en": "Data science",
-   "zh": "数据科学"
-  },
-  {
-   "en": "Programming and technology",
-   "zh": "编程与技术"
-  },
-  {
-   "en": "Rhythm games (osu!mania)",
-   "zh": "节奏游戏（osu!mania）"
-  },
-  {
-   "en": "Interactive games and digital experiences",
-   "zh": "互动游戏与数字体验"
-  }
- ],
- "education": [
-  {
-   "id": "uwaterloo",
-   "en": {
-    "org": "University of Waterloo",
-    "place": "Waterloo, Ontario, Canada",
-    "degree": "Honours Bachelor of Mathematics, Co-operative Program",
-    "date": "Sep 2026 – Present",
-    "coursework": [
-     "CS 135 — Designing Functional Programs",
-     "MATH 135 — Algebra",
-     "MATH 137 — Calculus 1",
-     "ECON 101 — Introduction to Microeconomics"
-    ]
-   },
-   "zh": {
-    "org": "滑铁卢大学（University of Waterloo）",
-    "place": "加拿大安大略省滑铁卢",
-    "degree": "数学荣誉学士，Co-op 项目",
-    "date": "2026 年 9 月 – 至今",
-    "coursework": [
-     "CS 135 — 函数式程序设计（Designing Functional Programs）",
-     "MATH 135 — 代数（Algebra）",
-     "MATH 137 — 微积分 1（Calculus 1）",
-     "ECON 101 — 微观经济学导论"
-    ]
-   }
-  },
-  {
-   "id": "nanyang",
-   "en": {
-    "org": "Shanghai Nanyang Model Private High School",
-    "place": "Shanghai, China",
-    "degree": "British Columbia Curriculum",
-    "date": "Graduated 2026",
-    "detail": "Academic average: approximately 93.3%",
-    "coursework": [
-     "Calculus 12",
-     "Statistics 12",
-     "Computer Science 12",
-     "Physics 12",
-     "Economics 12",
-     "English Studies 12"
-    ]
-   },
-   "zh": {
-    "org": "上海南洋模范私立高中（Shanghai Nanyang Model Private High School）",
-    "place": "中国上海",
-    "degree": "BC 课程体系",
-    "date": "2026 年毕业",
-    "detail": "学业均分：约 93.3%",
-    "coursework": [
-     "Calculus 12",
-     "Statistics 12",
-     "Computer Science 12",
-     "Physics 12",
-     "Economics 12",
-     "English Studies 12"
-    ]
-   }
-  }
- ],
- "skills": [
-  {
-   "label": {
-    "en": "Coursework",
-    "zh": "课程学习"
-   },
-   "items": {
-    "en": "Racket (CS 135)",
-    "zh": "Racket（CS 135）"
-   }
-  },
-  {
-   "label": {
-    "en": "Project use",
-    "zh": "项目使用"
-   },
-   "items": {
-    "en": "TypeScript, JavaScript, React, Vite, Vitest (WatDesk); Git and GitHub collaboration",
-    "zh": "TypeScript、JavaScript、React、Vite、Vitest（WatDesk）；Git 与 GitHub 协作"
-   }
-  },
-  {
-   "label": {
-    "en": "Limited exposure",
-    "zh": "有限接触"
-   },
-   "items": {
-    "en": "C, Swift, Rust, Python (open-source pull requests and personal projects, with AI coding assistance)",
-    "zh": "C、Swift、Rust、Python（开源 PR 与个人项目，借助 AI 编程助手）"
-   }
-  },
-  {
-   "label": {
-    "en": "Introductory",
-    "zh": "入门"
-   },
-   "items": {
-    "en": "SQL",
-    "zh": "SQL"
-   }
-  },
-  {
-   "label": {
-    "en": "Practices",
-    "zh": "实践方法"
-   },
-   "items": {
-    "en": "Regression testing, GitHub Actions, ASan/UBSan (used in Madeira PRs), time-zone handling",
-    "zh": "回归测试、GitHub Actions、ASan/UBSan（用于 Madeira PR）、时区处理"
-   }
-  }
- ],
- "languages": {
-  "en": "Mandarin Chinese — Native · English — IELTS Academic Overall Band 7.0",
-  "zh": "中文 — 母语 · 英语 — IELTS Academic 总分 7.0"
- },
- "creative": {
-  "profile": "https://space.bilibili.com/597194489",
-  "stats": [
-   {
-    "value": "1,720",
-    "label": {
-     "en": "followers",
-     "zh": "粉丝"
+  "interests": [
+    {
+      "en": "Table tennis",
+      "zh": "乒乓球"
     },
-    "src": {
-     "en": "public profile query, 2026-11-02",
-     "zh": "公开主页查询，2026-11-02"
-    }
-   },
-   {
-    "value": "57,522",
-    "label": {
-     "en": "total likes",
-     "zh": "累计获赞"
+    {
+      "en": "Piano / music",
+      "zh": "钢琴 / 音乐"
     },
-    "src": {
-     "en": "public profile query, 2026-11-02",
-     "zh": "公开主页查询，2026-11-02"
-    }
-   },
-   {
-    "value": "2.999M",
-    "label": {
-     "en": "total plays",
-     "zh": "累计播放"
+    {
+      "en": "Open-source software",
+      "zh": "开源软件"
     },
-    "src": {
-     "en": "profile screenshot supplied by me",
-     "zh": "本人提供的主页截图"
-    }
-   },
-   {
-    "value": "816",
-    "label": {
-     "en": "uploads",
-     "zh": "投稿"
+    {
+      "en": "Applied mathematics",
+      "zh": "应用数学"
     },
-    "src": {
-     "en": "profile screenshot (a public count query returned 771)",
-     "zh": "主页截图（公开计数查询为 771）"
+    {
+      "en": "Data science",
+      "zh": "数据科学"
+    },
+    {
+      "en": "Programming and technology",
+      "zh": "编程与技术"
+    },
+    {
+      "en": "Rhythm games (osu!mania)",
+      "zh": "节奏游戏（osu!mania）"
+    },
+    {
+      "en": "Interactive games and digital experiences",
+      "zh": "互动游戏与数字体验"
     }
-   }
   ],
-  "note": {
-   "en": "Account-wide totals, as a snapshot; they change over time.",
-   "zh": "账号整体数字，为某一时刻的快照，会随时间变化。"
-  }
- },
- "entries": [
-  {
-   "id": "peer-listening",
-   "section": "leadership",
-   "en": {
-    "title": "Peer Listening Group",
-    "role": "Founder & Organizer",
-    "date": "High school",
-    "bullets": [
-     "Started a peer listening and discussion group; membership grew from 8 to 22 over one semester.",
-     "Organized weekly discussions and arranged guidance from a school counsellor.",
-     "Shared supportive resources with members through WeChat."
-    ],
-    "note": "A peer-led student group.",
-    "tags": "Initiative · Facilitation · Organizing"
-   },
-   "zh": {
-    "title": "同伴倾听小组",
-    "role": "发起人与组织者",
-    "date": "高中阶段",
-    "bullets": [
-     "发起同伴倾听与交流小组；一个学期内成员从 8 人增长到 22 人。",
-     "组织每周讨论，并联系学校辅导员提供指导。",
-     "通过微信向成员分享相关支持资源。"
-    ],
-    "note": "由学生发起的同伴小组。",
-    "tags": "主动发起 · 组织讨论 · 同伴支持"
-   }
+  "education": [
+    {
+      "id": "uwaterloo",
+      "en": {
+        "org": "University of Waterloo",
+        "place": "Waterloo, Ontario, Canada",
+        "degree": "Honours Bachelor of Mathematics, Co-operative Program",
+        "date": "Sep 2026 – Present",
+        "coursework": [
+          "CS 135 — Designing Functional Programs",
+          "MATH 135 — Algebra",
+          "MATH 137 — Calculus 1",
+          "ECON 101 — Introduction to Microeconomics"
+        ]
+      },
+      "zh": {
+        "org": "滑铁卢大学（University of Waterloo）",
+        "place": "加拿大安大略省滑铁卢",
+        "degree": "数学荣誉学士，Co-op 项目",
+        "date": "2026 年 9 月 – 至今",
+        "coursework": [
+          "CS 135 — 函数式程序设计（Designing Functional Programs）",
+          "MATH 135 — 代数（Algebra）",
+          "MATH 137 — 微积分 1（Calculus 1）",
+          "ECON 101 — 微观经济学导论"
+        ]
+      }
+    },
+    {
+      "id": "nanyang",
+      "en": {
+        "org": "Shanghai Nanyang Model Private High School",
+        "place": "Shanghai, China",
+        "degree": "British Columbia Curriculum",
+        "date": "Graduated 2026",
+        "detail": "Academic average: approximately 93.3%",
+        "coursework": [
+          "Calculus 12",
+          "Statistics 12",
+          "Computer Science 12",
+          "Physics 12",
+          "Economics 12",
+          "English Studies 12"
+        ]
+      },
+      "zh": {
+        "org": "上海南洋模范私立高中（Shanghai Nanyang Model Private High School）",
+        "place": "中国上海",
+        "degree": "BC 课程体系",
+        "date": "2026 年毕业",
+        "detail": "学业均分：约 93.3%",
+        "coursework": [
+          "Calculus 12",
+          "Statistics 12",
+          "Computer Science 12",
+          "Physics 12",
+          "Economics 12",
+          "English Studies 12"
+        ]
+      }
+    }
+  ],
+  "skills": [
+    {
+      "label": {
+        "en": "Coursework",
+        "zh": "课程学习"
+      },
+      "items": {
+        "en": "Racket (CS 135)",
+        "zh": "Racket（CS 135）"
+      }
+    },
+    {
+      "label": {
+        "en": "Project use",
+        "zh": "项目使用"
+      },
+      "items": {
+        "en": "TypeScript, JavaScript, React, Vite, Vitest (WatDesk); Git and GitHub collaboration",
+        "zh": "TypeScript、JavaScript、React、Vite、Vitest（WatDesk）；Git 与 GitHub 协作"
+      }
+    },
+    {
+      "label": {
+        "en": "Limited exposure",
+        "zh": "有限接触"
+      },
+      "items": {
+        "en": "C, Swift, Rust, Python (open-source pull requests and personal projects, with AI coding assistance)",
+        "zh": "C、Swift、Rust、Python（开源 PR 与个人项目，借助 AI 编程助手）"
+      }
+    },
+    {
+      "label": {
+        "en": "Introductory",
+        "zh": "入门"
+      },
+      "items": {
+        "en": "SQL",
+        "zh": "SQL"
+      }
+    },
+    {
+      "label": {
+        "en": "Practices",
+        "zh": "实践方法"
+      },
+      "items": {
+        "en": "Regression testing, GitHub Actions, ASan/UBSan (used in Madeira PRs), time-zone handling",
+        "zh": "回归测试、GitHub Actions、ASan/UBSan（用于 Madeira PR）、时区处理"
+      }
+    }
+  ],
+  "languages": {
+    "en": "Mandarin Chinese — Native · English — IELTS Academic Overall Band 7.0",
+    "zh": "中文 — 母语 · 英语 — IELTS Academic 总分 7.0"
   },
-  {
-   "id": "roommate-mediation",
-   "section": "leadership",
-   "en": {
-    "title": "Roommate Conflict Mediation",
-    "role": "Volunteered to help",
-    "date": "Grade 10",
-    "bullets": [
-     "Stepped in on my own initiative to help roommates work through a dormitory conflict.",
-     "Organized conversations with everyone involved and helped them agree on shared living rules."
+  "creative": {
+    "profile": "https://space.bilibili.com/597194489",
+    "stats": [
+      {
+        "value": "1,720",
+        "label": {
+          "en": "followers",
+          "zh": "粉丝"
+        },
+        "src": {
+          "en": "public profile query, 2026-11-02",
+          "zh": "公开主页查询，2026-11-02"
+        }
+      },
+      {
+        "value": "57,522",
+        "label": {
+          "en": "total likes",
+          "zh": "累计获赞"
+        },
+        "src": {
+          "en": "public profile query, 2026-11-02",
+          "zh": "公开主页查询，2026-11-02"
+        }
+      },
+      {
+        "value": "2.999M",
+        "label": {
+          "en": "total plays",
+          "zh": "累计播放"
+        },
+        "src": {
+          "en": "profile screenshot supplied by me",
+          "zh": "本人提供的主页截图"
+        }
+      },
+      {
+        "value": "816",
+        "label": {
+          "en": "uploads",
+          "zh": "投稿"
+        },
+        "src": {
+          "en": "profile screenshot (a public count query returned 771)",
+          "zh": "主页截图（公开计数查询为 771）"
+        }
+      }
     ],
-    "tags": "Mediation · Communication"
-   },
-   "zh": {
-    "title": "室友冲突协调",
-    "role": "主动协助",
-    "date": "高一（Grade 10）",
-    "bullets": [
-     "主动协助室友处理宿舍里的冲突。",
-     "组织各方沟通和讨论，并帮助大家建立共同生活约定。"
-    ],
-    "tags": "调解 · 沟通"
-   }
+    "note": {
+      "en": "Account-wide totals, as a snapshot; they change over time.",
+      "zh": "账号整体数字，为某一时刻的快照，会随时间变化。"
+    }
   },
-  {
-   "id": "literature-symposium",
-   "section": "leadership",
-   "en": {
-    "title": "Global Literature Symposium",
-    "role": "Discussion lead",
-    "bullets": [
-     "Led a symposium discussion of Yu Hua's novel To Live (《活着》).",
-     "Took part in analysing the text and in preparing and presenting the material."
-    ],
-    "tags": "Literary analysis · Presenting"
-   },
-   "zh": {
-    "title": "全球文学研讨会",
-    "role": "研讨主导",
-    "bullets": [
-     "主导围绕余华《活着》的文学研讨。",
-     "参与内容分析、整理与展示。"
-    ],
-    "tags": "文本分析 · 展示"
-   }
-  },
-  {
-   "id": "grocery",
-   "section": "community",
-   "en": {
-    "title": "Community Grocery Coordination",
-    "role": "Community volunteer",
-    "date": "2021",
-    "bullets": [
-     "Collected and organized grocery needs from neighbourhood families.",
-     "Helped coordinate supplies, donations and neighbour-to-neighbour support, assisting about 25 households over roughly two months."
-    ],
-    "tags": "Coordination · Community support"
-   },
-   "zh": {
-    "title": "社区采购协调",
-    "role": "社区志愿者",
-    "date": "2021 年",
-    "bullets": [
-     "收集并整理社区家庭的采购需求。",
-     "协助协调物资、捐助与邻里互助，约两个月内帮助约 25 户家庭。"
-    ],
-    "tags": "协调 · 社区互助"
-   }
-  },
-  {
-   "id": "peer-learning",
-   "section": "community",
-   "en": {
-    "title": "Peer Learning Support",
-    "role": "Group organizer & volunteer tutor",
-    "date": "2021 – high school",
-    "bullets": [
-     "Set up a peer homework-help group in 2021; it grew from 5 to 8 members.",
-     "Helped a classmate learn and practise English over four consecutive months."
-    ],
-    "tags": "Peer learning · Tutoring"
-   },
-   "zh": {
-    "title": "同伴学习互助",
-    "role": "互助群组织者与志愿辅导",
-    "date": "2021 年起 · 高中阶段",
-    "bullets": [
-     "2021 年建立同伴作业互助群，成员从 5 人增加到 8 人。",
-     "连续四个月帮助一位同学学习和练习英语。"
-    ],
-    "tags": "同伴学习 · 辅导"
-   }
-  },
-  {
-   "id": "recycled-art",
-   "section": "community",
-   "en": {
-    "title": "Recycled Art Workshops",
-    "role": "Initiator & organizer",
-    "bullets": [
-     "Initiated and organized community art activities using recycled materials."
-    ],
-    "tags": "Organizing · Creative leadership"
-   },
-   "zh": {
-    "title": "回收材料艺术工作坊",
-    "role": "发起人与组织者",
-    "bullets": [
-     "发起并组织使用回收材料的社区艺术活动。"
-    ],
-    "tags": "组织 · 创意"
-   }
-  },
-  {
-   "id": "storytelling",
-   "section": "community",
-   "en": {
-    "title": "Youth Cultural Storytelling",
-    "role": "Storyteller",
-    "bullets": [
-     "Told and performed myths from different cultures for young audiences."
-    ],
-    "tags": "Storytelling · Performance"
-   },
-   "zh": {
-    "title": "青少年文化故事会",
-    "role": "讲述者与表演者",
-    "bullets": [
-     "面向青少年讲述和表演不同文化中的神话故事。"
-    ],
-    "tags": "讲故事 · 表演"
-   }
-  },
-  {
-   "id": "housing-advocacy",
-   "section": "research",
-   "en": {
-    "title": "Student Housing & Safety Advocacy",
-    "role": "Researcher & presenter",
-    "bullets": [
-     "Researched housing and safety resources for international students at Canadian universities.",
-     "Compiled the findings into an advocacy presentation of about five minutes."
-    ],
-    "tags": "Research · Advocacy · Presenting"
-   },
-   "zh": {
-    "title": "学生住宿与安全倡议",
-    "role": "研究与展示",
-    "bullets": [
-     "研究加拿大大学国际学生的住宿与安全资源。",
-     "整理信息，制作约五分钟的倡议展示。"
-    ],
-    "tags": "研究 · 倡议 · 展示"
-   }
-  },
-  {
-   "id": "film",
-   "section": "research",
-   "en": {
-    "title": "Multicultural Film Project",
-    "role": "Director",
-    "bullets": [
-     "Directed a cross-cultural short film that blends Chinese and Indigenous mythological elements.",
-     "Took part in storyboarding and editing."
-    ],
-    "note": "Production materials are not published yet.",
-    "tags": "Directing · Storyboarding · Editing"
-   },
-   "zh": {
-    "title": "多元文化短片项目",
-    "role": "导演",
-    "bullets": [
-     "导演一部融合中国与原住民神话元素的跨文化短片。",
-     "参与故事板设计和剪辑。"
-    ],
-    "note": "制作材料暂未公开。",
-    "tags": "导演 · 分镜 · 剪辑"
-   }
-  },
-  {
-   "id": "ai-economics",
-   "section": "research",
-   "en": {
-    "title": "Will Economics Determine the Future of AI?",
-    "role": "Course presentation materials",
-    "bullets": [
-     "Slide deck and speaking script for a course on Bitcoin and AI.",
-     "Covers AI investment, economic incentives, infrastructure and policy constraints."
-    ],
-    "tags": "Economics × technology · Argument structure"
-   },
-   "zh": {
-    "title": "经济学会决定 AI 的未来吗？",
-    "role": "课程展示材料",
-    "bullets": [
-     "为“比特币与 AI”课程准备的演示文稿与讲稿。",
-     "涵盖 AI 投资、经济激励、基础设施与政策约束。"
-    ],
-    "tags": "经济学 × 科技 · 论证结构"
-   }
-  },
-  {
-   "id": "easytrip",
-   "section": "course",
-   "en": {
-    "title": "EasyTrip",
-    "role": "E-commerce team project · three-person team",
-    "date": "2026",
-    "bullets": [
-     "Marketing plan (April 27, 2026) and venture-style pitch for a student travel-planning concept.",
-     "Covered customer groups, competition, pricing, business model and growth plans."
-    ],
-    "note": "A course concept.",
-    "tags": "Marketing plan · Pitch"
-   },
-   "zh": {
-    "title": "EasyTrip",
-    "role": "电商课程团队项目 · 三人团队",
-    "date": "2026 年",
-    "bullets": [
-     "完成面向学生旅行规划概念的营销计划（2026 年 4 月 27 日）与 VC 风格路演材料。",
-     "内容包括客户群体、竞争、定价、商业模式与增长计划。"
-    ],
-    "note": "课程概念。",
-    "tags": "营销计划 · 路演"
-   }
-  },
-  {
-   "id": "teachflow",
-   "section": "course",
-   "en": {
-    "title": "TeachFlow",
-    "role": "Education technology course concept · two-person marketing plan",
-    "bullets": [
-     "Marketing plan covering product positioning, education-technology context and competitive analysis."
-    ],
-    "note": "A course concept.",
-    "tags": "EdTech · Positioning"
-   },
-   "zh": {
-    "title": "TeachFlow",
-    "role": "教育科技课程概念 · 两人营销计划",
-    "bullets": [
-     "营销计划，涵盖产品定位、教育科技背景和竞争分析。"
-    ],
-    "note": "课程概念。",
-    "tags": "教育科技 · 产品定位"
-   }
-  },
-  {
-   "id": "euclid",
-   "section": "achievements",
-   "en": {
-    "title": "Euclid Mathematics Contest",
-    "role": "2025 · Score 83 / 100",
-    "tags": "Mathematical problem solving"
-   },
-   "zh": {
-    "title": "Euclid 数学竞赛",
-    "role": "2025 年 · 成绩 83 / 100",
-    "tags": "数学问题求解"
-   }
-  },
-  {
-   "id": "piano",
-   "section": "achievements",
-   "en": {
-    "title": "Piano Performance — Level 10",
-    "role": "Completed in primary school (Grade 4)",
-    "tags": "Music"
-   },
-   "zh": {
-    "title": "钢琴演奏 — 十级",
-    "role": "小学四年级完成",
-    "tags": "音乐"
-   }
-  }
- ]
+  "entries": [
+    {
+      "id": "peer-listening",
+      "section": "leadership",
+      "en": {
+        "title": "Peer Listening Group",
+        "role": "Founder & Organizer",
+        "date": "High school",
+        "bullets": [
+          "Started a peer listening and discussion group; membership grew from 8 to 22 over one semester.",
+          "Organized weekly discussions and arranged guidance from a school counsellor.",
+          "Shared supportive resources with members through WeChat."
+        ],
+        "note": "A peer-led student group.",
+        "tags": "Initiative · Facilitation · Organizing"
+      },
+      "zh": {
+        "title": "同伴倾听小组",
+        "role": "发起人与组织者",
+        "date": "高中阶段",
+        "bullets": [
+          "发起同伴倾听与交流小组；一个学期内成员从 8 人增长到 22 人。",
+          "组织每周讨论，并联系学校辅导员提供指导。",
+          "通过微信向成员分享相关支持资源。"
+        ],
+        "note": "由学生发起的同伴小组。",
+        "tags": "主动发起 · 组织讨论 · 同伴支持"
+      }
+    },
+    {
+      "id": "roommate-mediation",
+      "section": "leadership",
+      "en": {
+        "title": "Roommate Conflict Mediation",
+        "role": "Volunteered to help",
+        "date": "Grade 10",
+        "bullets": [
+          "Stepped in on my own initiative to help roommates work through a dormitory conflict.",
+          "Organized conversations with everyone involved and helped them agree on shared living rules."
+        ],
+        "tags": "Mediation · Communication"
+      },
+      "zh": {
+        "title": "室友冲突协调",
+        "role": "主动协助",
+        "date": "高一（Grade 10）",
+        "bullets": [
+          "主动协助室友处理宿舍里的冲突。",
+          "组织各方沟通和讨论，并帮助大家建立共同生活约定。"
+        ],
+        "tags": "调解 · 沟通"
+      }
+    },
+    {
+      "id": "literature-symposium",
+      "section": "leadership",
+      "en": {
+        "title": "Global Literature Symposium",
+        "role": "Discussion lead",
+        "bullets": [
+          "Led a symposium discussion of Yu Hua's novel To Live (《活着》).",
+          "Took part in analysing the text and in preparing and presenting the material."
+        ],
+        "tags": "Literary analysis · Presenting"
+      },
+      "zh": {
+        "title": "全球文学研讨会",
+        "role": "研讨主导",
+        "bullets": [
+          "主导围绕余华《活着》的文学研讨。",
+          "参与内容分析、整理与展示。"
+        ],
+        "tags": "文本分析 · 展示"
+      }
+    },
+    {
+      "id": "academic-committee",
+      "section": "leadership",
+      "en": {
+        "title": "Academic Committee Member",
+        "role": "Class representative for academics",
+        "date": "High school",
+        "tags": "Class role"
+      },
+      "zh": {
+        "title": "学习委员",
+        "role": "班级学习委员",
+        "date": "高中阶段",
+        "tags": "班级职务"
+      }
+    },
+    {
+      "id": "history-rep",
+      "section": "leadership",
+      "en": {
+        "title": "History Subject Representative",
+        "role": "Class representative for History",
+        "date": "Middle school",
+        "tags": "Class role"
+      },
+      "zh": {
+        "title": "历史课代表",
+        "role": "班级历史课代表",
+        "date": "初中阶段",
+        "tags": "班级职务"
+      }
+    },
+    {
+      "id": "grocery",
+      "section": "community",
+      "en": {
+        "title": "Community Grocery Coordination",
+        "role": "Community volunteer",
+        "date": "2021",
+        "bullets": [
+          "Collected and organized grocery needs from neighbourhood families.",
+          "Helped coordinate supplies, donations and neighbour-to-neighbour support, assisting about 25 households over roughly two months."
+        ],
+        "tags": "Coordination · Community support"
+      },
+      "zh": {
+        "title": "社区采购协调",
+        "role": "社区志愿者",
+        "date": "2021 年",
+        "bullets": [
+          "收集并整理社区家庭的采购需求。",
+          "协助协调物资、捐助与邻里互助，约两个月内帮助约 25 户家庭。"
+        ],
+        "tags": "协调 · 社区互助"
+      }
+    },
+    {
+      "id": "peer-learning",
+      "section": "community",
+      "en": {
+        "title": "Peer Learning Support",
+        "role": "Group organizer & volunteer tutor",
+        "date": "2021 – high school",
+        "bullets": [
+          "Set up a peer homework-help group in 2021; it grew from 5 to 8 members.",
+          "Helped a classmate learn and practise English over four consecutive months."
+        ],
+        "tags": "Peer learning · Tutoring"
+      },
+      "zh": {
+        "title": "同伴学习互助",
+        "role": "互助群组织者与志愿辅导",
+        "date": "2021 年起 · 高中阶段",
+        "bullets": [
+          "2021 年建立同伴作业互助群，成员从 5 人增加到 8 人。",
+          "连续四个月帮助一位同学学习和练习英语。"
+        ],
+        "tags": "同伴学习 · 辅导"
+      }
+    },
+    {
+      "id": "recycled-art",
+      "section": "community",
+      "en": {
+        "title": "Recycled Art Workshops",
+        "role": "Initiator & organizer",
+        "bullets": [
+          "Initiated and organized community art activities using recycled materials."
+        ],
+        "tags": "Organizing · Creative leadership"
+      },
+      "zh": {
+        "title": "回收材料艺术工作坊",
+        "role": "发起人与组织者",
+        "bullets": [
+          "发起并组织使用回收材料的社区艺术活动。"
+        ],
+        "tags": "组织 · 创意"
+      }
+    },
+    {
+      "id": "storytelling",
+      "section": "community",
+      "en": {
+        "title": "Youth Cultural Storytelling",
+        "role": "Storyteller",
+        "bullets": [
+          "Told and performed myths from different cultures for young audiences."
+        ],
+        "tags": "Storytelling · Performance"
+      },
+      "zh": {
+        "title": "青少年文化故事会",
+        "role": "讲述者与表演者",
+        "bullets": [
+          "面向青少年讲述和表演不同文化中的神话故事。"
+        ],
+        "tags": "讲故事 · 表演"
+      }
+    },
+    {
+      "id": "housing-advocacy",
+      "section": "research",
+      "en": {
+        "title": "Student Housing & Safety Advocacy",
+        "role": "Researcher & presenter",
+        "bullets": [
+          "Researched housing and safety resources for international students at Canadian universities.",
+          "Compiled the findings into an advocacy presentation of about five minutes."
+        ],
+        "tags": "Research · Advocacy · Presenting"
+      },
+      "zh": {
+        "title": "学生住宿与安全倡议",
+        "role": "研究与展示",
+        "bullets": [
+          "研究加拿大大学国际学生的住宿与安全资源。",
+          "整理信息，制作约五分钟的倡议展示。"
+        ],
+        "tags": "研究 · 倡议 · 展示"
+      }
+    },
+    {
+      "id": "film",
+      "section": "research",
+      "en": {
+        "title": "Multicultural Film Project",
+        "role": "Director",
+        "bullets": [
+          "Directed a cross-cultural short film that blends Chinese and Indigenous mythological elements.",
+          "Took part in storyboarding and editing."
+        ],
+        "note": "Production materials are not published yet.",
+        "tags": "Directing · Storyboarding · Editing"
+      },
+      "zh": {
+        "title": "多元文化短片项目",
+        "role": "导演",
+        "bullets": [
+          "导演一部融合中国与原住民神话元素的跨文化短片。",
+          "参与故事板设计和剪辑。"
+        ],
+        "note": "制作材料暂未公开。",
+        "tags": "导演 · 分镜 · 剪辑"
+      }
+    },
+    {
+      "id": "ai-economics",
+      "section": "research",
+      "en": {
+        "title": "Will Economics Determine the Future of AI?",
+        "role": "Course presentation materials",
+        "bullets": [
+          "Slide deck and speaking script for a course on Bitcoin and AI.",
+          "Covers AI investment, economic incentives, infrastructure and policy constraints."
+        ],
+        "tags": "Economics × technology · Argument structure"
+      },
+      "zh": {
+        "title": "经济学会决定 AI 的未来吗？",
+        "role": "课程展示材料",
+        "bullets": [
+          "为“比特币与 AI”课程准备的演示文稿与讲稿。",
+          "涵盖 AI 投资、经济激励、基础设施与政策约束。"
+        ],
+        "tags": "经济学 × 科技 · 论证结构"
+      }
+    },
+    {
+      "id": "easytrip",
+      "section": "course",
+      "en": {
+        "title": "EasyTrip",
+        "role": "E-commerce team project · three-person team",
+        "date": "2026",
+        "bullets": [
+          "Marketing plan (April 27, 2026) and venture-style pitch for a student travel-planning concept.",
+          "Covered customer groups, competition, pricing, business model and growth plans."
+        ],
+        "note": "A course concept.",
+        "tags": "Marketing plan · Pitch"
+      },
+      "zh": {
+        "title": "EasyTrip",
+        "role": "电商课程团队项目 · 三人团队",
+        "date": "2026 年",
+        "bullets": [
+          "完成面向学生旅行规划概念的营销计划（2026 年 4 月 27 日）与 VC 风格路演材料。",
+          "内容包括客户群体、竞争、定价、商业模式与增长计划。"
+        ],
+        "note": "课程概念。",
+        "tags": "营销计划 · 路演"
+      }
+    },
+    {
+      "id": "teachflow",
+      "section": "course",
+      "en": {
+        "title": "TeachFlow",
+        "role": "Education technology course concept · two-person marketing plan",
+        "bullets": [
+          "Marketing plan covering product positioning, education-technology context and competitive analysis."
+        ],
+        "note": "A course concept.",
+        "tags": "EdTech · Positioning"
+      },
+      "zh": {
+        "title": "TeachFlow",
+        "role": "教育科技课程概念 · 两人营销计划",
+        "bullets": [
+          "营销计划，涵盖产品定位、教育科技背景和竞争分析。"
+        ],
+        "note": "课程概念。",
+        "tags": "教育科技 · 产品定位"
+      }
+    },
+    {
+      "id": "euclid",
+      "section": "achievements",
+      "en": {
+        "title": "Euclid Mathematics Contest",
+        "role": "2025 · Score 83 / 100",
+        "tags": "Mathematical problem solving"
+      },
+      "zh": {
+        "title": "Euclid 数学竞赛",
+        "role": "2025 年 · 成绩 83 / 100",
+        "tags": "数学问题求解"
+      }
+    },
+    {
+      "id": "piano",
+      "section": "achievements",
+      "en": {
+        "title": "Piano Performance — Level 10",
+        "role": "Completed in primary school (Grade 4)",
+        "tags": "Music"
+      },
+      "zh": {
+        "title": "钢琴演奏 — 十级",
+        "role": "小学四年级完成",
+        "tags": "音乐"
+      }
+    },
+    {
+      "id": "study-model",
+      "section": "achievements",
+      "en": {
+        "title": "Study Model Student",
+        "role": "High school",
+        "tags": "Academics"
+      },
+      "zh": {
+        "title": "学习标兵",
+        "role": "高中阶段",
+        "tags": "学业"
+      }
+    }
+  ]
 }

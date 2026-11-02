@@ -31,7 +31,7 @@ const honours = entriesFor('achievements');
       })}
     </div>
     <h2 class="sub-h">{lang === 'zh' ? '荣誉与资格' : 'Honours & qualifications'}</h2>
-    <p class="muted">{lang === 'zh' ? '一项竞赛成绩和一项音乐等级。' : 'A contest score and a music level.'}</p>
+    <p class="muted">{lang === 'zh' ? '竞赛成绩、音乐等级和学校荣誉。' : 'A contest score, a music level and a school honour.'}</p>
     <div class="honours">
       {honours.map((e) => <article class="honour xcard"><h3>{e[lang].title}</h3><p>{e[lang].role}</p></article>)}
     </div>
