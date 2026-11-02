@@ -4,7 +4,7 @@ import PrWall from '../../components/PrWall.astro';
 import { getCollection } from 'astro:content';
 import { localePaths } from '../../lib/paths';
 import { home } from '../../content/data/pages';
-import { content, cases, count, prs, repos } from '../../lib/data';
+import { content, cases, count, prs, repos, repoStats } from '../../lib/data';
 import { route, t, type Lang } from '../../i18n/ui';
 export const getStaticPaths = localePaths;
 const { lang } = Astro.props as { lang: Lang };
@@ -26,23 +26,58 @@ const stats = [
 ];
 const jump = [
   ['#overview', L('Overview', '概览')], ['#projects', L('Projects', '项目')], ['#open-source', L('Open source', '开源')],
-  ['#systems', L('Systems', '系统探索')], ['#community', L('Community', '社区')], ['#contact', L('Contact', '联系')],
+  ['#systems', L('Systems', '系统探索')], ['#timeline', L('Timeline', '经历')], ['#community', L('Community', '社区')], ['#contact', L('Contact', '联系')],
+];
+const repoInfo: Record<string, { name: string; d: string }> = {
+  'PDFCraftTool/pdfcraft': { name: 'PDFCraft', d: L('Browser-based PDF toolkit (TypeScript, pdf-lib)', '浏览器端 PDF 工具箱（TypeScript、pdf-lib）') },
+  'willfaust/Madeira': { name: 'Madeira', d: L('Windows-on-iOS compatibility layer (C, Swift)', 'iOS 上运行 Windows 的兼容层（C、Swift）') },
+  'DaKheera47/job-ops': { name: 'job-ops', d: L('Self-hosted job-search tool (TypeScript)', '自托管求职工具（TypeScript）') },
+};
+const timeline = [
+  { d: L('Middle school', '初中'), t: L('Started reading the data files of Plants vs. Zombies 2; History subject representative.', '开始研究植物大战僵尸 2 的数据文件；担任历史课代表。') },
+  { d: L('High school', '高中'), t: L('Academic committee member for three years; founded a peer listening group (8 to 22 members); Study Model Student.', '连续三年担任学习委员；发起同伴倾听小组（8 人增长到 22 人）；获学习标兵。') },
+  { d: '2025', t: L('Euclid Mathematics Contest 83/100; received university offers and entrance scholarship offers.', 'Euclid 数学竞赛 83/100；收到多所大学录取和入学奖学金 offer。') },
+  { d: L('Jun – Jul 2026', '2026 年 6–7 月'), t: L('Released CodeCompass and Chronicle.', '发布 CodeCompass 和 Chronicle。') },
+  { d: L('Sep 2026', '2026 年 9 月'), t: L('Started Honours Mathematics (Co-op) at the University of Waterloo.', '入学滑铁卢大学数学荣誉学士（Co-op）。') },
+  { d: L('Oct 2026', '2026 年 10 月'), t: L('Released WatDesk and WechatSignals; first pull requests to PDFCraft, Madeira and job-ops.', '发布 WatDesk 和 WechatSignals；向 PDFCraft、Madeira、job-ops 提交第一批 PR。') },
+  { d: L('Nov 2026', '2026 年 11 月'), t: L(`${prs.length} pull requests so far; published an article on DEV Community.`, `累计 ${prs.length} 个 PR；在 DEV Community 发表文章。`) },
+];
+const recognition = [
+  { t: 'Euclid 2025', d: L('Mathematics contest, 83/100', '数学竞赛，83/100') },
+  { t: L('Study Model Student', '学习标兵'), d: L('Awarded by the school, high school', '学校评选，高中阶段') },
+  { t: L('Scholarship offers', '奖学金 offer'), d: L('University of Alberta, McMaster (2025)', '阿尔伯塔大学、麦克马斯特大学（2025）') },
+  { t: L('Piano Level 10', '钢琴十级'), d: L('Completed in primary school', '小学阶段完成') },
 ];
 const leadership = content.entries.filter((e) => ['peer-listening', 'academic-committee', 'peer-learning', 'grocery'].includes(e.id));
 ---
 <BaseLayout lang={lang} path="/" title={t(lang, 'tagline').split('—')[1].trim()} description={h.lede}>
   <section class="hero">
-    <div class="wrap">
-      <div class="kicker">{h.kicker}</div>
-      <h1><span>Ray</span> <em>Tian</em></h1>
-      <p class="tag">{h.tag.map((s, i) => (i % 2 === 0 ? <span>{s}</span> : s))}</p>
-      <p class="lede">{h.lede}</p>
-      <div class="cta">
-        <a class="btn gold" href={route(lang, '/open-source/')}>{h.ctaEvidence} →</a>
-        <a class="btn" href={route(lang, '/projects/')}>{h.ctaAbout}</a>
-        <a class="btn" href="https://github.com/Jelly-RayTian">github.com/Jelly-RayTian</a>
+    <div class="wrap hero-grid">
+      <div class="hero-main">
+        <div class="kicker">{h.kicker}</div>
+        <h1><span>Ray</span> <em>Tian</em></h1>
+        <p class="tag">{h.tag.map((s, i) => (i % 2 === 0 ? <span>{s}</span> : s))}</p>
+        <p class="lede">{h.lede}</p>
+        <div class="cta">
+          <a class="btn gold" href={route(lang, '/open-source/')}>{h.ctaEvidence} →</a>
+          <a class="btn" href={route(lang, '/projects/')}>{h.ctaAbout}</a>
+          <a class="btn" href="https://github.com/Jelly-RayTian">github.com/Jelly-RayTian</a>
+        </div>
+        <div class="facts">{h.facts.map(([k, v]) => <span><b>{k}</b> {v}</span>)}</div>
       </div>
-      <div class="facts">{h.facts.map(([k, v]) => <span><b>{k}</b> {v}</span>)}</div>
+      <aside class="hero-card xcard" aria-label={L('Snapshot', '速览')}>
+        <h2>{L('Snapshot', '速览')}</h2>
+        <dl>
+          <div><dt>{L('Studying', '在读')}</dt><dd><a href={route(lang, '/education/')}>{L('Honours Mathematics (Co-op), University of Waterloo', '滑铁卢大学数学荣誉学士（Co-op）')}</a></dd></div>
+          <div><dt>{L('Built', '做过')}</dt><dd><a href="#projects">WatDesk · WechatSignals · CodeCompass · Chronicle</a></dd></div>
+          <div><dt>{L('Contributing to', '参与开源')}</dt><dd><a href="#open-source">PDFCraft · Madeira · job-ops</a></dd></div>
+          <div><dt>{L('Exploring', '探索')}</dt><dd><a href="#systems">{L('Game file formats · Android · iOS', '游戏文件格式 · Android · iOS')}</a></dd></div>
+          <div><dt>{L('Wrote', '写过')}</dt><dd><a href={content.writing[0].url}>{L('DEV Community article on PvZ2 resource files', 'DEV Community 上关于 PvZ2 资源文件的文章')}</a></dd></div>
+          <div><dt>{L('Organized', '组织过')}</dt><dd><a href="#community">{L('Peer listening group, study groups, grocery coordination', '同伴倾听小组、学习小组、社区采购协调')}</a></dd></div>
+        </dl>
+      </aside>
+    </div>
+    <div class="wrap">
       <div class="stats">{stats.map((s) => <div><b>{s.v}</b><span>{s.l}</span></div>)}</div>
       <nav class="jump" aria-label={L('On this page', '本页内容')}>{jump.map(([href, label]) => <a href={href}>{label}</a>)}</nav>
     </div>
@@ -107,6 +142,15 @@ const leadership = content.entries.filter((e) => ['peer-listening', 'academic-co
   <section class="block" id="open-source">
     <div class="wrap">
       <div class="sh"><span class="kicker">{t(lang, 'openSourceTitle')}</span><h2 class="page-h">{L('Fixes in other people\'s projects', '给他人项目的修复')}</h2><p>{L('Each fix comes with a reproduction and tests. Before and after, from the pull requests:', '每个修复都有复现和测试。下面是 PR 里的修复前后对比：')}</p></div>
+      <div class="repo-grid">
+        {repos.map((r) => { const st = repoStats(r); const info = repoInfo[r] ?? { name: r, d: '' }; return (
+          <a class="xcard" href={`https://github.com/${r}/pulls?q=author%3AJelly-RayTian`}>
+            <b>{info.name}<span aria-hidden="true">↗</span></b>
+            <p>{info.d}</p>
+            <p class="rg-n"><i>{st.total}</i> PRs · {st.merged} {L('merged', '已合并')}{st.squashed + st.consolidated ? ` · ${st.squashed + st.consolidated} ${L('in main via maintainer', '经维护者进入 main')}` : ''} · {st.open} {L('open', '审核中')}</p>
+          </a>
+        ); })}
+      </div>
       <div class="case-mini">
         {cases.map((c) => (
           <a class="xcard" href={route(lang, `/open-source/#case-${c.id}`)}>
@@ -132,6 +176,16 @@ const leadership = content.entries.filter((e) => ['peer-listening', 'academic-co
           <a class="pcard xcard" href={w.url} rel="noopener"><b>{L('Published article', '发表的文章')}<span aria-hidden="true">↗</span></b><p class="subt">{w.venue} · {w.date}</p><p>{w.title}</p></a>
         ))}
       </div>
+    </div>
+  </section>
+
+  <section class="block" id="timeline">
+    <div class="wrap">
+      <div class="sh"><span class="kicker">{L('Timeline', '经历')}</span><h2 class="page-h">{L('How it fits together', '一路做过什么')}</h2></div>
+      <ol class="tl">{timeline.map((x) => <li><b>{x.d}</b><span>{x.t}</span></li>)}</ol>
+      <h3 class="mini-h">{L('Recognition', '荣誉')}</h3>
+      <div class="rec-grid">{recognition.map((r) => <div class="xcard"><b>{r.t}</b><span>{r.d}</span></div>)}</div>
+      <p class="more"><a class="btn" href={route(lang, '/education/')}>{L('Education & honours', '教育与荣誉')} →</a></p>
     </div>
   </section>
 
