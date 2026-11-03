@@ -103,7 +103,7 @@ const leadership = content.entries.filter((e) => ['peer-listening', 'academic-co
 
   <section class="block" id="projects">
     <div class="wrap">
-      <div class="sh"><span class="kicker">{t(lang, 'featuredProjects')}</span><h2 class="page-h">{L('Real needs, checked results', '真实需求，核对过的结果')}</h2><p>{h.projectsP}</p></div>
+      <div class="sh"><span class="kicker">{t(lang, 'featuredProjects')}</span><h2 class="page-h">{L('Projects that start from a real problem', '从真实问题出发的项目')}</h2><p>{h.projectsP}</p></div>
       <div class="feat-grid">
         <article class="feat xcard">
           {watdesk.data.image && <a class="feat-img" href={route(lang, '/projects/watdesk/')}><img class="l" src={watdesk.data.image} alt="WatDesk" loading="lazy" width="800" height="500" />{watdesk.data.imageDark && <img class="d" src={watdesk.data.imageDark} alt="" loading="lazy" width="800" height="500" />}</a>}
@@ -119,7 +119,7 @@ const leadership = content.entries.filter((e) => ['peer-listening', 'academic-co
         <article class="feat xcard">
           <div class="feat-body">
             <p class="kicker">{L('Open source · TypeScript, C', '开源 · TypeScript、C')}</p>
-            <h3><a href={route(lang, '/open-source/')}>{L('Fixes in other people\'s projects', '给他人项目的修复')}</a></h3>
+            <h3><a href={route(lang, '/open-source/')}>{L('Helping other people\'s projects work better', '帮他人的项目变得更好用')}</a></h3>
             <p>{h.ossIntro}</p>
             <ul class="xlist fl">
               {caseTop.map((c) => <li><b><a href={route(lang, `/open-source/#case-${c.id}`)}>{c[lang].title}</a></b> {c[lang].bl} → {c[lang].al}. {c[lang].outcome}</li>)}
@@ -175,7 +175,7 @@ const leadership = content.entries.filter((e) => ['peer-listening', 'academic-co
 
   <section class="block" id="open-source">
     <div class="wrap">
-      <div class="sh"><span class="kicker">{t(lang, 'openSourceTitle')}</span><h2 class="page-h">{L('Open-source contributions', '开源贡献')}</h2><p>{L('Each fix comes with a reproduction and tests. Every pull request, with its real status, is on the open-source page.', '每个修复都有复现和测试。所有 PR 及其真实状态都在开源页面。')}</p></div>
+      <div class="sh"><span class="kicker">{t(lang, 'openSourceTitle')}</span><h2 class="page-h">{L('Open-source contributions', '开源贡献')}</h2><p>{L('Every pull request I have sent, with its real status, is on the open-source page.', '我提交过的每个 PR 及其真实状态，都在开源页面。')}</p></div>
       <div class="repo-grid">
         {repos.map((r) => { const st = repoStats(r); const info = repoInfo[r] ?? { name: r, d: '' }; return (
           <a class="xcard" href={`https://github.com/${r}/pulls?q=author%3AJelly-RayTian`}>
