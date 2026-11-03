@@ -468,3 +468,12 @@ footer .links{font-size:14px}footer .links a{color:var(--ink)}
 .pv ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;counter-reset:s}
 .pv li{counter-increment:s;display:flex;align-items:center;gap:12px;font-size:14.5px}
 .pv li::before{content:counter(s);flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font:500 12px var(--mono);color:var(--on-gold);background:var(--gold)}
+
+/* home: seeking line, two-card overview, featured-card facts, AI note */
+.seeking{margin:14px 0 20px;font:600 15px/1.45 var(--sans, inherit);color:var(--gold)}
+.ov-grid.ov-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:820px){.ov-grid.ov-2{grid-template-columns:1fr}}
+.xlist.fl{list-style:none;padding:0;margin:12px 0}
+.xlist.fl li{margin:0 0 8px;line-height:1.5}
+.xlist.fl li b{display:inline-block;margin-right:4px}
+.ai-note{margin:20px 0;padding:14px 18px;font-size:14px;line-height:1.55;color:var(--muted, inherit)}

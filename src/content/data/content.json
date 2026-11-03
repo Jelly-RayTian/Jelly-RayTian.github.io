@@ -1,7 +1,7 @@
 {
   "about": {
-    "en": "I'm Ray Tian, a first-year Honours Mathematics (Co-op) student at the University of Waterloo. I'm interested in software engineering, data science and quantitative development. I like problems that start from something concrete: a bug I can reproduce, a tool classmates actually need, a group that needs organizing. Away from the keyboard I play table tennis and piano, follow open-source projects, and enjoy rhythm games and interactive digital experiences.",
-    "zh": "我是 Ray Tian，滑铁卢大学数学荣誉学士（Co-op）大一学生，对软件工程、数据科学和量化开发感兴趣。我喜欢从具体问题出发：一个可以复现的 bug、同学真正需要的工具、一个需要有人组织的小组。离开键盘，我打乒乓球、弹钢琴，关注开源项目，也喜欢节奏游戏和互动式数字体验。"
+    "en": "I'm Ray Tian, a first-year Honours Mathematics (Co-op) student at the University of Waterloo. I'm interested in data-driven problem solving, product development and technology-enabled business solutions. I like problems that start from something concrete: a bug I can reproduce, a tool classmates actually need, a group that needs organizing. Away from the keyboard I play table tennis and piano, follow open-source projects, and enjoy rhythm games and interactive digital experiences.",
+    "zh": "我是 Ray Tian，滑铁卢大学数学荣誉学士（Co-op）大一学生，关注数据驱动的问题解决、产品开发，以及由技术支撑的商业解决方案。我喜欢从具体问题出发：一个可以复现的 bug、同学真正需要的工具、一个需要有人组织的小组。离开键盘，我打乒乓球、弹钢琴，关注开源项目，也喜欢节奏游戏和互动式数字体验。"
   },
   "interests": [
     {
@@ -102,52 +102,42 @@
   "skills": [
     {
       "label": {
-        "en": "Coursework",
-        "zh": "课程学习"
+        "en": "Data & Analytics",
+        "zh": "数据与分析"
       },
       "items": {
-        "en": "Racket (CS 135)",
-        "zh": "Racket（CS 135）"
+        "en": "Coursework: MATH 135 Algebra, MATH 137 Calculus 1, ECON 101 Introductory Microeconomics. Learning: SQL and Python (introductory, not proficient). Practice: reproducible test cases, checking a fix against before-and-after results, time-zone and date handling (job-ops PR).",
+        "zh": "课程：MATH 135 代数、MATH 137 微积分 1、ECON 101 微观经济学入门。学习中：SQL 与 Python（入门，尚不熟练）。实践：可复现的测试用例、用修复前后结果核对修复、时区与日期处理（job-ops PR）。"
       }
     },
     {
       "label": {
-        "en": "Project use",
-        "zh": "项目使用"
+        "en": "Product & Workflow",
+        "zh": "产品与工作流程"
       },
       "items": {
-        "en": "TypeScript, JavaScript, React, Vite, Vitest (WatDesk); Git and GitHub collaboration",
-        "zh": "TypeScript、JavaScript、React、Vite、Vitest（WatDesk）；Git 与 GitHub 协作"
+        "en": "Turning a real student need into a scoped tool (WatDesk); bilingual English and Simplified Chinese interface and copy; GitHub issues, pull requests and maintainer communication; CI checks in GitHub Actions; organizing study groups and a peer listening group.",
+        "zh": "把真实的学生需求做成范围清晰的工具（WatDesk）；英文与简体中文双语界面和文案；GitHub issue、pull request 与维护者沟通；GitHub Actions 的 CI 检查；组织学习小组和同伴倾听小组。"
       }
     },
     {
       "label": {
-        "en": "Limited exposure",
-        "zh": "有限接触"
+        "en": "Development Tools",
+        "zh": "开发工具"
       },
       "items": {
-        "en": "C, Swift, Rust, Python (open-source pull requests and personal projects, with AI coding assistance)",
-        "zh": "C、Swift、Rust、Python（开源 PR 与个人项目，借助 AI 编程助手）"
+        "en": "Git, GitHub, GitHub Actions, Vite, Vitest, browser-extension APIs (Manifest V3), ASan/UBSan (used in Madeira PRs); AI coding assistants, used with review and testing as described above.",
+        "zh": "Git、GitHub、GitHub Actions、Vite、Vitest、浏览器扩展 API（Manifest V3）、ASan/UBSan（用于 Madeira PR）；AI 编程助手，配合审查和测试使用，如上所述。"
       }
     },
     {
       "label": {
-        "en": "Introductory",
-        "zh": "入门"
+        "en": "Programming Exposure",
+        "zh": "编程接触"
       },
       "items": {
-        "en": "SQL",
-        "zh": "SQL"
-      }
-    },
-    {
-      "label": {
-        "en": "Practices",
-        "zh": "实践方法"
-      },
-      "items": {
-        "en": "Regression testing, GitHub Actions, ASan/UBSan (used in Madeira PRs), time-zone handling",
-        "zh": "回归测试、GitHub Actions、ASan/UBSan（用于 Madeira PR）、时区处理"
+        "en": "Project use: TypeScript, JavaScript, React (WatDesk). Coursework: Racket (CS 135). Limited exposure: C, Swift, Rust, Python (open-source pull requests and personal projects, with AI coding assistance). Introductory: SQL.",
+        "zh": "项目使用：TypeScript、JavaScript、React（WatDesk）。课程：Racket（CS 135）。有限接触：C、Swift、Rust、Python（开源 PR 与个人项目，借助 AI 编程助手）。入门：SQL。"
       }
     }
   ],
