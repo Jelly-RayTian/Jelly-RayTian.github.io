@@ -1,5 +1,5 @@
 {
- "generated_on": "2026-11-02",
+ "generated_on": "2026-11-04",
  "prs": [
   {
    "repo": "DaKheera47/job-ops",
@@ -158,7 +158,7 @@
    "number": 273,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/273",
    "title": "feat(reader): add remembered right-to-left spread order",
-   "status": "open",
+   "status": "merged",
    "summary": "Reader: remembered right-to-left spread order."
   },
   {
@@ -166,7 +166,7 @@
    "number": 274,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/274",
    "title": "fix(editor): preserve object aspect ratio while Shift-resizing",
-   "status": "open",
+   "status": "merged",
    "summary": "Editor: preserves object aspect ratio while Shift-resizing."
   },
   {
@@ -174,7 +174,7 @@
    "number": 277,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/277",
    "title": "feat(bookmarks): move multi-selections across the outline tree",
-   "status": "open",
+   "status": "merged",
    "summary": "Bookmarks: move multi-selections across the outline tree."
   },
   {
@@ -182,7 +182,7 @@
    "number": 278,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/278",
    "title": "test(editor): cover editing PDFs containing zero-width spaces",
-   "status": "open",
+   "status": "merged",
    "summary": "Test: covers editing PDFs containing zero-width spaces."
   },
   {
@@ -190,7 +190,7 @@
    "number": 280,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/280",
    "title": "fix(reverse): retain forms, bookmarks, links and metadata when reversing pages",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(reverse): retain forms, bookmarks, links and metadata when reversing pages"
   },
   {
@@ -198,7 +198,7 @@
    "number": 281,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/281",
    "title": "fix(add-blank-page): retain forms, bookmarks, links and metadata",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(add-blank-page): retain forms, bookmarks, links and metadata"
   },
   {
@@ -206,7 +206,7 @@
    "number": 282,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/282",
    "title": "fix(remove-blank-pages): retain forms, bookmarks, links and metadata",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(remove-blank-pages): retain forms, bookmarks, links and metadata"
   },
   {
@@ -214,7 +214,7 @@
    "number": 283,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/283",
    "title": "fix(background-color): retain forms, bookmarks, links and metadata",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(background-color): retain forms, bookmarks, links and metadata"
   },
   {
