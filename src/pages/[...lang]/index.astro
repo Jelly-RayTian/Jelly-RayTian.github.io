@@ -36,7 +36,7 @@ const timeline = [
   { d: L('Jun – Jul 2026', '2026 年 6–7 月'), t: L('Released CodeCompass and Chronicle.', '发布 CodeCompass 和 Chronicle。') },
   { d: L('Sep 2026', '2026 年 9 月'), t: L('Started Honours Mathematics (Co-op) at the University of Waterloo.', '入学滑铁卢大学数学荣誉学士（Co-op）。') },
   { d: L('Oct 2026', '2026 年 10 月'), t: L('Released WatDesk and WechatSignals; first pull requests to PDFCraft, Madeira and job-ops.', '发布 WatDesk 和 WechatSignals；向 PDFCraft、Madeira、job-ops 提交第一批 PR。') },
-  { d: L('Nov 2026', '2026 年 11 月'), t: L(`${prs.length} pull requests so far; published an article on DEV Community.`, `累计 ${prs.length} 个 PR；在 DEV Community 发表文章。`) },
+  { d: L('Nov 2026', '2026 年 11 月'), t: L(`${prs.length} pull requests so far, ${prs.filter((p) => p.status === 'merged').length} merged upstream; WatDesk v1.10.1 adds an optional course-outline source; article published on DEV Community and Zhihu.`, `累计 ${prs.length} 个 PR，其中 ${prs.filter((p) => p.status === 'merged').length} 个已合并；WatDesk v1.10.1 新增可选的课程大纲来源；文章发表在 DEV Community 和知乎。`) },
 ];
 const recognition = [
   { t: 'Euclid 2025', d: L('Mathematics contest, 83/100', '数学竞赛，83/100') },
