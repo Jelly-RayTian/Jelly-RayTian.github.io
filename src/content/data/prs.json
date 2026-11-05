@@ -1,5 +1,5 @@
 {
- "generated_on": "2026-11-04",
+ "generated_on": "2026-11-05",
  "prs": [
   {
    "repo": "DaKheera47/job-ops",
@@ -222,7 +222,7 @@
    "number": 284,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/284",
    "title": "fix(rotate-custom): retain forms, bookmarks, links and metadata for right-angle rotations",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(rotate-custom): retain forms, bookmarks, links and metadata for right-angle rotations"
   },
   {
