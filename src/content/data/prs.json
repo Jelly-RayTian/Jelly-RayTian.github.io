@@ -230,7 +230,7 @@
    "number": 285,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/285",
    "title": "fix: let page-embedding tools handle blank pages that have no content stream",
-   "status": "open",
+   "status": "merged",
    "summary": "fix: let page-embedding tools handle blank pages that have no content stream"
   },
   {
@@ -238,7 +238,7 @@
    "number": 286,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/286",
    "title": "fix(organize): retain forms, bookmarks, links and metadata in the pdf-lib path",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(organize): retain forms, bookmarks, links and metadata in the pdf-lib path"
   },
   {
@@ -246,7 +246,7 @@
    "number": 287,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/287",
    "title": "fix(fix-page-size): honour the /Rotate of source pages",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(fix-page-size): honour the /Rotate of source pages"
   },
   {
