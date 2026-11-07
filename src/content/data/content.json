@@ -562,30 +562,6 @@
         "role": "学校评选 · 高中阶段",
         "tags": "学业"
       }
-    },
-    {
-      "id": "game-jam",
-      "section": "creative",
-      "en": {
-        "title": "University of Waterloo Fall 2026 Game Jam",
-        "role": "Participant · chart writing and playtesting",
-        "bullets": [
-          "Took part in the 72-hour jam run by the UW Game Development Club (Oct 1–4, 2026, theme \"Drift\"); my team made a rhythm game.",
-          "Wrote charts for the game and playtested them."
-        ],
-        "note": "Participation only: no placement or award. My role is self-reported and I kept no project files, so there is no link to my own work.",
-        "tags": "Rhythm game · Chart writing · Playtesting"
-      },
-      "zh": {
-        "title": "滑铁卢大学 2026 秋季 Game Jam",
-        "role": "参与者 · 谱面编写与测试",
-        "bullets": [
-          "参加了滑铁卢大学游戏开发社团（UW GDC）举办的 72 小时 game jam（2026 年 10 月 1–4 日，主题“Drift”）；我所在的团队做了一款音乐游戏。",
-          "负责编写谱面，并试玩测试。"
-        ],
-        "note": "仅为参与，没有名次或奖项。我的分工为本人自述，也没有保留项目文件，因此没有指向我个人作品的链接。",
-        "tags": "音乐游戏 · 谱面 · 测试"
-      }
     }
   ],
   "admissions": [
