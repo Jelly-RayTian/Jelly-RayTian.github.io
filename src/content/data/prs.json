@@ -1,5 +1,5 @@
 {
- "generated_on": "2026-11-05",
+ "generated_on": "2026-11-07",
  "prs": [
   {
    "repo": "DaKheera47/job-ops",
@@ -254,7 +254,7 @@
    "number": 288,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/288",
    "title": "fix(n-up): honour the /Rotate of source pages",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(n-up): honour the /Rotate of source pages"
   },
   {
@@ -262,7 +262,7 @@
    "number": 292,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/292",
    "title": "fix(uniform-resize): honour the /Rotate of source pages",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(uniform-resize): honour the /Rotate of source pages"
   },
   {
@@ -270,7 +270,7 @@
    "number": 293,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/293",
    "title": "fix(ci): normalize extracted AppDir permissions before repacking the Linux AppImage",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(ci): normalize extracted AppDir permissions before repacking the Linux AppImage"
   },
   {
