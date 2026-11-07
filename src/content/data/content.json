@@ -562,6 +562,30 @@
         "role": "学校评选 · 高中阶段",
         "tags": "学业"
       }
+    },
+    {
+      "id": "game-jam",
+      "section": "creative",
+      "en": {
+        "title": "Game Jam (Waterloo)",
+        "role": "Participant · chart writing and playtesting",
+        "bullets": [
+          "Took part in a game jam in Waterloo in early October 2026; the team made a rhythm game.",
+          "Wrote charts for the game and playtested them."
+        ],
+        "note": "Participation only: no placement or award. I kept no project files, so there is nothing to link.",
+        "tags": "Rhythm game · Chart writing · Playtesting"
+      },
+      "zh": {
+        "title": "Game Jam（滑铁卢）",
+        "role": "参与者 · 谱面编写与测试",
+        "bullets": [
+          "2026 年 10 月初在滑铁卢参加了一场 game jam，团队做了一款音乐游戏。",
+          "负责编写谱面，并试玩测试。"
+        ],
+        "note": "仅为参与，没有名次或奖项。我没有保留项目文件，所以没有可附的链接。",
+        "tags": "音乐游戏 · 谱面 · 测试"
+      }
     }
   ],
   "admissions": [
