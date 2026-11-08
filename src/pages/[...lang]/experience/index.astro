@@ -17,6 +17,8 @@ const research = [entry('housing-advocacy'), entry('ai-economics')];
     <AboutTabs lang={lang} path="/experience/" />
     <PageHead k={pg.k} h={pg.h} p={pg.p} />
     <div class="experience-grid">{entriesFor('leadership').map((e) => <EntryCard e={e} lang={lang} />)}</div>
+    <h2 class="sub-h">{lang === 'zh' ? '黑客松' : 'Hackathons'}</h2>
+    <div class="experience-grid"><EntryCard e={entry('communihacks')} lang={lang} /></div>
     <h2 class="sub-h">{t(lang, 'researchPres')}</h2>
     <p class="muted">{lang === 'zh' ? '课程与自发的研究、展示。分量上低于工程工作，但能体现我如何思考和表达。' : 'Course and independent work. It carries less weight than my engineering work, but shows how I think and communicate.'}</p>
     <div class="experience-grid">{research.map((e) => <EntryCard e={e} lang={lang} />)}</div>

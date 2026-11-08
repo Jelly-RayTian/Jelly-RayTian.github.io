@@ -477,3 +477,15 @@ footer .links{font-size:14px}footer .links a{color:var(--ink)}
 .xlist.fl li{margin:0 0 8px;line-height:1.5}
 .xlist.fl li b{display:inline-block;margin-right:4px}
 .ai-note{margin:20px 0;padding:14px 18px;font-size:14px;line-height:1.55;color:var(--muted, inherit)}
+
+/* simplified home */
+.hero-solo{max-width:760px}
+.picks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media(max-width:900px){.picks{grid-template-columns:1fr}}
+.pick{display:flex;flex-direction:column;gap:8px;padding:24px;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:18px;background:var(--card);transition:.25s}
+.pick:hover{border-color:var(--gold);transform:translateY(-4px)}
+.pick b{font:400 28px/1.15 var(--display)}
+.pick p{margin:0;line-height:1.55;color:var(--muted)}
+.pick-cta{margin-top:auto;padding-top:8px;color:var(--gold);font-weight:600}
+.about-line{max-width:760px;font-size:17px;line-height:1.6}
+.more-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}

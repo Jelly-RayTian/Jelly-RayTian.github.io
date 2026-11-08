@@ -1,226 +1,85 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PrWall from '../../components/PrWall.astro';
-import ProjectVisual from '../../components/ProjectVisual.astro';
 import { getCollection } from 'astro:content';
 import { localePaths } from '../../lib/paths';
 import { home } from '../../content/data/pages';
-import { content, cases, prs, repos, repoStats } from '../../lib/data';
+import { content, prs } from '../../lib/data';
 import { route, t, type Lang } from '../../i18n/ui';
 export const getStaticPaths = localePaths;
 const { lang } = Astro.props as { lang: Lang };
 const zh = lang === 'zh';
 const h = home[lang];
-const projects = (await getCollection('projects')).filter((p) => p.data.lang === lang).sort((a, b) => a.data.order - b.data.order);
-const watdesk = projects.find((p) => p.data.pageSlug === 'watdesk')!;
-const smaller = projects.filter((p) => p.data.kind === 'software' && p.data.pageSlug !== 'watdesk');
-const systems = (await getCollection('systems')).filter((s) => s.data.lang === lang).sort((a, b) => a.data.order - b.data.order);
+const L = (en: string, cn: string) => (zh ? cn : en);
+const systems = (await getCollection('systems')).filter((s) => s.data.lang === lang);
 const pvz = systems.find((e) => e.data.pageSlug === 'pvz2-resource-analysis')!;
 const uw = content.education[0][lang];
-const hs = content.education[1][lang];
-const L = (en: string, cn: string) => (zh ? cn : en);
-const jump = [
-  ['#about', L('About & education', '关于与教育')], ['#projects', L('Projects', '项目')], ['#experience', L('Leadership', '经历与领导力')],
-  ['#skills', L('Skills', '技能')], ['#open-source', L('Open source', '开源')], ['#writing', L('Writing', '文章')],
-  ['#awards', L('Awards', '荣誉与证书')], ['#contact', L('Contact', '联系')],
+const merged = prs.filter((p) => p.status === 'merged').length;
+const picks = [
+  {
+    title: 'WatDesk',
+    meta: L('Edge extension · Oct 2026 – now', 'Edge 扩展 · 2026 年 10 月至今'),
+    text: L('A side panel that puts Waterloo deadlines, exams and grades from LEARN, Crowdmark and Odyssey in one place. Data stays in your browser. Listed on Microsoft Edge Add-ons; 290 automated tests passed at v1.10.1.', '把 LEARN、Crowdmark 和 Odyssey 里的截止日期、考试和成绩放进同一个侧边栏。数据只留在浏览器里。已在 Microsoft Edge 加载项商店上架；v1.10.1 时 290 个自动化测试通过。'),
+    href: route(lang, '/projects/watdesk/'),
+    cta: L('See the project', '查看项目'),
+  },
+  {
+    title: L('Open-source contributions', '开源贡献'),
+    meta: 'PDFCraft · Madeira · job-ops',
+    text: L(`Bug fixes sent to other people's projects, each with a way to reproduce the problem and tests. ${merged} pull requests merged so far.`, `给他人项目提交的 bug 修复，每个都有复现方法和测试。目前已合并 ${merged} 个 PR。`),
+    href: route(lang, '/open-source/'),
+    cta: L('See the fixes', '查看修复'),
+  },
+  {
+    title: L('PvZ2 resource-file research', 'PvZ2 资源文件研究'),
+    meta: L('Self-directed study · Nov 2026', '自主研究 · 2026 年 11 月'),
+    text: L('How a mobile game stores its resource files, a small decoder I wrote to test my understanding, and an article on DEV Community and Zhihu.', '一款手游怎样存放资源文件，我为验证理解写的一个小解码器，以及发表在 DEV Community 和知乎的文章。'),
+    href: route(lang, `/systems/${pvz.data.pageSlug}/`),
+    cta: L('Read the write-up', '阅读全文'),
+  },
 ];
-const repoInfo: Record<string, { name: string; d: string }> = {
-  'PDFCraftTool/pdfcraft': { name: 'PDFCraft', d: L('Browser-based PDF toolkit (TypeScript, pdf-lib)', '浏览器端 PDF 工具箱（TypeScript、pdf-lib）') },
-  'willfaust/Madeira': { name: 'Madeira', d: L('Windows-on-iOS compatibility layer (C, Swift)', 'iOS 上运行 Windows 的兼容层（C、Swift）') },
-  'DaKheera47/job-ops': { name: 'job-ops', d: L('Self-hosted job-search tool (TypeScript)', '自托管求职工具（TypeScript）') },
-};
-const timeline = [
-  { d: L('Middle school', '初中'), t: L('Started reading the data files of Plants vs. Zombies 2; History subject representative.', '开始研究植物大战僵尸 2 的数据文件；担任历史课代表。') },
-  { d: L('High school', '高中'), t: L('Academic committee member for three years; founded a peer listening group (8 to 22 members); Study Model Student.', '连续三年担任学习委员；发起同伴倾听小组（8 人增长到 22 人）；获学习标兵。') },
-  { d: '2025', t: L('Euclid Mathematics Contest 83/100; received university offers and entrance scholarship offers.', 'Euclid 数学竞赛 83/100；收到多所大学录取和入学奖学金 offer。') },
-  { d: L('Jun – Jul 2026', '2026 年 6–7 月'), t: L('Released CodeCompass and Chronicle.', '发布 CodeCompass 和 Chronicle。') },
-  { d: L('Sep 2026', '2026 年 9 月'), t: L('Started Honours Mathematics (Co-op) at the University of Waterloo.', '入学滑铁卢大学数学荣誉学士（Co-op）。') },
-  { d: L('Oct 2026', '2026 年 10 月'), t: L('Released WatDesk and WechatSignals; first pull requests to PDFCraft, Madeira and job-ops.', '发布 WatDesk 和 WechatSignals；向 PDFCraft、Madeira、job-ops 提交第一批 PR。') },
-  { d: L('Nov 2026', '2026 年 11 月'), t: L(`${prs.length} pull requests so far, ${prs.filter((p) => p.status === 'merged').length} merged upstream; WatDesk v1.10.1 adds an optional course-outline source; article published on DEV Community and Zhihu.`, `累计 ${prs.length} 个 PR，其中 ${prs.filter((p) => p.status === 'merged').length} 个已合并；WatDesk v1.10.1 新增可选的课程大纲来源；文章发表在 DEV Community 和知乎。`) },
+const more = [
+  [L('Education', '教育'), '/education/'], [L('Experience & leadership', '经历与领导力'), '/experience/'],
+  [L('Skills', '技能'), '/about/'], [L('Technical writing', '技术写作'), '/systems/'], [L('Contact', '联系'), '/contact/'],
 ];
-const recognition = [
-  { t: 'Euclid 2025', d: L('Mathematics contest, 83/100', '数学竞赛，83/100') },
-  { t: L('Study Model Student', '学习标兵'), d: L('Awarded by the school, high school', '学校评选，高中阶段') },
-  { t: L('Scholarship offers', '奖学金 offer'), d: L('University of Alberta, McMaster (2025)', '阿尔伯塔大学、麦克马斯特大学（2025）') },
-  { t: L('Piano Level 10', '钢琴十级'), d: L('Completed in primary school', '小学阶段完成') },
-  { t: 'IELTS Academic 7.0', d: L('English proficiency, overall band', '英语水平，总分') },
-];
-const caseTop = cases.slice(0, 3);
-const leadership = content.entries.filter((e) => ['peer-listening', 'academic-committee', 'peer-learning', 'grocery'].includes(e.id));
 ---
 <BaseLayout lang={lang} path="/" title={t(lang, 'tagline').split('—')[1].trim()} description={h.lede}>
   <section class="hero">
-    <div class="wrap hero-grid">
-      <div class="hero-main">
+    <div class="wrap">
+      <div class="hero-main hero-solo">
         <div class="kicker">{h.kicker}</div>
         <h1><span>Ray</span> <em>Tian</em></h1>
-        <p class="tag">{h.tag.map((s, i) => (i % 2 === 0 ? <span>{s}</span> : s))}</p>
         <p class="lede">{h.lede}</p>
         <p class="seeking">{h.seeking}</p>
         <div class="cta">
           <a class="btn gold" href="#projects">{h.ctaProjects} →</a>
-          <a class="btn" href={route(lang, '/open-source/')}>{h.ctaEvidence}</a>
-          <a class="btn" href="https://github.com/Jelly-RayTian">github.com/Jelly-RayTian</a>
+          <a class="btn" href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn</a>
+          <a class="btn" href="https://github.com/Jelly-RayTian">GitHub</a>
         </div>
-        <div class="facts">{h.facts.map(([k, v]) => <span><b>{k}</b> {v}</span>)}</div>
-      </div>
-      <aside class="hero-card xcard" aria-label={L('Snapshot', '速览')}>
-        <h2>{L('Snapshot', '速览')}</h2>
-        <dl>
-          <div><dt>{L('Studying', '在读')}</dt><dd><a href={route(lang, '/education/')}>{L('Honours Mathematics (Co-op), University of Waterloo', '滑铁卢大学数学荣誉学士（Co-op）')}</a></dd></div>
-          <div><dt>{L('Built', '做过')}</dt><dd><a href="#projects">{L('WatDesk, a deadline and grades side panel for students', 'WatDesk：面向学生的截止日期与成绩侧边栏')}</a></dd></div>
-          <div><dt>{L('Researched', '研究过')}</dt><dd><a href={route(lang, `/systems/${pvz.data.pageSlug}/`)}>{L('How a mobile game\'s resource files are structured', '一款手游资源文件的结构')}</a></dd></div>
-          <div><dt>{L('Contributed to', '参与开源')}</dt><dd><a href="#open-source">PDFCraft · Madeira · job-ops</a></dd></div>
-          <div><dt>{L('Wrote', '写过')}</dt><dd><a href="#writing">{L('Technical article on DEV Community and Zhihu', '发表在 DEV Community 与知乎的技术文章')}</a></dd></div>
-          <div><dt>{L('Organized', '组织过')}</dt><dd><a href="#experience">{L('Peer listening group, study groups, grocery coordination', '同伴倾听小组、学习小组、社区采购协调')}</a></dd></div>
-        </dl>
-      </aside>
-    </div>
-    <div class="wrap">
-      <nav class="jump" aria-label={L('On this page', '本页内容')}>{jump.map(([href, label]) => <a href={href}>{label}</a>)}</nav>
-    </div>
-  </section>
-
-  <section class="block" id="about">
-    <div class="wrap">
-      <div class="sh"><span class="kicker">{L('About me & education', '关于我与教育')}</span><h2 class="page-h">{L('Who I am, at a glance', '我是谁，一眼看完')}</h2></div>
-      <div class="ov-grid ov-2">
-        <article class="ov-card xcard">
-          <h3>{L('About me', '关于我')}</h3>
-          <p>{content.about[lang]}</p>
-          <p class="more-l"><a href={route(lang, '/about/')}>{L('More about me', '更多关于我')} →</a></p>
-        </article>
-        <article class="ov-card xcard">
-          <h3>{L('Education', '教育')}</h3>
-          <p><b>{uw.org}</b><br />{uw.degree}<br /><span class="muted">{uw.date}</span></p>
-          <p><b>{hs.org}</b><br />{hs.degree}<br /><span class="muted">{hs.date} · {'detail' in hs ? hs.detail : ''}</span></p>
-          <p class="muted">{L(`Euclid 2025: 83/100 · Study Model Student · offers from ${content.admissions.length + 1} universities, with entrance scholarship offers.`, `Euclid 2025：83/100 · 学习标兵 · 收到 ${content.admissions.length + 1} 所大学的录取，并有入学奖学金 offer。`)}</p>
-          <p class="more-l"><a href={route(lang, '/education/')}>{L('Education details', '教育详情')} →</a></p>
-        </article>
       </div>
     </div>
   </section>
 
   <section class="block" id="projects">
     <div class="wrap">
-      <div class="sh"><span class="kicker">{t(lang, 'featuredProjects')}</span><h2 class="page-h">{L('Projects that start from a real problem', '从真实问题出发的项目')}</h2><p>{h.projectsP}</p></div>
-      <div class="feat-grid">
-        <article class="feat xcard">
-          {watdesk.data.image && <a class="feat-img" href={route(lang, '/projects/watdesk/')}><img class="l" src={watdesk.data.image} alt="WatDesk" loading="lazy" width="800" height="500" />{watdesk.data.imageDark && <img class="d" src={watdesk.data.imageDark} alt="" loading="lazy" width="800" height="500" />}</a>}
-          <div class="feat-body">
-            <p class="kicker">{watdesk.data.period} · {watdesk.data.stack}</p>
-            <h3><a href={route(lang, '/projects/watdesk/')}>WatDesk</a></h3>
-            <ul class="xlist fl">
-              {h.watdesk.map(([k, v]) => <li><b>{k}</b> {v}</li>)}
-            </ul>
-            <p class="feat-links">{(watdesk.data.links ?? []).slice(0, 2).map((l) => <a href={l.url}>{l.label} ↗</a>)}<a href={route(lang, '/projects/watdesk/')}>{L('Details', '详情')} →</a></p>
-          </div>
-        </article>
-        <article class="feat xcard">
-          <div class="feat-body">
-            <p class="kicker">{L('Open source · TypeScript, C', '开源 · TypeScript、C')}</p>
-            <h3><a href={route(lang, '/open-source/')}>{L('Helping other people\'s projects work better', '帮他人的项目变得更好用')}</a></h3>
-            <p>{h.ossIntro}</p>
-            <ul class="xlist fl">
-              {caseTop.map((c) => <li><b><a href={route(lang, `/open-source/#case-${c.id}`)}>{c[lang].title}</a></b> {c[lang].bl} → {c[lang].al}. {c[lang].outcome}</li>)}
-            </ul>
-            <p class="feat-links"><a href={route(lang, '/open-source/')}>{L('All contributions', '全部贡献')} →</a></p>
-          </div>
-        </article>
-        <article class="feat xcard">
-          <div class="feat-body">
-            <p class="kicker">{L('Technical research · 2026', '技术研究 · 2026')}</p>
-            <h3><a href={route(lang, `/systems/${pvz.data.pageSlug}/`)}>{pvz.data.title}</a></h3>
-            <p>{pvz.data.summary}</p>
-            <ul class="xlist fl">
-              {(pvz.data.glance ?? []).map((g) => <li><b>{g.k}</b> {g.v}</li>)}
-            </ul>
-            <p class="feat-links"><a href={content.writing[0].url}>DEV Community ↗</a><a href={route(lang, `/systems/${pvz.data.pageSlug}/`)}>{L('Read the write-up', '阅读全文')} →</a></p>
-          </div>
-        </article>
-      </div>
-      <p class="ai-note xcard">{h.aiNote}</p>
-      <h3 class="mini-h">{L('Other projects', '其他项目')}</h3>
-      <div class="pgrid pgrid-sm">
-        {smaller.map((p) => (
-          <a class="pcard xcard" href={route(lang, `/projects/${p.data.pageSlug}/`)}><b>{p.data.title}<span aria-hidden="true">↗</span></b><p>{p.data.summary}</p></a>
-        ))}
-      </div>
-      <p class="more"><a class="btn" href={route(lang, '/projects/')}>{t(lang, 'viewAll')} →</a></p>
-    </div>
-  </section>
-
-  <section class="block" id="experience">
-    <div class="wrap">
-      <div class="sh"><span class="kicker">{L('Experience & leadership', '经历与领导力')}</span><h2 class="page-h">{L('Organizing people and helping things last', '组织同伴，让事情延续')}</h2></div>
-      <div class="pgrid">
-        {leadership.map((e) => <a class="pcard xcard" href={route(lang, '/experience/')}><b>{e[lang].title}<span aria-hidden="true">→</span></b><p class="subt">{e[lang].role}</p><p>{e[lang].bullets ? e[lang].bullets[0] : ''}</p></a>)}
-      </div>
-      <p class="more-l"><a href={route(lang, '/experience/')}>{L('All experience', '全部经历')} →</a> · <a href={route(lang, '/volunteering/')}>{L('Volunteering', '志愿服务')} →</a> · <a href={route(lang, '/creative/')}>{L('Creative work', '创作')} →</a></p>
-      <h3 class="mini-h">{L('Timeline', '时间线')}</h3>
-      <ol class="tl">{timeline.map((x) => <li><b>{x.d}</b><span>{x.t}</span></li>)}</ol>
-    </div>
-  </section>
-
-  <section class="block" id="skills">
-    <div class="wrap">
-      <div class="sh"><span class="kicker">{t(lang, 'skills')}</span><h2 class="page-h">{L('What I use, and how well', '我用什么，熟到什么程度')}</h2><p>{h.skillsP}</p></div>
-      <div class="skills-panel xcard">
-        <dl>
-          {content.skills.map((s) => <div><dt>{s.label[lang]}</dt><dd>{s.items[lang]}</dd></div>)}
-        </dl>
-      </div>
-    </div>
-  </section>
-
-  <section class="block" id="open-source">
-    <div class="wrap">
-      <div class="sh"><span class="kicker">{t(lang, 'openSourceTitle')}</span><h2 class="page-h">{L('Open-source contributions', '开源贡献')}</h2><p>{L('Every pull request I have sent, with its real status, is on the open-source page.', '我提交过的每个 PR 及其真实状态，都在开源页面。')}</p></div>
-      <div class="repo-grid">
-        {repos.map((r) => { const st = repoStats(r); const info = repoInfo[r] ?? { name: r, d: '' }; return (
-          <a class="xcard" href={`https://github.com/${r}/pulls?q=author%3AJelly-RayTian`}>
-            <b>{info.name}<span aria-hidden="true">↗</span></b>
-            <p>{info.d}</p>
-            <p class="rg-n"><i>{st.total}</i> PRs · {st.merged} {L('merged', '已合并')}{st.squashed + st.consolidated ? ` · ${st.squashed + st.consolidated} ${L('in main via maintainer', '经维护者进入 main')}` : ''} · {st.open} {L('open', '审核中')}</p>
+      <div class="sh"><span class="kicker">{t(lang, 'featuredProjects')}</span><h2 class="page-h">{L('What I have built', '我做过的事')}</h2></div>
+      <div class="picks">
+        {picks.map((p) => (
+          <a class="pick xcard" href={p.href}>
+            <span class="kicker">{p.meta}</span>
+            <b>{p.title}</b>
+            <p>{p.text}</p>
+            <span class="pick-cta">{p.cta} →</span>
           </a>
-        ); })}
-      </div>
-      <p class="ai-note xcard">{t(lang, 'aiNote')}</p>
-      <PrWall lang={lang} compact headline={h.wallTitle} />
-      <p class="more"><a class="btn gold" href={route(lang, '/open-source/')}>{t(lang, 'viewMore')} →</a></p>
-    </div>
-  </section>
-
-  <section class="block" id="writing">
-    <div class="wrap">
-      <div class="sh"><span class="kicker">{L('Technical writing', '技术写作')}</span><h2 class="page-h">{L('Explaining what I worked out', '把弄明白的东西讲清楚')}</h2><p>{L('Published articles and longer write-ups on game files, Android and iOS, from self-directed experiments.', '已发表的文章，以及关于游戏文件、Android 和 iOS 的详细记录，来自自学的动手实验。')}</p></div>
-      <div class="pgrid">
-        {content.writing.map((w) => (
-          <a class="pcard xcard" href={w.url} rel="noopener"><b>{L('Published article', '发表的文章')}<span aria-hidden="true">↗</span></b><p class="subt">{w.venue} · {w.date}</p><p>{w.title}</p></a>
-        ))}
-        {systems.map((e) => (
-          <a class="pcard xcard" href={route(lang, `/systems/${e.data.pageSlug}/`)}><b>{e.data.title}<span aria-hidden="true">→</span></b><p class="subt">{e.data.subtitle}</p><p>{e.data.summary}</p></a>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="block" id="awards">
+  <section class="block" id="about">
     <div class="wrap">
-      <div class="sh"><span class="kicker">{L('Awards & certifications', '荣誉与证书')}</span><h2 class="page-h">{L('Recognition', '荣誉')}</h2></div>
-      <div class="rec-grid">{recognition.map((r) => <div class="xcard"><b>{r.t}</b><span>{r.d}</span></div>)}</div>
-      <p class="more"><a class="btn" href={route(lang, '/education/')}>{L('Education & honours', '教育与荣誉')} →</a></p>
-    </div>
-  </section>
-
-  <section class="block" id="contact">
-    <div class="wrap">
-      <div class="sh"><span class="kicker">{L('Contact', '联系')}</span><h2 class="page-h">{L('Let\'s talk', '欢迎交流')}</h2><p>{h.seeking}</p></div>
-      <p class="cta">
-        <a class="btn gold" href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn →</a>
-        <a class="btn" href="https://github.com/Jelly-RayTian">GitHub</a>
-        <a class="btn" href={route(lang, '/contact/')}>{L('More ways', '更多方式')}</a>
-      </p>
+      <div class="sh"><span class="kicker">{L('About', '关于')}</span><h2 class="page-h">{L('Education and background', '教育与背景')}</h2></div>
+      <p class="about-line"><b>{uw.org}</b> — {uw.degree}, {uw.date}. {L('Euclid 2025: 83/100. Peer listening group founder, 3-year academic committee member, IELTS Academic 7.0.', 'Euclid 2025：83/100。同伴倾听小组发起人，三年学习委员，IELTS Academic 7.0。')}</p>
+      <p class="more-row">{more.map(([label, path]) => <a class="btn" href={route(lang, path)}>{label}</a>)}</p>
     </div>
   </section>
 </BaseLayout>

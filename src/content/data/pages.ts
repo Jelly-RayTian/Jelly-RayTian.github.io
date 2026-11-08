@@ -29,7 +29,6 @@ export const pages: Record<Lang, Record<string, { k: string; h: string; p: strin
 export const home = {
   en: {
     kicker: 'University of Waterloo · Honours Mathematics (Co-op) · Started September 2026',
-    tag: ['Curious', ' about how things work. ', 'Careful', ' about the result.'],
     interests: 'Business analysis · Data analytics · Technology',
     lede: 'Honours Mathematics Co-op student at the University of Waterloo, interested in data-driven problem solving, product development, and technology-enabled business solutions.',
     seeking: 'Seeking Co-op Opportunities in Business Analysis, Data Analytics & Technology',
@@ -52,7 +51,6 @@ export const home = {
   },
   zh: {
     kicker: '滑铁卢大学 · 数学荣誉学士（Co-op）· 2026 年 9 月入学',
-    tag: ['好奇', '事情是怎么运转的，', '认真', '对待每一个结果。'],
     interests: '商业分析 · 数据分析 · 技术',
     lede: '滑铁卢大学数学荣誉学士（Co-op）学生，关注数据驱动的问题解决、产品开发，以及由技术支撑的商业解决方案。',
     seeking: '寻求商业分析、数据分析与技术方向的 Co-op 机会',

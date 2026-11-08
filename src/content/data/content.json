@@ -562,6 +562,28 @@
         "role": "学校评选 · 高中阶段",
         "tags": "学业"
       }
+    },
+    {
+      "id": "communihacks",
+      "section": "event",
+      "en": {
+        "title": "CommuniHacks 2026",
+        "role": "Participant",
+        "bullets": [
+          "Took part in CommuniHacks 2026, a 24-hour hackathon in Waterloo (Nov 7–8, 2026) where student teams build software for problems local nonprofits and community organizations bring."
+        ],
+        "note": "Participation only. I have no project or award to list.",
+        "tags": "Hackathon · Community · Teamwork"
+      },
+      "zh": {
+        "title": "CommuniHacks 2026",
+        "role": "参与者",
+        "bullets": [
+          "参加了 CommuniHacks 2026：2026 年 11 月 7–8 日在滑铁卢举行的 24 小时黑客松，学生团队为本地非营利组织和社区机构提出的问题开发软件。"
+        ],
+        "note": "仅为参与，没有可列出的项目或奖项。",
+        "tags": "黑客松 · 社区 · 团队合作"
+      }
     }
   ],
   "admissions": [
