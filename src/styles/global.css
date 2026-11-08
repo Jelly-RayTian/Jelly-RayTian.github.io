@@ -489,3 +489,20 @@ footer .links{font-size:14px}footer .links a{color:var(--ink)}
 .pick-cta{margin-top:auto;padding-top:8px;color:var(--gold);font-weight:600}
 .about-line{max-width:760px;font-size:17px;line-height:1.6}
 .more-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+
+/* résumé-style home */
+.rs .wrap{max-width:900px}
+.rs-h{font:700 13px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);padding-bottom:10px;margin:0 0 14px;border-bottom:1px solid var(--line)}
+.rs-row{display:flex;justify-content:space-between;gap:16px;align-items:baseline;margin-top:12px;line-height:1.5}
+.rs-row>span:last-child{flex:none;color:var(--muted);font-size:13.5px;text-align:right}
+.rs-t a{color:inherit;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.rs-t a:hover{text-decoration-color:var(--gold)}
+.rs-sub{margin:4px 0 0;color:var(--muted);font-size:14px;line-height:1.55}
+.rs ul{margin:6px 0 0;padding-left:20px}
+.rs li{margin:3px 0;line-height:1.6;color:var(--muted)}
+.rs-list li{color:inherit}
+.rs-more{margin:14px 0 0;font-size:14px}
+.rs-skills{margin:10px 0 0}
+.rs-skills div{display:grid;grid-template-columns:170px 1fr;gap:12px;margin:8px 0}
+.rs-skills dt{font-weight:700}.rs-skills dd{margin:0;color:var(--muted);line-height:1.55}
+@media(max-width:700px){.rs-row{flex-direction:column;gap:2px}.rs-row>span:last-child{text-align:left}.rs-skills div{grid-template-columns:1fr;gap:2px}}

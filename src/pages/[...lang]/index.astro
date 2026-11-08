@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { localePaths } from '../../lib/paths';
 import { home } from '../../content/data/pages';
-import { content, prs } from '../../lib/data';
+import { content, prs, repos, repoStats } from '../../lib/data';
 import { route, t, type Lang } from '../../i18n/ui';
 export const getStaticPaths = localePaths;
 const { lang } = Astro.props as { lang: Lang };
@@ -13,33 +13,38 @@ const L = (en: string, cn: string) => (zh ? cn : en);
 const systems = (await getCollection('systems')).filter((s) => s.data.lang === lang);
 const pvz = systems.find((e) => e.data.pageSlug === 'pvz2-resource-analysis')!;
 const uw = content.education[0][lang];
+const hs = content.education[1][lang];
 const merged = prs.filter((p) => p.status === 'merged').length;
-const picks = [
-  {
-    title: 'WatDesk',
-    meta: L('Edge extension · Oct 2026 – now', 'Edge 扩展 · 2026 年 10 月至今'),
-    text: L('A side panel that puts Waterloo deadlines, exams and grades from LEARN, Crowdmark and Odyssey in one place. Data stays in your browser. Listed on Microsoft Edge Add-ons; 290 automated tests passed at v1.10.1.', '把 LEARN、Crowdmark 和 Odyssey 里的截止日期、考试和成绩放进同一个侧边栏。数据只留在浏览器里。已在 Microsoft Edge 加载项商店上架；v1.10.1 时 290 个自动化测试通过。'),
-    href: route(lang, '/projects/watdesk/'),
-    cta: L('See the project', '查看项目'),
-  },
-  {
-    title: L('Open-source contributions', '开源贡献'),
-    meta: 'PDFCraft · Madeira · job-ops',
-    text: L(`Bug fixes sent to other people's projects, each with a way to reproduce the problem and tests. ${merged} pull requests merged so far.`, `给他人项目提交的 bug 修复，每个都有复现方法和测试。目前已合并 ${merged} 个 PR。`),
-    href: route(lang, '/open-source/'),
-    cta: L('See the fixes', '查看修复'),
-  },
-  {
-    title: L('PvZ2 resource-file research', 'PvZ2 资源文件研究'),
-    meta: L('Self-directed study · Nov 2026', '自主研究 · 2026 年 11 月'),
-    text: L('How a mobile game stores its resource files, a small decoder I wrote to test my understanding, and an article on DEV Community and Zhihu.', '一款手游怎样存放资源文件，我为验证理解写的一个小解码器，以及发表在 DEV Community 和知乎的文章。'),
-    href: route(lang, `/systems/${pvz.data.pageSlug}/`),
-    cta: L('Read the write-up', '阅读全文'),
-  },
+const proj = (slug: string) => route(lang, `/projects/${slug}/`);
+const projects = [
+  { name: 'WatDesk', desc: L('independent Edge extension for Waterloo students (TypeScript, React)', '面向滑铁卢学生的独立 Edge 扩展（TypeScript、React）'), date: L('Oct 2026 – present', '2026 年 10 月至今'), href: proj('watdesk'),
+    bullets: [
+      L('Deadlines, exams and grades are scattered across LEARN, Crowdmark and Odyssey; I built one bilingual (English / Simplified Chinese) side panel with a timeline, workload view, exam countdowns, calendar export and an optional course-outline source.', 'LEARN、Crowdmark 和 Odyssey 里的截止日期、考试和成绩很分散；我做了一个中英双语侧边栏，含时间线、工作量视图、考试倒计时、日历导出和可选的课程大纲来源。'),
+      L('Data stays in the user\'s browser and passwords are never read. Listed on Microsoft Edge Add-ons; 9 releases (latest v1.10.1); 290 automated tests passed at v1.10.1. Built with AI coding assistance: I scoped the features and reviewed the changes.', '数据留在用户浏览器里，从不读取密码。已在 Microsoft Edge 加载项商店上架；共 9 个版本（最新 v1.10.1）；v1.10.1 时 290 个自动化测试通过。借助 AI 编程助手完成：我负责界定功能并审查改动。'),
+    ] },
+  { name: L('PvZ2 resource-file research and article', 'PvZ2 资源文件研究与文章'), desc: L('self-directed study', '自主研究'), date: L('Nov 2026', '2026 年 11 月'), href: route(lang, `/systems/${pvz.data.pageSlug}/`),
+    bullets: [L('Studied how a mobile game\'s resource files are layered (RSB, RTON), wrote a small decoder (14 passing tests on synthetic data), and published the explanation on DEV Community (English) and Zhihu (Chinese).', '研究了一款手游资源文件的分层方式（RSB、RTON），写了一个小解码器（合成数据上 14 个测试通过），并把讲解发表在 DEV Community（英文）和知乎（中文）。')] },
+  { name: 'WechatSignals', desc: L('local-first macOS tool for analysing one-to-one chats (TypeScript, Swift)', '本地优先的 macOS 单聊分析工具（TypeScript、Swift）'), date: L('Oct 2026', '2026 年 10 月'), href: proj('wechatsignals'),
+    bullets: [L('Designed around privacy: read-only access, anonymised participants, API key in Keychain, data sent only when the user clicks. Beta release v0.1.0-beta.1.', '以隐私为设计前提：只读访问、参与者匿名化、API key 存在 Keychain、只有用户点击才发送数据。Beta 版本 v0.1.0-beta.1。')] },
 ];
-const more = [
-  [L('Education', '教育'), '/education/'], [L('Experience & leadership', '经历与领导力'), '/experience/'],
-  [L('Skills', '技能'), '/about/'], [L('Technical writing', '技术写作'), '/systems/'], [L('Contact', '联系'), '/contact/'],
+const leadership = [
+  { name: L('Peer Listening Group', '同伴倾听小组'), role: L('Founder & Organizer', '发起人与组织者'), date: L('High school', '高中'), text: L('Founded and ran a weekly group; membership grew from 8 to 22 in one semester, with guidance arranged from a school counsellor.', '发起并组织每周一次的小组；一个学期内成员从 8 人增长到 22 人，并协调学校辅导老师提供指导。') },
+  { name: L('Community Grocery Coordination', '社区采购协调'), role: L('Volunteer', '志愿者'), date: '2021', text: L('Collected grocery needs from neighbourhood families and helped coordinate supplies and donations; assisted about 25 households over roughly two months.', '收集邻里家庭的采购需求，协助协调物资和捐赠；约两个月内帮助了大约 25 户家庭。') },
+  { name: L('Peer Learning Support', '同伴学习互助'), role: L('Organizer & Volunteer Tutor', '组织者与志愿辅导'), date: L('2021 – high school', '2021 – 高中'), text: L('Organized a peer homework-help group (5 to 8 members) and tutored a classmate in English for four consecutive months.', '组织 5 到 8 人的作业互助小组，并连续四个月为一位同学辅导英语。') },
+  { name: L('Class roles', '班级职务'), role: L('Academic committee member, 3 years; History representative', '学习委员，三年；历史课代表'), date: L('High school · middle school', '高中 · 初中'), text: L('Organized study groups and helped classmates; collected homework and assisted the teacher.', '组织学习小组、帮助同学；收作业并协助老师。') },
+];
+const ossDesc: Record<string, { name: string; d: string; b: string }> = {
+  'PDFCraftTool/pdfcraft': { name: 'PDFCraft', d: L('browser PDF toolkit', '浏览器端 PDF 工具箱'), b: L('Fixed PDF rotation dropping forms, bookmarks and links (11 regression cases failed before the fix) and Unicode page labels saved as garbled text.', '修复 PDF 旋转时丢失表单、书签和链接的问题（修复前 11 个回归用例失败），以及 Unicode 页码标签被存成乱码。') },
+  'willfaust/Madeira': { name: 'Madeira', d: L('Windows-on-iOS compatibility layer', 'iOS 上运行 Windows 的兼容层'), b: L('Fixed a startup memory overwrite for long working directories (12 of 24 test cases failed before, all 24 pass; squashed onto main by the maintainer) and two further fixes now on main.', '修复过长工作目录导致的启动内存覆盖（修复前 24 个用例中 12 个失败，现全部通过；维护者 squash 进了 main），另有两项修复已在 main 上。') },
+  'DaKheera47/job-ops': { name: 'job-ops', d: L('self-hosted job-search tool', '自托管求职工具'), b: L('Fixed posting dates shifting by a day across time zones and daylight saving, checked under four time zones; added client-side PDF import.', '修复发布日期在时区和夏令时下偏移一天的问题，并在四个时区下验证；新增客户端 PDF 导入。') },
+};
+const recognition = [
+  ['Euclid Mathematics Contest 2025', '83/100'],
+  [L('Study Model Student', '学习标兵'), L('school award, high school', '学校评选，高中')],
+  [L('University entrance scholarship offers', '大学入学奖学金 offer'), L('University of Alberta, McMaster (2025)', '阿尔伯塔大学、麦克马斯特大学（2025）')],
+  ['IELTS Academic', L('overall band 7.0', '总分 7.0')],
+  [L('Piano Level 10', '钢琴十级'), L('primary school', '小学')],
+  ['CommuniHacks 2026', L('participant, 24-hour community hackathon in Waterloo (Nov 2026)', '参与者，2026 年 11 月在滑铁卢举行的 24 小时社区黑客松')],
 ];
 ---
 <BaseLayout lang={lang} path="/" title={t(lang, 'tagline').split('—')[1].trim()} description={h.lede}>
@@ -51,35 +56,95 @@ const more = [
         <p class="lede">{h.lede}</p>
         <p class="seeking">{h.seeking}</p>
         <div class="cta">
-          <a class="btn gold" href="#projects">{h.ctaProjects} →</a>
-          <a class="btn" href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn</a>
+          <a class="btn gold" href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn</a>
           <a class="btn" href="https://github.com/Jelly-RayTian">GitHub</a>
+          <a class="btn" href={route(lang, '/contact/')}>{L('Contact', '联系')}</a>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="block" id="projects">
+  <section class="block rs" id="education">
     <div class="wrap">
-      <div class="sh"><span class="kicker">{t(lang, 'featuredProjects')}</span><h2 class="page-h">{L('What I have built', '我做过的事')}</h2></div>
-      <div class="picks">
-        {picks.map((p) => (
-          <a class="pick xcard" href={p.href}>
-            <span class="kicker">{p.meta}</span>
-            <b>{p.title}</b>
-            <p>{p.text}</p>
-            <span class="pick-cta">{p.cta} →</span>
-          </a>
-        ))}
-      </div>
+      <h2 class="rs-h">{L('Education', '教育')}</h2>
+      <div class="rs-row"><span class="rs-t"><b>{uw.org}</b> — {uw.degree}</span><span>{uw.date}</span></div>
+      <p class="rs-sub">{L('Coursework: MATH 135 Algebra, MATH 137 Calculus 1, ECON 101 Introductory Microeconomics, CS 135 Designing Functional Programs', '课程：MATH 135 代数、MATH 137 微积分 1、ECON 101 微观经济学入门、CS 135 函数式程序设计')}</p>
+      <div class="rs-row"><span class="rs-t"><b>{hs.org}</b> — {hs.degree}</span><span>{hs.date}</span></div>
+      <p class="rs-sub">{L('Academic average approximately 93.3% · Calculus 12, Statistics 12, Computer Science 12', '平均分约 93.3% · Calculus 12、Statistics 12、Computer Science 12')}</p>
+      <p class="rs-more"><a href={route(lang, '/education/')}>{L('Education details', '教育详情')} →</a></p>
     </div>
   </section>
 
-  <section class="block" id="about">
+  <section class="block rs" id="projects">
     <div class="wrap">
-      <div class="sh"><span class="kicker">{L('About', '关于')}</span><h2 class="page-h">{L('Education and background', '教育与背景')}</h2></div>
-      <p class="about-line"><b>{uw.org}</b> — {uw.degree}, {uw.date}. {L('Euclid 2025: 83/100. Peer listening group founder, 3-year academic committee member, IELTS Academic 7.0.', 'Euclid 2025：83/100。同伴倾听小组发起人，三年学习委员，IELTS Academic 7.0。')}</p>
-      <p class="more-row">{more.map(([label, path]) => <a class="btn" href={route(lang, path)}>{label}</a>)}</p>
+      <h2 class="rs-h">{L('Featured projects', '重点项目')}</h2>
+      {projects.map((p) => (
+        <div class="rs-item">
+          <div class="rs-row"><span class="rs-t"><a href={p.href}><b>{p.name}</b></a> — {p.desc}</span><span>{p.date}</span></div>
+          <ul>{p.bullets.map((b) => <li>{b}</li>)}</ul>
+        </div>
+      ))}
+      <p class="rs-more"><a href={route(lang, '/projects/')}>{L('All projects (CodeCompass, Chronicle, EasyTrip, TeachFlow)', '全部项目（CodeCompass、Chronicle、EasyTrip、TeachFlow）')} →</a></p>
+    </div>
+  </section>
+
+  <section class="block rs" id="experience">
+    <div class="wrap">
+      <h2 class="rs-h">{L('Experience & leadership', '经历与领导力')}</h2>
+      {leadership.map((e) => (
+        <div class="rs-item">
+          <div class="rs-row"><span class="rs-t"><b>{e.name}</b> — {e.role}</span><span>{e.date}</span></div>
+          <ul><li>{e.text}</li></ul>
+        </div>
+      ))}
+      <p class="rs-more"><a href={route(lang, '/experience/')}>{L('More experience', '更多经历')} →</a></p>
+    </div>
+  </section>
+
+  <section class="block rs" id="skills">
+    <div class="wrap">
+      <h2 class="rs-h">{L('Technical skills', '技能')}</h2>
+      <p class="rs-sub">{h.skillsP}</p>
+      <dl class="rs-skills">{content.skills.map((s) => <div><dt>{s.label[lang]}</dt><dd>{s.items[lang]}</dd></div>)}</dl>
+    </div>
+  </section>
+
+  <section class="block rs" id="open-source">
+    <div class="wrap">
+      <h2 class="rs-h">{L('Open-source contributions', '开源贡献')}</h2>
+      <p class="rs-sub">{h.aiNote}</p>
+      {repos.map((r) => { const st = repoStats(r); const o = ossDesc[r] ?? { name: r, d: '', b: '' }; return (
+        <div class="rs-item">
+          <div class="rs-row"><span class="rs-t"><a href={`https://github.com/${r}/pulls?q=author%3AJelly-RayTian`}><b>{o.name}</b></a> — {o.d}</span><span>{st.total} PRs · {st.merged} {L('merged', '已合并')}{st.squashed + st.consolidated ? ` · ${st.squashed + st.consolidated} ${L('in main via maintainer', '经维护者进入 main')}` : ''} · {st.open} {L('open', '审核中')}</span></div>
+          <ul><li>{o.b}</li></ul>
+        </div>
+      ); })}
+      <p class="rs-more"><a href={route(lang, '/open-source/')}>{L('Every pull request, with its real status', '每个 PR 及其真实状态')} →</a></p>
+    </div>
+  </section>
+
+  <section class="block rs" id="writing">
+    <div class="wrap">
+      <h2 class="rs-h">{L('Technical writing', '技术写作')}</h2>
+      {content.writing.map((w) => (
+        <div class="rs-row"><span class="rs-t"><a href={w.url}><b>{w.title}</b></a> — {w.venue}</span><span>{w.date}</span></div>
+      ))}
+      <p class="rs-more"><a href={route(lang, '/systems/')}>{L('Longer write-ups on game files, Android and iOS', '关于游戏文件、Android 和 iOS 的详细记录')} →</a></p>
+    </div>
+  </section>
+
+  <section class="block rs" id="awards">
+    <div class="wrap">
+      <h2 class="rs-h">{L('Awards, certifications & activities', '荣誉、证书与活动')}</h2>
+      <ul class="rs-list">{recognition.map(([a, b]) => <li><b>{a}</b> — {b}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="block rs" id="contact">
+    <div class="wrap">
+      <h2 class="rs-h">{L('Contact', '联系')}</h2>
+      <p>{h.seeking}</p>
+      <p class="more-row"><a class="btn gold" href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn</a><a class="btn" href="https://github.com/Jelly-RayTian">GitHub</a><a class="btn" href={route(lang, '/contact/')}>{L('More ways', '更多方式')}</a></p>
     </div>
   </section>
 </BaseLayout>
