@@ -568,21 +568,45 @@
       "section": "event",
       "en": {
         "title": "CommuniHacks 2026",
-        "role": "Participant",
+        "role": "Team member · SeedFlow",
         "bullets": [
-          "Took part in CommuniHacks 2026, a 24-hour hackathon in Waterloo (Nov 7–8, 2026) where student teams build software for problems local nonprofits and community organizations bring."
+          "Took part in CommuniHacks 2026, a 24-hour hackathon in Waterloo (Nov 7–8, 2026), on a team that built SeedFlow: a seed request, inventory and order-management prototype for Youth in Food Systems (a program of Seeds of Diversity Canada), Challenge 3.",
+          "My merged pull request on the team repository simplifies the review, counting and packing workflows (#5).",
+          "The team used AI coding assistants."
         ],
-        "note": "Participation only. I have no project or award to list.",
-        "tags": "Hackathon · Community · Teamwork"
+        "note": "Hackathon prototype, not an official or endorsed service of the organisation. Demo data in the repository is fictional. No award is claimed.",
+        "tags": "Hackathon · Inventory workflow · Teamwork",
+        "links": [
+          {
+            "label": "Team repository",
+            "url": "https://github.com/CommunihacksSeed/Seedtrack"
+          },
+          {
+            "label": "My pull request",
+            "url": "https://github.com/CommunihacksSeed/Seedtrack/pull/5"
+          }
+        ]
       },
       "zh": {
         "title": "CommuniHacks 2026",
-        "role": "参与者",
+        "role": "团队成员 · SeedFlow",
         "bullets": [
-          "参加了 CommuniHacks 2026：2026 年 11 月 7–8 日在滑铁卢举行的 24 小时黑客松，学生团队为本地非营利组织和社区机构提出的问题开发软件。"
+          "参加了 CommuniHacks 2026（2026 年 11 月 7–8 日在滑铁卢举行的 24 小时黑客松），所在团队做了 SeedFlow：为 Youth in Food Systems（Seeds of Diversity Canada 的项目）做的种子申请、库存与订单管理原型，对应 Challenge 3。",
+          "我在团队仓库中合并的 pull request 简化了审核、清点和打包流程（#5）。",
+          "团队使用了 AI 编程助手。"
         ],
-        "note": "仅为参与，没有可列出的项目或奖项。",
-        "tags": "黑客松 · 社区 · 团队合作"
+        "note": "黑客松原型，并非该组织的官方或认可服务。仓库中的演示数据均为虚构。不声称获奖。",
+        "tags": "黑客松 · 库存流程 · 团队合作",
+        "links": [
+          {
+            "label": "团队仓库",
+            "url": "https://github.com/CommunihacksSeed/Seedtrack"
+          },
+          {
+            "label": "我的 pull request",
+            "url": "https://github.com/CommunihacksSeed/Seedtrack/pull/5"
+          }
+        ]
       }
     }
   ],

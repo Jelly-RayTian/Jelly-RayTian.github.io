@@ -10,5 +10,6 @@ const x = e[lang];
   <p class="role">{x.role}</p>
   {x.bullets && <ul class="xlist">{x.bullets.map((b: string) => <li>{b}</li>)}</ul>}
   {x.note && <p class="xnote">{x.note}</p>}
+  {x.links && <p class="feat-links">{x.links.map((l: { label: string; url: string }) => <a href={l.url} rel="noopener">{l.label} ↗</a>)}</p>}
   {x.tags && <p class="experience-tags">{x.tags}</p>}
 </article>
