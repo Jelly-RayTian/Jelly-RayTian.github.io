@@ -90,6 +90,22 @@
    "summary": "Use temporary disks in device tests"
   },
   {
+   "repo": "Leviidev/Henge",
+   "number": 60,
+   "url": "https://github.com/Leviidev/Henge/pull/60",
+   "title": "Prevent hvsparse from overwriting its input",
+   "status": "open",
+   "summary": "Prevent hvsparse from overwriting its input"
+  },
+  {
+   "repo": "Leviidev/Henge",
+   "number": 61,
+   "url": "https://github.com/Leviidev/Henge/pull/61",
+   "title": "Block duplicate macOS installs during preflight",
+   "status": "open",
+   "summary": "Block duplicate macOS installs during preflight"
+  },
+  {
    "repo": "PDFCraftTool/pdfcraft",
    "number": 252,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/252",
@@ -288,6 +304,14 @@
    "title": "fix(ci): normalize extracted AppDir permissions before repacking the Linux AppImage",
    "status": "merged",
    "summary": "fix(ci): normalize extracted AppDir permissions before repacking the Linux AppImage"
+  },
+  {
+   "repo": "sherlock-project/sherlock",
+   "number": 3204,
+   "url": "https://github.com/sherlock-project/sherlock/pull/3204",
+   "title": "Use Chess.com public API for profile detection",
+   "status": "open",
+   "summary": "Use Chess.com public API for profile detection"
   },
   {
    "repo": "willfaust/Madeira",
