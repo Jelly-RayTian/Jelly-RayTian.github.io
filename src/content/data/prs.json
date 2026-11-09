@@ -1,5 +1,5 @@
 {
- "generated_on": "2026-11-08",
+ "generated_on": "2026-11-09",
  "prs": [
   {
    "repo": "CommunihacksSeed/Seedtrack",
@@ -86,7 +86,7 @@
    "number": 36,
    "url": "https://github.com/Leviidev/Henge/pull/36",
    "title": "Use temporary disks in device tests",
-   "status": "open",
+   "status": "closed_unverified",
    "summary": "Use temporary disks in device tests"
   },
   {
