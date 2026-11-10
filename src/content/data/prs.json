@@ -306,6 +306,22 @@
    "summary": "fix(ci): normalize extracted AppDir permissions before repacking the Linux AppImage"
   },
   {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 307,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/307",
+   "title": "fix(fix-page-size): restore blank-page guard dropped when #287 merged",
+   "status": "open",
+   "summary": "fix(fix-page-size): restore blank-page guard dropped when #287 merged"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 308,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/308",
+   "title": "fix(overlay): apply layers in place so documents keep their data and rotated pages stay upright",
+   "status": "open",
+   "summary": "fix(overlay): apply layers in place so documents keep their data and rotated pages stay upright"
+  },
+  {
    "repo": "sherlock-project/sherlock",
    "number": 3204,
    "url": "https://github.com/sherlock-project/sherlock/pull/3204",
@@ -424,6 +440,14 @@
    "title": "README: say how to add a game after installing",
    "status": "merged",
    "summary": "README: say how to add a game after installing"
+  },
+  {
+   "repo": "willfaust/Madeira",
+   "number": 605,
+   "url": "https://github.com/willfaust/Madeira/pull/605",
+   "title": "Translations: 21 short Settings, library and achievements texts in the six languages",
+   "status": "open",
+   "summary": "Translations: 21 short Settings, library and achievements texts in the six languages"
   }
  ]
 }
