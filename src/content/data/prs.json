@@ -322,6 +322,70 @@
    "summary": "fix(overlay): apply layers in place so documents keep their data and rotated pages stay upright"
   },
   {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 312,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/312",
+   "title": "fix(page-numbers): place numbers on the displayed page when it has /Rotate",
+   "status": "open",
+   "summary": "fix(page-numbers): place numbers on the displayed page when it has /Rotate"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 313,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/313",
+   "title": "fix(header-footer): place headers and footers on the displayed page when it has /Rotate",
+   "status": "open",
+   "summary": "fix(header-footer): place headers and footers on the displayed page when it has /Rotate"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 314,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/314",
+   "title": "fix(watermark): lay the watermark out on the displayed page when it has /Rotate",
+   "status": "open",
+   "summary": "fix(watermark): lay the watermark out on the displayed page when it has /Rotate"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 315,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/315",
+   "title": "fix(crop): map the displayed crop rectangle onto pages that have /Rotate",
+   "status": "open",
+   "summary": "fix(crop): map the displayed crop rectangle onto pages that have /Rotate"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 316,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/316",
+   "title": "fix(extract): retain forms, bookmarks, links and metadata in the pdf-lib path",
+   "status": "open",
+   "summary": "fix(extract): retain forms, bookmarks, links and metadata in the pdf-lib path"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 317,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/317",
+   "title": "fix(rotate-custom): handle blank pages when rotating by an arbitrary angle",
+   "status": "open",
+   "summary": "fix(rotate-custom): handle blank pages when rotating by an arbitrary angle"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 318,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/318",
+   "title": "fix(posterize): cut tiles from the displayed page when it has /Rotate",
+   "status": "open",
+   "summary": "fix(posterize): cut tiles from the displayed page when it has /Rotate"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 319,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/319",
+   "title": "fix(combine-single-page): size and draw pages as displayed when they have /Rotate",
+   "status": "open",
+   "summary": "fix(combine-single-page): size and draw pages as displayed when they have /Rotate"
+  },
+  {
    "repo": "sherlock-project/sherlock",
    "number": 3204,
    "url": "https://github.com/sherlock-project/sherlock/pull/3204",
