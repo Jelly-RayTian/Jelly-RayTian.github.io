@@ -1,5 +1,5 @@
 {
- "generated_on": "2026-11-09",
+ "generated_on": "2026-11-10",
  "prs": [
   {
    "repo": "CommunihacksSeed/Seedtrack",
@@ -87,23 +87,23 @@
    "url": "https://github.com/Leviidev/Henge/pull/36",
    "title": "Use temporary disks in device tests",
    "status": "closed_unverified",
-   "summary": "Use temporary disks in device tests"
+   "summary": "Closed without merging: the maintainer had already made the device tests use TMPDIR."
   },
   {
    "repo": "Leviidev/Henge",
    "number": 60,
    "url": "https://github.com/Leviidev/Henge/pull/60",
    "title": "Prevent hvsparse from overwriting its input",
-   "status": "open",
-   "summary": "Prevent hvsparse from overwriting its input"
+   "status": "merged",
+   "summary": "Stops hvsparse truncating its input when source and destination are the same file, hard link or symlink."
   },
   {
    "repo": "Leviidev/Henge",
    "number": 61,
    "url": "https://github.com/Leviidev/Henge/pull/61",
    "title": "Block duplicate macOS installs during preflight",
-   "status": "open",
-   "summary": "Block duplicate macOS installs during preflight"
+   "status": "merged",
+   "summary": "Ignores a second tap on Install while the first install is still preparing, so two installs cannot start."
   },
   {
    "repo": "PDFCraftTool/pdfcraft",
