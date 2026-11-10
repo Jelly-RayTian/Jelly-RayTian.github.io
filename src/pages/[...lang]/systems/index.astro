@@ -31,6 +31,12 @@ const items = (await getCollection('systems')).filter((e) => e.data.lang === lan
     </div>
     <h2 class="sub-h">{lang === 'zh' ? '文章发表' : 'Published writing'}</h2>
     <div class="pgrid">
+      <a class="pcard xcard" href="https://doi.org/10.5281/zenodo.24096967" rel="noopener">
+        <b>When Startup Failures Look the Same<span aria-hidden="true">↗</span></b>
+        <p class="subt">{lang === 'zh' ? 'Zenodo · 技术报告 · 2026 年 11 月' : 'Zenodo · Technical report · Nov 2026'}</p>
+        <p>{lang === 'zh' ? '基于源码分析和日志回放，研究 Madeira 启动诊断中的遗漏与误报。' : 'Source inspection and log replay of missing and misleading startup diagnostics in Madeira.'}</p>
+        <p>DOI: 10.5281/zenodo.24096967</p>
+      </a>
       {content.writing.map((w) => (
         <a class="pcard xcard" href={w.url} rel="noopener">
           <b>{w.title}<span aria-hidden="true">↗</span></b>

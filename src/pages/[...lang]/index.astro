@@ -151,6 +151,10 @@ const recognition = [
   <section class="block rs" id="writing"><div class="wrap rs-grid">
     <div class="rs-side"><span class="rs-n">06</span><h2 class="rs-h">{L('Technical writing', '技术写作')}</h2></div>
     <div class="rs-body">
+      <a class="write" href="https://doi.org/10.5281/zenodo.24096967">
+        <span><b>When Startup Failures Look the Same</b><em>{L('Technical report · Madeira diagnostic log analysis · Zenodo', '技术报告 · Madeira 诊断日志分析 · Zenodo')}</em></span><span>{L('Nov 2026', '2026 年 11 月')} ↗</span>
+      </a>
+      <p class="rs-sub">{L('Examines missing and misleading startup diagnostics through source inspection and reproducible log replay. Includes a targeted fix and its evaluation limits.', '通过源码分析和可复现的日志回放研究启动诊断中的遗漏与误报，包含针对性修正及其评估局限。')}</p>
       {content.writing.map((w) => (
         <a class="write" href={w.url}><span><b>{w.title}</b><em>{w.venue}</em></span><span>{w.date} ↗</span></a>
       ))}
