@@ -386,6 +386,38 @@
    "summary": "fix(combine-single-page): size and draw pages as displayed when they have /Rotate"
   },
   {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 320,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/320",
+   "title": "fix(processors): add the output suffix for upper-case .PDF file names",
+   "status": "open",
+   "summary": "fix(processors): add the output suffix for upper-case .PDF file names"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 321,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/321",
+   "title": "fix(tools): add the download suffix for upper-case .PDF file names",
+   "status": "open",
+   "summary": "fix(tools): add the download suffix for upper-case .PDF file names"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 322,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/322",
+   "title": "fix(i18n): add the Edit Metadata date strings to the Polish, Czech and Hindi catalogs",
+   "status": "open",
+   "summary": "fix(i18n): add the Edit Metadata date strings to the Polish, Czech and Hindi catalogs"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 323,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/323",
+   "title": "fix(i18n): translate the 35 missing Digital Sign, Edit Metadata and Edit PDF strings in Chinese",
+   "status": "open",
+   "summary": "fix(i18n): translate the 35 missing Digital Sign, Edit Metadata and Edit PDF strings in Chinese"
+  },
+  {
    "repo": "sherlock-project/sherlock",
    "number": 3204,
    "url": "https://github.com/sherlock-project/sherlock/pull/3204",
