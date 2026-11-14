@@ -130,6 +130,94 @@
    "summary": "Docs: design document, README, submission pack and video script for PRs #1–#5"
   },
   {
+   "repo": "Jesse-njx/exodus",
+   "number": 1,
+   "url": "https://github.com/Jesse-njx/exodus/pull/1",
+   "title": "Security hardening: CSP, link allowlist, geocoder checks, CI",
+   "status": "merged",
+   "summary": "Security hardening: CSP, link allowlist, geocoder checks, CI"
+  },
+  {
+   "repo": "Jesse-njx/exodus",
+   "number": 2,
+   "url": "https://github.com/Jesse-njx/exodus/pull/2",
+   "title": "Resident tools: listen to the page, add the meeting to a calendar, share",
+   "status": "merged",
+   "summary": "Resident tools: listen to the page, add the meeting to a calendar, share"
+  },
+  {
+   "repo": "Jesse-njx/exodus",
+   "number": 3,
+   "url": "https://github.com/Jesse-njx/exodus/pull/3",
+   "title": "Game-style 3D map: time of day, storey-by-storey holograms, flight controls, guided tour",
+   "status": "merged",
+   "summary": "Game-style 3D map: time of day, storey-by-storey holograms, flight controls, guided tour"
+  },
+  {
+   "repo": "Jesse-njx/exodus",
+   "number": 4,
+   "url": "https://github.com/Jesse-njx/exodus/pull/4",
+   "title": "New pages: How decisions are made, Words (glossary + tooltips), How we check, My ward",
+   "status": "merged",
+   "summary": "New pages: How decisions are made, Words (glossary + tooltips), How we check, My ward"
+  },
+  {
+   "repo": "Jesse-njx/exodus",
+   "number": 5,
+   "url": "https://github.com/Jesse-njx/exodus/pull/5",
+   "title": "French and Chinese interface, offline support, lazy-loaded maps, real app icon",
+   "status": "merged",
+   "summary": "French and Chinese interface, offline support, lazy-loaded maps, real app icon"
+  },
+  {
+   "repo": "Jesse-njx/exodus",
+   "number": 6,
+   "url": "https://github.com/Jesse-njx/exodus/pull/6",
+   "title": "Docs: design document, README, submission pack and video script for PRs #1–#5",
+   "status": "merged",
+   "summary": "Docs: design document, README, submission pack and video script for PRs #1–#5"
+  },
+  {
+   "repo": "Jesse-njx/exodus",
+   "number": 11,
+   "url": "https://github.com/Jesse-njx/exodus/pull/11",
+   "title": "Opaque map controls, EN | FR | 中文 language switch, remove English-content banner",
+   "status": "merged",
+   "summary": "Opaque map controls, EN | FR | 中文 language switch, remove English-content banner"
+  },
+  {
+   "repo": "Jesse-njx/exodus",
+   "number": 13,
+   "url": "https://github.com/Jesse-njx/exodus/pull/13",
+   "title": "Fix: odd building shapes in map tiles could blank the whole page",
+   "status": "merged",
+   "summary": "Fix: odd building shapes in map tiles could blank the whole page"
+  },
+  {
+   "repo": "Jesse-njx/exodus",
+   "number": 14,
+   "url": "https://github.com/Jesse-njx/exodus/pull/14",
+   "title": "Drive mode: a toy car on the 3D map, visit every decision",
+   "status": "merged",
+   "summary": "Drive mode: a toy car on the 3D map, visit every decision"
+  },
+  {
+   "repo": "Jesse-njx/exodus",
+   "number": 15,
+   "url": "https://github.com/Jesse-njx/exodus/pull/15",
+   "title": "Docs: drive mode and the map crash fix",
+   "status": "merged",
+   "summary": "Docs: drive mode and the map crash fix"
+  },
+  {
+   "repo": "Jesse-njx/exodus",
+   "number": 17,
+   "url": "https://github.com/Jesse-njx/exodus/pull/17",
+   "title": "Human sign-off: all 15 explanations reviewed by Ray Tian",
+   "status": "merged",
+   "summary": "Human sign-off: all 15 explanations reviewed by Ray Tian"
+  },
+  {
    "repo": "Leviidev/Henge",
    "number": 36,
    "url": "https://github.com/Leviidev/Henge/pull/36",
