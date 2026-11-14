@@ -27,10 +27,10 @@ const projects = [
     ] },
   { name: L('PvZ2 resource-file research and article', 'PvZ2 资源文件研究与文章'), desc: L('self-directed study', '自主研究'), date: L('Nov 2026', '2026 年 11 月'), href: route(lang, `/systems/${pvz.data.pageSlug}/`),
     bullets: [L('Studied how a mobile game\'s resource files are layered (RSB, RTON), wrote a small decoder (14 passing tests on synthetic data), and published the explanation on DEV Community (English) and Zhihu (Chinese).', '研究了一款手游资源文件的分层方式（RSB、RTON），写了一个小解码器（合成数据上 14 个测试通过），并把讲解发表在 DEV Community（英文）和知乎（中文）。')] },
-  { name: 'Clear Council', desc: L('team project at CIVIC Hackathon 2026 (TypeScript)', 'CIVIC Hackathon 2026 团队项目（TypeScript）'), date: L('Nov 2026', '2026 年 11 月'), href: route(lang, '/experience/'),
+  { name: 'Exodus (Clear Council)', desc: L('CIVIC Hack 2026 team project · winner, Best storytelling and visualizations', 'CIVIC Hack 2026 团队项目 · 获奖：最佳叙事与可视化'), date: L('Nov 2026', '2026 年 11 月'), href: 'https://devpost.com/software/exodus-czjiq5',
     bullets: [
-      L('Plain-language explanations of City of Toronto council decisions, each statement linked to the exact passage in the official record; the build fails if a quoted passage cannot be found word for word.', '用通俗语言解释多伦多市议会的决定，每句话都链接到官方记录中的原文；如果引用的原文无法逐字找到，构建就会失败。'),
-      L('I authored six merged pull requests in the team repository: security hardening, resident tools (read aloud, add to calendar, share), a 3D decision map, new explainer pages, an English / French / Chinese interface with offline support, and the design document.', '我在团队仓库里写了六个已合并的 pull request：安全加固、居民工具（朗读、加入日历、分享）、3D 决策地图、新的说明页面、支持离线的英/法/中文界面，以及设计文档。'),
+      L('Turns a City of Toronto council agenda item into one plain-language page, every sentence linked to the exact passage in the official record; the build refuses to publish a quote it cannot find. Four-person team.', '把多伦多市议会的一份议程事项变成一个通俗语言页面，每句话都链接到官方记录中的原文；找不到引用原文时，构建拒绝发布。团队四人。'),
+      L('I directed and merged AI-assisted pull requests (11 merged so far): security hardening, a 3D decision map, a multilingual interface, a drive mode and a human review sign-off of all 15 explanations. The project\'s Devpost page discloses its AI use.', '我指导并合并了借助 AI 完成的 pull request（目前已合并 11 个）：安全加固、3D 决策地图、多语言界面、驾驶模式，以及对全部 15 条解释的人工复核签字。项目的 Devpost 页面披露了 AI 的使用。'),
     ] },
   { name: 'WechatSignals', desc: L('local-first macOS tool for analysing one-to-one chats (TypeScript, Swift)', '本地优先的 macOS 单聊分析工具（TypeScript、Swift）'), date: L('Oct 2026', '2026 年 10 月'), href: proj('wechatsignals'),
     bullets: [L('Designed around privacy: read-only access, anonymised participants, API key in Keychain, data sent only when the user clicks. Beta release v0.1.0-beta.1.', '以隐私为设计前提：只读访问、参与者匿名化、API key 存在 Keychain、只有用户点击才发送数据。Beta 版本 v0.1.0-beta.1。')] },
@@ -52,7 +52,7 @@ const facts = [
   { v: '83/100', l: L('Euclid Mathematics Contest 2025', 'Euclid 数学竞赛 2025') },
   { v: '290', l: L('automated tests passing in WatDesk v1.10.1', 'WatDesk v1.10.1 通过的自动化测试') },
   { v: String(merged), l: L(`pull requests merged in ${mergedRepos} open-source projects`, `个 PR 已合并，涉及 ${mergedRepos} 个开源项目`) },
-  { v: '7.0', l: L('IELTS Academic overall band', 'IELTS Academic 总分') },
+  { v: L('Winner', '获奖'), l: L('CIVIC Hack 2026 · Best storytelling and visualizations', 'CIVIC Hack 2026 · 最佳叙事与可视化') },
 ];
 const bar = (r: string) => { const st = repoStats(r); const t = st.total || 1; const inMain = st.squashed + st.consolidated; return [
   ['merged', st.merged], ['main', inMain], ['open', st.open], ].map(([k, n]) => ({ k: String(k), w: (Number(n) / t) * 100 })).filter((x) => x.w > 0); };
@@ -62,7 +62,7 @@ const recognition = [
   [L('University entrance scholarship offers', '大学入学奖学金 offer'), L('University of Alberta, McMaster (2025)', '阿尔伯塔大学、麦克马斯特大学（2025）')],
   ['IELTS Academic', L('overall band 7.0', '总分 7.0')],
   [L('Piano Level 10', '钢琴十级'), L('primary school', '小学')],
-  ['CIVIC Hackathon 2026', L('team member (Clear Council); online hackathon, Future Cities Institute, Nov 2026', '团队成员（Clear Council）；Future Cities Institute 主办的线上黑客松，2026 年 11 月')],
+  ['CIVIC Hack 2026', L('Winner, Best storytelling and visualizations (team project Exodus); online hackathon, Future Cities Institute, Nov 2026', '获奖：Best storytelling and visualizations（团队项目 Exodus）；Future Cities Institute 主办的线上黑客松，2026 年 11 月')],
   ['CommuniHacks 2026', L('team member (SeedFlow for Youth in Food Systems); 24-hour hackathon in Waterloo, Nov 2026', '团队成员（为 Youth in Food Systems 做的 SeedFlow）；2026 年 11 月在滑铁卢的 24 小时黑客松')],
 ];
 ---

@@ -613,15 +613,20 @@
       "id": "civichack",
       "section": "event",
       "en": {
-        "title": "CIVIC Hackathon 2026",
-        "role": "Team member · Clear Council",
+        "title": "CIVIC Hack 2026 · Winner, Best storytelling and visualizations",
+        "role": "Team member · Exodus (Clear Council)",
         "bullets": [
-          "Took part in the CIVIC Hackathon 2026 (Future Cities Institute, University of Waterloo; online, Nov 12–14, 2026) on a team building Clear Council: plain-language explanations of City of Toronto council decisions, each statement linked to the exact passage in the official record.",
-          "I authored six merged pull requests in the team repository: security hardening (content-security policy, link allowlist), resident tools (read aloud, add to calendar, share), a 3D decision map, new explainer pages, an English / French / Chinese interface with offline support, and the design document."
+          "Won the \"Best storytelling and visualizations\" prize at CIVIC Hack 2026 (Future Cities Institute, University of Waterloo; online, Nov 12–14, 2026) with Exodus, a four-person team project.",
+          "Exodus turns a City of Toronto council agenda item into one plain-language page, every sentence linked to the exact quoted passage in the official record; the build refuses to publish a quote it cannot find.",
+          "My part, as stated on the project's Devpost page: I directed and merged AI-assisted pull requests (11 merged in the team repository so far): security hardening, a 3D decision map, explainer pages, an English / French / Chinese interface, a drive mode, and a human review sign-off of all 15 explanations."
         ],
-        "note": "Proof of concept built during the hackathon. No placement or award is claimed.",
+        "note": "The project's Devpost page discloses that the summaries were drafted with an AI model and that much of the code was written with AI assistance. The live site uses no AI. The prize is one category prize among several winners.",
         "tags": "Hackathon · Civic technology · Teamwork",
         "links": [
+          {
+            "label": "Devpost project",
+            "url": "https://devpost.com/software/exodus-czjiq5"
+          },
           {
             "label": "Team repository",
             "url": "https://github.com/Jesse-njx/clear-council"
@@ -633,15 +638,20 @@
         ]
       },
       "zh": {
-        "title": "CIVIC Hackathon 2026",
-        "role": "团队成员 · Clear Council",
+        "title": "CIVIC Hack 2026 · 获奖：Best storytelling and visualizations",
+        "role": "团队成员 · Exodus（Clear Council）",
         "bullets": [
-          "参加了 CIVIC Hackathon 2026（Future Cities Institute / 滑铁卢大学；线上，2026 年 11 月 12–14 日），所在团队做了 Clear Council：用通俗语言解释多伦多市议会的决定，每句话都链接到官方记录中的原文。",
-          "我在团队仓库里写了六个已合并的 pull request：安全加固（内容安全策略、链接白名单）、居民工具（朗读、加入日历、分享）、3D 决策地图、新的说明页面、支持离线的英/法/中文界面，以及设计文档。"
+          "在 CIVIC Hack 2026（Future Cities Institute / 滑铁卢大学；线上，2026 年 11 月 12–14 日）中，与团队项目 Exodus 一起获得 “Best storytelling and visualizations”（最佳叙事与可视化）奖，团队四人。",
+          "Exodus 把多伦多市议会的一份议程事项变成一个通俗语言页面，每句话都链接到官方记录中的原文；如果引用的原文找不到，构建就拒绝发布。",
+          "我的部分（项目 Devpost 页面上的说明）：我指导并合并了借助 AI 完成的 pull request（团队仓库中目前已合并 11 个）：安全加固、3D 决策地图、说明页面、英/法/中文界面、驾驶模式，以及对全部 15 条解释的人工复核签字。"
         ],
-        "note": "黑客松期间做出的概念验证。不声称名次或奖项。",
+        "note": "项目的 Devpost 页面披露：摘要由 AI 模型起草，大部分代码借助 AI 编写；上线的网站本身不使用 AI。该奖项是多个获奖项目中的一个类别奖。",
         "tags": "黑客松 · 公民科技 · 团队合作",
         "links": [
+          {
+            "label": "Devpost 项目",
+            "url": "https://devpost.com/software/exodus-czjiq5"
+          },
           {
             "label": "团队仓库",
             "url": "https://github.com/Jesse-njx/clear-council"
