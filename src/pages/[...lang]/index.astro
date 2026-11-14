@@ -14,9 +14,9 @@ const systems = (await getCollection('systems')).filter((s) => s.data.lang === l
 const pvz = systems.find((e) => e.data.pageSlug === 'pvz2-resource-analysis')!;
 const uw = content.education[0][lang];
 const hs = content.education[1][lang];
-const team = 'CommunihacksSeed/Seedtrack';
-const ossRepos = repos.filter((r) => r !== team).sort((a, b) => repoStats(b).total - repoStats(a).total);
-const merged = prs.filter((p) => p.status === 'merged' && p.repo !== team).length;
+const teamRepos = ['CommunihacksSeed/Seedtrack', 'Jesse-njx/clear-council'];
+const ossRepos = repos.filter((r) => !teamRepos.includes(r)).sort((a, b) => repoStats(b).total - repoStats(a).total);
+const merged = prs.filter((p) => p.status === 'merged' && !teamRepos.includes(p.repo)).length;
 const mergedRepos = ossRepos.filter((r) => repoStats(r).merged > 0).length;
 const proj = (slug: string) => route(lang, `/projects/${slug}/`);
 const projects = [
@@ -27,6 +27,11 @@ const projects = [
     ] },
   { name: L('PvZ2 resource-file research and article', 'PvZ2 资源文件研究与文章'), desc: L('self-directed study', '自主研究'), date: L('Nov 2026', '2026 年 11 月'), href: route(lang, `/systems/${pvz.data.pageSlug}/`),
     bullets: [L('Studied how a mobile game\'s resource files are layered (RSB, RTON), wrote a small decoder (14 passing tests on synthetic data), and published the explanation on DEV Community (English) and Zhihu (Chinese).', '研究了一款手游资源文件的分层方式（RSB、RTON），写了一个小解码器（合成数据上 14 个测试通过），并把讲解发表在 DEV Community（英文）和知乎（中文）。')] },
+  { name: 'Clear Council', desc: L('team project at CIVIC Hackathon 2026 (TypeScript)', 'CIVIC Hackathon 2026 团队项目（TypeScript）'), date: L('Nov 2026', '2026 年 11 月'), href: route(lang, '/experience/'),
+    bullets: [
+      L('Plain-language explanations of City of Toronto council decisions, each statement linked to the exact passage in the official record; the build fails if a quoted passage cannot be found word for word.', '用通俗语言解释多伦多市议会的决定，每句话都链接到官方记录中的原文；如果引用的原文无法逐字找到，构建就会失败。'),
+      L('I authored six merged pull requests in the team repository: security hardening, resident tools (read aloud, add to calendar, share), a 3D decision map, new explainer pages, an English / French / Chinese interface with offline support, and the design document.', '我在团队仓库里写了六个已合并的 pull request：安全加固、居民工具（朗读、加入日历、分享）、3D 决策地图、新的说明页面、支持离线的英/法/中文界面，以及设计文档。'),
+    ] },
   { name: 'WechatSignals', desc: L('local-first macOS tool for analysing one-to-one chats (TypeScript, Swift)', '本地优先的 macOS 单聊分析工具（TypeScript、Swift）'), date: L('Oct 2026', '2026 年 10 月'), href: proj('wechatsignals'),
     bullets: [L('Designed around privacy: read-only access, anonymised participants, API key in Keychain, data sent only when the user clicks. Beta release v0.1.0-beta.1.', '以隐私为设计前提：只读访问、参与者匿名化、API key 存在 Keychain、只有用户点击才发送数据。Beta 版本 v0.1.0-beta.1。')] },
 ];
@@ -40,6 +45,7 @@ const ossDesc: Record<string, { name: string; d: string; b: string }> = {
   'PDFCraftTool/pdfcraft': { name: 'PDFCraft', d: L('browser PDF toolkit', '浏览器端 PDF 工具箱'), b: L('Fixed PDF rotation dropping forms, bookmarks and links (11 regression cases failed before the fix) and Unicode page labels saved as garbled text.', '修复 PDF 旋转时丢失表单、书签和链接的问题（修复前 11 个回归用例失败），以及 Unicode 页码标签被存成乱码。') },
   'willfaust/Madeira': { name: 'Madeira', d: L('Windows-on-iOS compatibility layer', 'iOS 上运行 Windows 的兼容层'), b: L('Fixed a startup memory overwrite for long working directories (12 of 24 test cases failed before, all 24 pass; squashed onto main by the maintainer) and two further fixes now on main.', '修复过长工作目录导致的启动内存覆盖（修复前 24 个用例中 12 个失败，现全部通过；维护者 squash 进了 main），另有两项修复已在 main 上。') },
   'Leviidev/Henge': { name: 'Henge', d: L('emulate macOS on iOS and iPadOS', '在 iOS 和 iPadOS 上模拟 macOS'), b: L('Fixed a tool truncating its input file when source and destination were the same file, hard link or symlink, and a second tap on Install starting a duplicate install. Both merged.', '修复工具在源文件和目标文件相同（含硬链接、符号链接）时截断输入文件的问题，以及重复点击“安装”会启动第二次安装的问题。两项均已合并。') },
+  'sherlock-project/sherlock': { name: 'Sherlock', d: L('username search across social networks (Python)', '跨社交网络查找用户名（Python）'), b: L('Proposed using Chess.com\'s public API for the Chess profile check, tested with known and random usernames. The pull request is open.', '提议用 Chess.com 的公开 API 来检测 Chess 账号，并用已知和随机用户名测试过。该 PR 审核中。') },
   'DaKheera47/job-ops': { name: 'job-ops', d: L('self-hosted job-search tool', '自托管求职工具'), b: L('Fixed posting dates shifting by a day across time zones and daylight saving, checked under four time zones; added client-side PDF import.', '修复发布日期在时区和夏令时下偏移一天的问题，并在四个时区下验证；新增客户端 PDF 导入。') },
 };
 const facts = [
@@ -56,6 +62,7 @@ const recognition = [
   [L('University entrance scholarship offers', '大学入学奖学金 offer'), L('University of Alberta, McMaster (2025)', '阿尔伯塔大学、麦克马斯特大学（2025）')],
   ['IELTS Academic', L('overall band 7.0', '总分 7.0')],
   [L('Piano Level 10', '钢琴十级'), L('primary school', '小学')],
+  ['CIVIC Hackathon 2026', L('team member (Clear Council); online hackathon, Future Cities Institute, Nov 2026', '团队成员（Clear Council）；Future Cities Institute 主办的线上黑客松，2026 年 11 月')],
   ['CommuniHacks 2026', L('team member (SeedFlow for Youth in Food Systems); 24-hour hackathon in Waterloo, Nov 2026', '团队成员（为 Youth in Food Systems 做的 SeedFlow）；2026 年 11 月在滑铁卢的 24 小时黑客松')],
 ];
 ---

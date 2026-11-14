@@ -1,5 +1,5 @@
 {
- "generated_on": "2026-11-10",
+ "generated_on": "2026-11-14",
  "prs": [
   {
    "repo": "CommunihacksSeed/Seedtrack",
@@ -80,6 +80,54 @@
    "title": "feat(settings): refresh model suggestions without changing selection",
    "status": "open",
    "summary": ""
+  },
+  {
+   "repo": "Jesse-njx/clear-council",
+   "number": 1,
+   "url": "https://github.com/Jesse-njx/clear-council/pull/1",
+   "title": "Security hardening: CSP, link allowlist, geocoder checks, CI",
+   "status": "merged",
+   "summary": "Security hardening: CSP, link allowlist, geocoder checks, CI"
+  },
+  {
+   "repo": "Jesse-njx/clear-council",
+   "number": 2,
+   "url": "https://github.com/Jesse-njx/clear-council/pull/2",
+   "title": "Resident tools: listen to the page, add the meeting to a calendar, share",
+   "status": "merged",
+   "summary": "Resident tools: listen to the page, add the meeting to a calendar, share"
+  },
+  {
+   "repo": "Jesse-njx/clear-council",
+   "number": 3,
+   "url": "https://github.com/Jesse-njx/clear-council/pull/3",
+   "title": "Game-style 3D map: time of day, storey-by-storey holograms, flight controls, guided tour",
+   "status": "merged",
+   "summary": "Game-style 3D map: time of day, storey-by-storey holograms, flight controls, guided tour"
+  },
+  {
+   "repo": "Jesse-njx/clear-council",
+   "number": 4,
+   "url": "https://github.com/Jesse-njx/clear-council/pull/4",
+   "title": "New pages: How decisions are made, Words (glossary + tooltips), How we check, My ward",
+   "status": "merged",
+   "summary": "New pages: How decisions are made, Words (glossary + tooltips), How we check, My ward"
+  },
+  {
+   "repo": "Jesse-njx/clear-council",
+   "number": 5,
+   "url": "https://github.com/Jesse-njx/clear-council/pull/5",
+   "title": "French and Chinese interface, offline support, lazy-loaded maps, real app icon",
+   "status": "merged",
+   "summary": "French and Chinese interface, offline support, lazy-loaded maps, real app icon"
+  },
+  {
+   "repo": "Jesse-njx/clear-council",
+   "number": 6,
+   "url": "https://github.com/Jesse-njx/clear-council/pull/6",
+   "title": "Docs: design document, README, submission pack and video script for PRs #1–#5",
+   "status": "merged",
+   "summary": "Docs: design document, README, submission pack and video script for PRs #1–#5"
   },
   {
    "repo": "Leviidev/Henge",

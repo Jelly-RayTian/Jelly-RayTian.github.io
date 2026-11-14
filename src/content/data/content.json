@@ -608,6 +608,50 @@
           }
         ]
       }
+    },
+    {
+      "id": "civichack",
+      "section": "event",
+      "en": {
+        "title": "CIVIC Hackathon 2026",
+        "role": "Team member · Clear Council",
+        "bullets": [
+          "Took part in the CIVIC Hackathon 2026 (Future Cities Institute, University of Waterloo; online, Nov 12–14, 2026) on a team building Clear Council: plain-language explanations of City of Toronto council decisions, each statement linked to the exact passage in the official record.",
+          "I authored six merged pull requests in the team repository: security hardening (content-security policy, link allowlist), resident tools (read aloud, add to calendar, share), a 3D decision map, new explainer pages, an English / French / Chinese interface with offline support, and the design document."
+        ],
+        "note": "Proof of concept built during the hackathon. No placement or award is claimed.",
+        "tags": "Hackathon · Civic technology · Teamwork",
+        "links": [
+          {
+            "label": "Team repository",
+            "url": "https://github.com/Jesse-njx/clear-council"
+          },
+          {
+            "label": "My pull requests",
+            "url": "https://github.com/Jesse-njx/clear-council/pulls?q=author%3AJelly-RayTian"
+          }
+        ]
+      },
+      "zh": {
+        "title": "CIVIC Hackathon 2026",
+        "role": "团队成员 · Clear Council",
+        "bullets": [
+          "参加了 CIVIC Hackathon 2026（Future Cities Institute / 滑铁卢大学；线上，2026 年 11 月 12–14 日），所在团队做了 Clear Council：用通俗语言解释多伦多市议会的决定，每句话都链接到官方记录中的原文。",
+          "我在团队仓库里写了六个已合并的 pull request：安全加固（内容安全策略、链接白名单）、居民工具（朗读、加入日历、分享）、3D 决策地图、新的说明页面、支持离线的英/法/中文界面，以及设计文档。"
+        ],
+        "note": "黑客松期间做出的概念验证。不声称名次或奖项。",
+        "tags": "黑客松 · 公民科技 · 团队合作",
+        "links": [
+          {
+            "label": "团队仓库",
+            "url": "https://github.com/Jesse-njx/clear-council"
+          },
+          {
+            "label": "我的 pull request",
+            "url": "https://github.com/Jesse-njx/clear-council/pulls?q=author%3AJelly-RayTian"
+          }
+        ]
+      }
     }
   ],
   "admissions": [
