@@ -614,7 +614,7 @@
    "number": 320,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/320",
    "title": "fix(processors): add the output suffix for upper-case .PDF file names",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(processors): add the output suffix for upper-case .PDF file names"
   },
   {
