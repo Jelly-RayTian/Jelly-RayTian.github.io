@@ -1,5 +1,5 @@
 {
- "generated_on": "2026-11-15",
+ "generated_on": "2026-11-16",
  "prs": [
   {
    "repo": "CommunihacksSeed/exodus",
@@ -534,7 +534,7 @@
    "number": 307,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/307",
    "title": "fix(fix-page-size): restore blank-page guard dropped when #287 merged",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(fix-page-size): restore blank-page guard dropped when #287 merged"
   },
   {
@@ -542,7 +542,7 @@
    "number": 308,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/308",
    "title": "fix(overlay): apply layers in place so documents keep their data and rotated pages stay upright",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(overlay): apply layers in place so documents keep their data and rotated pages stay upright"
   },
   {
@@ -550,7 +550,7 @@
    "number": 312,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/312",
    "title": "fix(page-numbers): place numbers on the displayed page when it has /Rotate",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(page-numbers): place numbers on the displayed page when it has /Rotate"
   },
   {
@@ -558,7 +558,7 @@
    "number": 313,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/313",
    "title": "fix(header-footer): place headers and footers on the displayed page when it has /Rotate",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(header-footer): place headers and footers on the displayed page when it has /Rotate"
   },
   {
@@ -566,7 +566,7 @@
    "number": 314,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/314",
    "title": "fix(watermark): lay the watermark out on the displayed page when it has /Rotate",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(watermark): lay the watermark out on the displayed page when it has /Rotate"
   },
   {
@@ -574,7 +574,7 @@
    "number": 315,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/315",
    "title": "fix(crop): map the displayed crop rectangle onto pages that have /Rotate",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(crop): map the displayed crop rectangle onto pages that have /Rotate"
   },
   {
@@ -582,7 +582,7 @@
    "number": 316,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/316",
    "title": "fix(extract): retain forms, bookmarks, links and metadata in the pdf-lib path",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(extract): retain forms, bookmarks, links and metadata in the pdf-lib path"
   },
   {
@@ -590,7 +590,7 @@
    "number": 317,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/317",
    "title": "fix(rotate-custom): handle blank pages when rotating by an arbitrary angle",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(rotate-custom): handle blank pages when rotating by an arbitrary angle"
   },
   {
@@ -598,7 +598,7 @@
    "number": 318,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/318",
    "title": "fix(posterize): cut tiles from the displayed page when it has /Rotate",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(posterize): cut tiles from the displayed page when it has /Rotate"
   },
   {
@@ -606,7 +606,7 @@
    "number": 319,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/319",
    "title": "fix(combine-single-page): size and draw pages as displayed when they have /Rotate",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(combine-single-page): size and draw pages as displayed when they have /Rotate"
   },
   {
@@ -622,7 +622,7 @@
    "number": 321,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/321",
    "title": "fix(tools): add the download suffix for upper-case .PDF file names",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(tools): add the download suffix for upper-case .PDF file names"
   },
   {
@@ -630,7 +630,7 @@
    "number": 322,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/322",
    "title": "fix(i18n): add the Edit Metadata date strings to the Polish, Czech and Hindi catalogs",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(i18n): add the Edit Metadata date strings to the Polish, Czech and Hindi catalogs"
   },
   {
@@ -638,7 +638,7 @@
    "number": 323,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/323",
    "title": "fix(i18n): translate the 35 missing Digital Sign, Edit Metadata and Edit PDF strings in Chinese",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(i18n): translate the 35 missing Digital Sign, Edit Metadata and Edit PDF strings in Chinese"
   },
   {
