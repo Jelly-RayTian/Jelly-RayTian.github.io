@@ -1,7 +1,7 @@
 {
   "about": {
-    "en": "I'm Ray Tian, a first-year Honours Mathematics (Co-op) student at the University of Waterloo. I'm interested in data-driven problem solving, product development and technology-enabled business solutions. I like problems that start from something concrete: a bug I can reproduce, a tool classmates actually need, a group that needs organizing. Away from the keyboard I play table tennis and piano, follow open-source projects, and enjoy rhythm games and interactive digital experiences.",
-    "zh": "我是 Ray Tian，滑铁卢大学数学荣誉学士（Co-op）大一学生，关注数据驱动的问题解决、产品开发，以及由技术支撑的商业解决方案。我喜欢从具体问题出发：一个可以复现的 bug、同学真正需要的工具、一个需要有人组织的小组。离开键盘，我打乒乓球、弹钢琴，关注开源项目，也喜欢节奏游戏和互动式数字体验。"
+    "en": "I'm Ray Tian, a first-year Honours Mathematics student at the University of Waterloo. I'm interested in data-driven problem solving, product development and technology-enabled business solutions. I like problems that start from something concrete: a bug I can reproduce, a tool classmates actually need, a group that needs organizing. Away from the keyboard I play table tennis and piano, follow open-source projects, and enjoy rhythm games and interactive digital experiences.",
+    "zh": "我是 Ray Tian，滑铁卢大学数学荣誉学士大一学生，关注数据驱动的问题解决、产品开发，以及由技术支撑的商业解决方案。我喜欢从具体问题出发：一个可以复现的 bug、同学真正需要的工具、一个需要有人组织的小组。离开键盘，我打乒乓球、弹钢琴，关注开源项目，也喜欢节奏游戏和互动式数字体验。"
   },
   "interests": [
     {
@@ -43,7 +43,7 @@
       "en": {
         "org": "University of Waterloo",
         "place": "Waterloo, Ontario, Canada",
-        "degree": "Honours Bachelor of Mathematics, Co-operative Program",
+        "degree": "Honours Bachelor of Mathematics",
         "date": "Sep 2026 – Present",
         "coursework": [
           "CS 135 — Designing Functional Programs",
@@ -55,7 +55,7 @@
       "zh": {
         "org": "滑铁卢大学（University of Waterloo）",
         "place": "加拿大安大略省滑铁卢",
-        "degree": "数学荣誉学士，Co-op 项目",
+        "degree": "数学荣誉学士",
         "date": "2026 年 9 月 – 至今",
         "coursework": [
           "CS 135 — 函数式程序设计（Designing Functional Programs）",
