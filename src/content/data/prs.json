@@ -1,5 +1,5 @@
 {
- "generated_on": "2026-11-16",
+ "generated_on": "2026-11-18",
  "prs": [
   {
    "repo": "CommunihacksSeed/exodus",
@@ -168,6 +168,14 @@
    "title": "feat(settings): refresh model suggestions without changing selection",
    "status": "open",
    "summary": ""
+  },
+  {
+   "repo": "estellathy06/coursepack-ai",
+   "number": 1,
+   "url": "https://github.com/estellathy06/coursepack-ai/pull/1",
+   "title": "Add Simplified Chinese interface (work in progress)",
+   "status": "merged",
+   "summary": "Add Simplified Chinese interface (work in progress)"
   },
   {
    "repo": "Leviidev/Henge",
