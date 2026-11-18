@@ -14,7 +14,7 @@ const systems = (await getCollection('systems')).filter((s) => s.data.lang === l
 const pvz = systems.find((e) => e.data.pageSlug === 'pvz2-resource-analysis')!;
 const uw = content.education[0][lang];
 const hs = content.education[1][lang];
-const teamRepos = ['CommunihacksSeed/Seedtrack', 'Jesse-njx/clear-council'];
+const teamRepos = ['CommunihacksSeed/Seedtrack', 'CommunihacksSeed/exodus'];
 const ossRepos = repos.filter((r) => !teamRepos.includes(r)).sort((a, b) => repoStats(b).total - repoStats(a).total);
 const merged = prs.filter((p) => p.status === 'merged' && !teamRepos.includes(p.repo)).length;
 const mergedRepos = ossRepos.filter((r) => repoStats(r).merged > 0).length;

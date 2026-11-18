@@ -27,6 +27,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      - run: node --test scripts/update-prs.test.mjs
       - name: Refresh pull-request data
         id: refresh
         env:

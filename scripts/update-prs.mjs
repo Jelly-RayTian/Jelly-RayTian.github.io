@@ -27,12 +27,13 @@ if (!token) {
   try { token = execFileSync('gh', ['auth', 'token'], { encoding: 'utf8' }).trim(); } catch { /* anonymous */ }
 }
 
-async function get(url) {
+async function get(url, { allowMissing = false } = {}) {
   for (let attempt = 0; attempt < 5; attempt++) {
     const res = await fetch(url, {
       headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'portfolio-pr-refresh', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
     });
     if (res.ok) return res.json();
+    if (allowMissing && res.status === 404) return null;
     if ([403, 429, 500, 502, 503, 504].includes(res.status)) {
       await new Promise((r) => setTimeout(r, 2000 * 2 ** attempt));
       continue;
@@ -43,7 +44,35 @@ async function get(url) {
 }
 
 const current = JSON.parse(fs.readFileSync(file, 'utf8'));
-const known = new Map(current.prs.map((p) => [`${p.repo}#${p.number}`, p]));
+const repoCache = new Map();
+async function resolveRepo(name) {
+  const key = name.toLowerCase();
+  if (!repoCache.has(key)) {
+    const repo = await get(`${API}/repos/${name}`, { allowMissing: true });
+    repoCache.set(key, repo);
+    if (repo) repoCache.set(repo.full_name.toLowerCase(), repo);
+  }
+  return repoCache.get(key);
+}
+
+const isExcluded = (repo) => repo.private || repo.full_name.split('/')[0].toLowerCase() === USER.toLowerCase();
+const prKey = (repo, number) => `${repo.toLowerCase()}#${number}`;
+const known = new Map();
+for (const p of current.prs) {
+  const resolved = await resolveRepo(p.repo);
+  if (resolved && isExcluded(resolved)) continue;
+  const repo = resolved?.full_name ?? p.repo;
+  const url = resolved ? `https://github.com/${repo}/pull/${p.number}` : p.url;
+  const key = prKey(repo, p.number);
+  const previous = known.get(key);
+  if (!previous) {
+    known.set(key, { ...p, repo, url });
+  } else {
+    // Keep hand-verified details even if the current-name record was generated later.
+    if (previous.summary === previous.title && p.summary !== p.title) previous.summary = p.summary;
+    if (previous.status === 'closed_unverified' && KEEP_CLOSED.has(p.status)) previous.status = p.status;
+  }
+}
 
 const items = [];
 for (let page = 1; ; page++) {
@@ -52,14 +81,15 @@ for (let page = 1; ; page++) {
   if (r.items.length < 100) break;
 }
 
-const isPublic = new Map();
 const next = new Map();
 for (const it of items) {
-  const repo = it.repository_url.split('/repos/')[1];
-  if (repo.split('/')[0].toLowerCase() === USER.toLowerCase()) continue;
-  if (!isPublic.has(repo)) isPublic.set(repo, !(await get(`${API}/repos/${repo}`)).private);
-  if (!isPublic.get(repo)) continue;
-  const key = `${repo}#${it.number}`;
+  const name = it.repository_url.split('/repos/')[1];
+  if (name.split('/')[0].toLowerCase() === USER.toLowerCase()) continue;
+  const resolved = await resolveRepo(name);
+  if (!resolved || isExcluded(resolved)) continue;
+  const repo = resolved.full_name;
+  const key = prKey(repo, it.number);
+  if (next.has(key)) continue;
   const pr = await get(`${API}/repos/${repo}/pulls/${it.number}`);
   const old = known.get(key);
   let status;
@@ -79,9 +109,9 @@ if (changed) {
   const out = { generated_on: new Date().toISOString().slice(0, 10), prs };
   fs.writeFileSync(file, JSON.stringify(out, null, 1) + '\n');
 }
-const added = prs.filter((p) => !known.has(`${p.repo}#${p.number}`));
-const moved = prs.filter((p) => known.has(`${p.repo}#${p.number}`) && known.get(`${p.repo}#${p.number}`).status !== p.status);
+const added = prs.filter((p) => !known.has(prKey(p.repo, p.number)));
+const moved = prs.filter((p) => known.has(prKey(p.repo, p.number)) && known.get(prKey(p.repo, p.number)).status !== p.status);
 console.log(`${prs.length} PRs (${added.length} new, ${moved.length} changed status). ${changed ? 'prs.json updated.' : 'No change.'}`);
 for (const p of added) console.log(`  new:  ${p.repo}#${p.number} [${p.status}] ${p.title}`);
-for (const p of moved) console.log(`  moved: ${p.repo}#${p.number} ${known.get(`${p.repo}#${p.number}`).status} -> ${p.status}`);
+for (const p of moved) console.log(`  moved: ${p.repo}#${p.number} ${known.get(prKey(p.repo, p.number)).status} -> ${p.status}`);
 if (process.env.GITHUB_OUTPUT) fs.appendFileSync(process.env.GITHUB_OUTPUT, `changed=${changed}\n`);
