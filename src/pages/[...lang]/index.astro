@@ -14,7 +14,7 @@ const systems = (await getCollection('systems')).filter((s) => s.data.lang === l
 const pvz = systems.find((e) => e.data.pageSlug === 'pvz2-resource-analysis')!;
 const uw = content.education[0][lang];
 const hs = content.education[1][lang];
-const teamRepos = ['CommunihacksSeed/Seedtrack', 'CommunihacksSeed/exodus'];
+const teamRepos = ['CommunihacksSeed/Seedtrack', 'Jesse-njx/clear-council'];
 const ossRepos = repos.filter((r) => !teamRepos.includes(r)).sort((a, b) => repoStats(b).total - repoStats(a).total);
 const merged = prs.filter((p) => p.status === 'merged' && !teamRepos.includes(p.repo)).length;
 const mergedRepos = ossRepos.filter((r) => repoStats(r).merged > 0).length;
@@ -124,7 +124,7 @@ const recognition = [
           </li>
         ))}
       </ol>
-      <p class="rs-more"><a href={route(lang, '/experience/')}>{L('More experience', '更多经历')} →</a></p>
+      <p class="rs-more"><a href={route(lang, '/experience/')}>{L('More experience', '更多经验')} →</a></p>
     </div>
   </div></section>
 
@@ -176,8 +176,16 @@ const recognition = [
     </div>
   </div></section>
 
+  <section class="block rs" id="yc"><div class="wrap rs-grid">
+    <div class="rs-side"><span class="rs-n">08</span><h2 class="rs-h">{L('YC Co-Founder Matching', 'YC 联合创始人匹配')}</h2></div>
+    <div class="rs-body">
+      <p class="rs-sub first">{L('I\'m on Y Combinator\'s Co-Founder Matching platform, looking to join a founder with a concrete idea and build it together. I\'d cover product and engineering, and I\'m most interested in AI, developer tools, education, consumer and gaming. I\'m a student, so part-time during the term (about 10–15 hours a week, less during exam weeks, more during breaks), remote or Waterloo/Kitchener based — and I\'d like to start with a small trial project before committing.', '我在 Y Combinator 的 Co-Founder Matching 平台上，想加入一位有具体 idea 的创始人，一起把产品做出来。我负责产品与工程，感兴趣的方向是 AI、开发者工具、教育、消费与游戏。我是学生，学期期间兼职（每周约 10–15 小时，考试周会少，假期更多），远程或滑铁卢/Kitchener 本地，希望先从一个小的试做项目开始，合适再长期合作。')}</p>
+      <p class="more-row"><a class="btn gold" href="https://www.ycombinator.com/cofounder-matching">YC Co-Founder Matching ↗</a><a class="btn" href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn</a></p>
+    </div>
+  </div></section>
+
   <section class="block rs" id="contact"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">08</span><h2 class="rs-h">{L('Contact', '联系')}</h2></div>
+    <div class="rs-side"><span class="rs-n">09</span><h2 class="rs-h">{L('Contact', '联系')}</h2></div>
     <div class="rs-body">
       <p class="contact-line">{h.seeking}</p>
       <p class="more-row"><a class="btn gold" href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn</a><a class="btn" href="https://github.com/Jelly-RayTian">GitHub</a><a class="btn" href={route(lang, '/contact/')}>{L('More ways', '更多方式')}</a></p>
