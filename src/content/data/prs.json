@@ -1,5 +1,5 @@
 {
- "generated_on": "2026-11-18",
+ "generated_on": "2026-11-23",
  "prs": [
   {
    "repo": "CommunihacksSeed/exodus",
@@ -512,6 +512,94 @@
    "title": "fix(i18n): translate the 35 missing Digital Sign, Edit Metadata and Edit PDF strings in Chinese",
    "status": "merged",
    "summary": "fix(i18n): translate the 35 missing Digital Sign, Edit Metadata and Edit PDF strings in Chinese"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 337,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/337",
+   "title": "fix(pdf-to-cbz): preserve filename sort order beyond 999 pages",
+   "status": "open",
+   "summary": "fix(pdf-to-cbz): preserve filename sort order beyond 999 pages"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 338,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/338",
+   "title": "fix(remove-annotations): preserve unselected annotation types",
+   "status": "open",
+   "summary": "fix(remove-annotations): preserve unselected annotation types"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 339,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/339",
+   "title": "fix(add-blank-page): match the displayed source page dimensions",
+   "status": "open",
+   "summary": "fix(add-blank-page): match the displayed source page dimensions"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 340,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/340",
+   "title": "fix(bookmarks-auto): detect headings drawn with rotated text matrices",
+   "status": "open",
+   "summary": "fix(bookmarks-auto): detect headings drawn with rotated text matrices"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 341,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/341",
+   "title": "fix(cbz-to-pdf): composite transparent images on white before JPEG conversion",
+   "status": "open",
+   "summary": "fix(cbz-to-pdf): composite transparent images on white before JPEG conversion"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 342,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/342",
+   "title": "fix(json-to-pdf): stop wrapping when the margins leave no room for text",
+   "status": "open",
+   "summary": "fix(json-to-pdf): stop wrapping when the margins leave no room for text"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 343,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/343",
+   "title": "fix(page-dimensions): report displayed orientation for rotated pages",
+   "status": "open",
+   "summary": "fix(page-dimensions): report displayed orientation for rotated pages"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 344,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/344",
+   "title": "fix(page-numbers): include the start offset in total placeholders",
+   "status": "open",
+   "summary": "fix(page-numbers): include the start offset in total placeholders"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 345,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/345",
+   "title": "fix(sign): report failed signature images instead of exporting unsigned output",
+   "status": "open",
+   "summary": "fix(sign): report failed signature images instead of exporting unsigned output"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 346,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/346",
+   "title": "fix(pdf-to-slide): retain pipe characters and ignore marked-content records",
+   "status": "open",
+   "summary": "fix(pdf-to-slide): retain pipe characters and ignore marked-content records"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 347,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/347",
+   "title": "fix(pdf-to-zip): reset cancellation when starting a new archive",
+   "status": "open",
+   "summary": "fix(pdf-to-zip): reset cancellation when starting a new archive"
   },
   {
    "repo": "sherlock-project/sherlock",
