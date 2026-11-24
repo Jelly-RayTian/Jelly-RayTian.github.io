@@ -28,10 +28,10 @@ export const pages: Record<Lang, Record<string, { k: string; h: string; p: strin
 
 export const home = {
   en: {
-    kicker: 'University of Waterloo · Honours Mathematics · Started September 2026',
+    kicker: 'University of Waterloo · Honours Mathematics (Co-op) · Started September 2026',
     interests: 'Business analysis · Data analytics · Technology',
-    lede: 'Honours Mathematics student at the University of Waterloo, interested in data-driven problem solving, product development, and technology-enabled business solutions.',
-    seeking: 'Looking to join an early-stage team part-time during my study term and build real products',
+    lede: 'Honours Mathematics Co-op student at the University of Waterloo, interested in data-driven problem solving, product development, and technology-enabled business solutions.',
+    seeking: 'Looking to join an early-stage team part-time during my study term and build real products · First Co-op work term: May–Aug 2027',
     projectsP: 'Each one starts from a problem someone really had. I say what I built, how I checked it, and where it stands today.',
     ctaProjects: 'Featured projects',
     watdesk: [['The problem', 'Waterloo deadlines, exams and grades are spread across LEARN, Crowdmark and Odyssey.'], ['What I made', 'One side panel with a timeline, a two-week workload view, exam countdowns, grades and calendar export, in English and Simplified Chinese.'], ['How I checked', '290 automated tests passed at v1.10.1; 9 tagged releases so far.'], ['Where it stands', 'Listed on Microsoft Edge Add-ons, with v1.10.1 submitted for store review. Your data stays in your browser.']],
@@ -50,10 +50,10 @@ export const home = {
     ],
   },
   zh: {
-    kicker: '滑铁卢大学 · 数学荣誉学士 · 2026 年 9 月入学',
+    kicker: '滑铁卢大学 · 数学荣誉学士（Co-op）· 2026 年 9 月入学',
     interests: '商业分析 · 数据分析 · 技术',
-    lede: '滑铁卢大学数学荣誉学士大一学生，关注数据驱动的问题解决、产品开发，以及由技术支撑的商业解决方案。',
-    seeking: '希望在学期期间以兼职形式加入一个早期团队，一起做真实产品',
+    lede: '滑铁卢大学数学荣誉学士（Co-op）大一学生，关注数据驱动的问题解决、产品开发，以及由技术支撑的商业解决方案。',
+    seeking: '希望在学期期间以兼职形式加入一个早期团队，一起做真实产品 · 第一个 Co-op work term：2027 年 5–8 月',
     projectsP: '每个项目都从别人真正遇到的问题出发。我会说明做了什么、怎么检查、现在进展到哪。',
     ctaProjects: '重点项目',
     watdesk: [['问题', '滑铁卢的截止日期、考试和成绩分散在 LEARN、Crowdmark 和 Odyssey 里。'], ['我做了什么', '一个侧边栏：时间线、两周工作量视图、考试倒计时、成绩和日历导出；支持英文和简体中文。'], ['怎么检查', 'v1.10.1 时 290 个自动化测试全部通过；目前共 9 个版本。'], ['现在的状态', '已在 Edge 加载项商店上架，v1.10.1 已提交商店审核。数据只留在你的浏览器里。']],
