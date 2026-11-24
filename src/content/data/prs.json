@@ -170,6 +170,14 @@
    "summary": ""
   },
   {
+   "repo": "dongdongbh/Mindwtr",
+   "number": 1610,
+   "url": "https://github.com/dongdongbh/Mindwtr/pull/1610",
+   "title": "feat(desktop): add a native macOS Settings menu item",
+   "status": "draft",
+   "summary": "feat(desktop): add a native macOS Settings menu item"
+  },
+  {
    "repo": "estellathy06/coursepack-ai",
    "number": 1,
    "url": "https://github.com/estellathy06/coursepack-ai/pull/1",
@@ -664,6 +672,94 @@
    "title": "fix(two-column-reflow): crop columns in displayed page coordinates",
    "status": "open",
    "summary": "fix(two-column-reflow): crop columns in displayed page coordinates"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 356,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/356",
+   "title": "fix(annotation-exporter): read PDF.js text objects for notes and authors",
+   "status": "open",
+   "summary": "fix(annotation-exporter): read PDF.js text objects for notes and authors"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 357,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/357",
+   "title": "fix(citation-linker): write URI strings and preserve indirect annotations",
+   "status": "open",
+   "summary": "fix(citation-linker): write URI strings and preserve indirect annotations"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 358,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/358",
+   "title": "fix(email-to-pdf): decode RFC 2047 header bytes using their charset",
+   "status": "open",
+   "summary": "fix(email-to-pdf): decode RFC 2047 header bytes using their charset"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 359,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/359",
+   "title": "fix(form-filler): generate appearances for Chinese text values",
+   "status": "open",
+   "summary": "fix(form-filler): generate appearances for Chinese text values"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 360,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/360",
+   "title": "fix(form-filler): remove stale widget references after flattening",
+   "status": "open",
+   "summary": "fix(form-filler): remove stale widget references after flattening"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 361,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/361",
+   "title": "fix(form-logic): preserve Unicode and control characters in rule scripts",
+   "status": "open",
+   "summary": "fix(form-logic): preserve Unicode and control characters in rule scripts"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 362,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/362",
+   "title": "fix(pdf-to-markdown): reject invalid ranges instead of exporting every page",
+   "status": "open",
+   "summary": "fix(pdf-to-markdown): reject invalid ranges instead of exporting every page"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 363,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/363",
+   "title": "fix(deep-sanitize): honor the layer stripping option for page resources",
+   "status": "open",
+   "summary": "fix(deep-sanitize): honor the layer stripping option for page resources"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 364,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/364",
+   "title": "fix(scratchpad): add bottom notes below the original page content",
+   "status": "open",
+   "summary": "fix(scratchpad): add bottom notes below the original page content"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 365,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/365",
+   "title": "fix(uniform-resizer): fit and embed the visible CropBox region",
+   "status": "open",
+   "summary": "fix(uniform-resizer): fit and embed the visible CropBox region"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 366,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/366",
+   "title": "fix(spine-bookbinder): center the downward rotated title on the cover",
+   "status": "open",
+   "summary": "fix(spine-bookbinder): center the downward rotated title on the cover"
   },
   {
    "repo": "sherlock-project/sherlock",
