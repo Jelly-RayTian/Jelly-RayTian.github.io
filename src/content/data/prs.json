@@ -1,5 +1,5 @@
 {
- "generated_on": "2026-11-23",
+ "generated_on": "2026-11-24",
  "prs": [
   {
    "repo": "CommunihacksSeed/exodus",
@@ -518,7 +518,7 @@
    "number": 337,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/337",
    "title": "fix(pdf-to-cbz): preserve filename sort order beyond 999 pages",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(pdf-to-cbz): preserve filename sort order beyond 999 pages"
   },
   {
@@ -526,7 +526,7 @@
    "number": 338,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/338",
    "title": "fix(remove-annotations): preserve unselected annotation types",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(remove-annotations): preserve unselected annotation types"
   },
   {
@@ -534,7 +534,7 @@
    "number": 339,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/339",
    "title": "fix(add-blank-page): match the displayed source page dimensions",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(add-blank-page): match the displayed source page dimensions"
   },
   {
@@ -542,7 +542,7 @@
    "number": 340,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/340",
    "title": "fix(bookmarks-auto): detect headings drawn with rotated text matrices",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(bookmarks-auto): detect headings drawn with rotated text matrices"
   },
   {
@@ -550,7 +550,7 @@
    "number": 341,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/341",
    "title": "fix(cbz-to-pdf): composite transparent images on white before JPEG conversion",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(cbz-to-pdf): composite transparent images on white before JPEG conversion"
   },
   {
@@ -558,7 +558,7 @@
    "number": 342,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/342",
    "title": "fix(json-to-pdf): stop wrapping when the margins leave no room for text",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(json-to-pdf): stop wrapping when the margins leave no room for text"
   },
   {
@@ -566,7 +566,7 @@
    "number": 343,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/343",
    "title": "fix(page-dimensions): report displayed orientation for rotated pages",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(page-dimensions): report displayed orientation for rotated pages"
   },
   {
@@ -574,7 +574,7 @@
    "number": 344,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/344",
    "title": "fix(page-numbers): include the start offset in total placeholders",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(page-numbers): include the start offset in total placeholders"
   },
   {
@@ -582,7 +582,7 @@
    "number": 345,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/345",
    "title": "fix(sign): report failed signature images instead of exporting unsigned output",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(sign): report failed signature images instead of exporting unsigned output"
   },
   {
@@ -600,6 +600,70 @@
    "title": "fix(pdf-to-zip): reset cancellation when starting a new archive",
    "status": "open",
    "summary": "fix(pdf-to-zip): reset cancellation when starting a new archive"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 348,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/348",
+   "title": "fix(overlay): honor the layer document page rotation",
+   "status": "open",
+   "summary": "fix(overlay): honor the layer document page rotation"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 349,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/349",
+   "title": "fix(split): reject noninteger page range endpoints",
+   "status": "open",
+   "summary": "fix(split): reject noninteger page range endpoints"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 350,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/350",
+   "title": "fix(text-to-pdf): preserve words before Windows and legacy Mac line endings",
+   "status": "open",
+   "summary": "fix(text-to-pdf): preserve words before Windows and legacy Mac line endings"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 351,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/351",
+   "title": "fix(dead-link-debugger): resolve indirect link objects and decode PDF strings",
+   "status": "open",
+   "summary": "fix(dead-link-debugger): resolve indirect link objects and decode PDF strings"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 352,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/352",
+   "title": "fix(interactive-toc): use an encodable return-link label",
+   "status": "open",
+   "summary": "fix(interactive-toc): use an encodable return-link label"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 353,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/353",
+   "title": "fix(signature-anchor): embed the bundled font for non-WinAnsi labels",
+   "status": "open",
+   "summary": "fix(signature-anchor): embed the bundled font for non-WinAnsi labels"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 354,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/354",
+   "title": "fix(lossless-slicer): map the visual slice into rotated page coordinates",
+   "status": "open",
+   "summary": "fix(lossless-slicer): map the visual slice into rotated page coordinates"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 355,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/355",
+   "title": "fix(two-column-reflow): crop columns in displayed page coordinates",
+   "status": "open",
+   "summary": "fix(two-column-reflow): crop columns in displayed page coordinates"
   },
   {
    "repo": "sherlock-project/sherlock",
