@@ -6,7 +6,7 @@ import PrExplorer from '../../../components/PrExplorer.astro';
 import CaseStudies from '../../../components/CaseStudies.astro';
 import { localePaths } from '../../../lib/paths';
 import { pages, home } from '../../../content/data/pages';
-import { repos, repoStats, prs, count } from '../../../lib/data';
+import { repos, repoStats, prs, count, statusName } from '../../../lib/data';
 import { t, type Lang } from '../../../i18n/ui';
 export const getStaticPaths = localePaths;
 const { lang } = Astro.props as { lang: Lang };
@@ -14,6 +14,32 @@ const pg = pages[lang].openSource;
 const hdr = lang === 'zh'
   ? ['仓库', 'PR', '已合并', 'squash', '整合', '审核中/草稿']
   : ['Repository', 'PRs', 'Merged', 'Squashed', 'Consolidated', 'Open/draft'];
+const recent = [
+  {
+    repo: 'dongdongbh/Mindwtr', number: 1610,
+    en: 'Adds a native macOS Settings menu item and ⌘, shortcut that reuse the app’s existing navigation. The maintainer requested documentation and native macOS testing on Nov 24.',
+    zh: '添加 macOS 原生「设置」菜单和 ⌘, 快捷键，复用现有的设置页导航。维护者于 11 月 24 日要求补充文档并在 macOS 上实测。',
+  },
+  {
+    repo: 'PDFCraftTool/pdfcraft', number: 366,
+    en: 'Centers the rotated spine title on printable book covers. Checked the output with a separate PDF renderer.',
+    zh: '让打印封面的旋转书脊标题居中，并用独立 PDF 渲染器核对输出。',
+  },
+  {
+    repo: 'PDFCraftTool/pdfcraft', number: 365,
+    en: 'Keeps previously cropped margins hidden when resizing PDFs. Verified fit and fill across all four right-angle rotations.',
+    zh: '统一页面尺寸时保留原有裁切范围。验证了四种直角旋转下的适应和填充模式。',
+  },
+  {
+    repo: 'PDFCraftTool/pdfcraft', number: 360,
+    en: 'Removes stale widget references after flattening a form while preserving valid annotations.',
+    zh: '在表单扁平化后清除失效的控件引用，同时保留正常批注。',
+  },
+].flatMap(({ repo, number, ...description }) => {
+  const pr = prs.find((item) => item.repo === repo && item.number === number);
+  return pr ? [{ pr, description: description[lang] }] : [];
+});
+
 ---
 <BaseLayout lang={lang} path="/open-source/" title={pg.k} description={pg.p}>
   <section class="block"><div class="wrap">
@@ -29,6 +55,19 @@ const hdr = lang === 'zh'
       </table>
     </div>
 
+    <section aria-labelledby="recent-contributions">
+      <h2 class="sub-h" id="recent-contributions">{lang === 'zh' ? '近期贡献' : 'Recent contributions'}</h2>
+      <ul class="recent-prs">
+        {recent.map(({ pr, description }) => (
+          <li>
+            <a href={pr.url}>{pr.repo} #{pr.number}</a>
+            <span class="muted"> · {statusName(pr.status, lang)}</span>
+            <p>{description}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
     <h2 class="sub-h">{lang === 'zh' ? '案例研究' : 'Case studies'}</h2>
     <p class="muted">{lang === 'zh' ? '左侧是我的 PR 里的结果；右侧是维护者随后做了什么。' : 'Left: the results from my PR. Right: what the maintainers did with it.'}</p>
     <CaseStudies lang={lang} />
@@ -38,3 +77,10 @@ const hdr = lang === 'zh'
     <p class="more"><a class="btn" href="https://github.com/Jelly-RayTian/Jelly-RayTian/blob/main/OPEN_SOURCE_CONTRIBUTIONS.md">{t(lang, 'ledger')} ↗</a></p>
   </div></section>
 </BaseLayout>
+
+<style>
+  .recent-prs { list-style: none; margin: 0; padding: 0; }
+  .recent-prs li { border-bottom: 1px solid var(--line); padding: 14px 0; }
+  .recent-prs a { overflow-wrap: anywhere; }
+  .recent-prs p { margin: 5px 0 0; }
+</style>
