@@ -166,7 +166,7 @@
    "number": 801,
    "url": "https://github.com/DaKheera47/job-ops/pull/801",
    "title": "feat(settings): refresh model suggestions without changing selection",
-   "status": "open",
+   "status": "merged",
    "summary": ""
   },
   {
@@ -718,7 +718,7 @@
    "number": 361,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/361",
    "title": "fix(form-logic): preserve Unicode and control characters in rule scripts",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(form-logic): preserve Unicode and control characters in rule scripts"
   },
   {
@@ -726,7 +726,7 @@
    "number": 362,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/362",
    "title": "fix(pdf-to-markdown): reject invalid ranges instead of exporting every page",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(pdf-to-markdown): reject invalid ranges instead of exporting every page"
   },
   {
@@ -734,7 +734,7 @@
    "number": 363,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/363",
    "title": "fix(deep-sanitize): honor the layer stripping option for page resources",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(deep-sanitize): honor the layer stripping option for page resources"
   },
   {
@@ -742,7 +742,7 @@
    "number": 364,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/364",
    "title": "fix(scratchpad): add bottom notes below the original page content",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(scratchpad): add bottom notes below the original page content"
   },
   {
@@ -766,7 +766,7 @@
    "number": 367,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/367",
    "title": "fix(stamps): keep preset labels inside the rotated border",
-   "status": "open",
+   "status": "merged",
    "summary": "Fixes label placement for rotated preset stamps."
   },
   {
