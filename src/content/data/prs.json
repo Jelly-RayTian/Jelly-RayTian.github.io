@@ -702,7 +702,7 @@
    "number": 359,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/359",
    "title": "fix(form-filler): generate appearances for Chinese text values",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(form-filler): generate appearances for Chinese text values"
   },
   {
@@ -710,7 +710,7 @@
    "number": 360,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/360",
    "title": "fix(form-filler): remove stale widget references after flattening",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(form-filler): remove stale widget references after flattening"
   },
   {
@@ -760,6 +760,14 @@
    "title": "fix(spine-bookbinder): center the downward rotated title on the cover",
    "status": "merged",
    "summary": "fix(spine-bookbinder): center the downward rotated title on the cover"
+  },
+  {
+   "repo": "PDFCraftTool/pdfcraft",
+   "number": 367,
+   "url": "https://github.com/PDFCraftTool/pdfcraft/pull/367",
+   "title": "fix(stamps): keep preset labels inside the rotated border",
+   "status": "open",
+   "summary": "Fixes label placement for rotated preset stamps."
   },
   {
    "repo": "sherlock-project/sherlock",
