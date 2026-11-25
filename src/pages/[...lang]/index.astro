@@ -19,7 +19,20 @@ const ossRepos = repos.filter((r) => !teamRepos.includes(r)).sort((a, b) => repo
 const merged = prs.filter((p) => p.status === 'merged' && !teamRepos.includes(p.repo)).length;
 const mergedRepos = ossRepos.filter((r) => repoStats(r).merged > 0).length;
 const proj = (slug: string) => route(lang, `/projects/${slug}/`);
+const recentProjectSlugs = ['pixel-buddies', 'velzora', 'ctxport'];
+const recentProjects = (await getCollection('projects'))
+  .map((entry) => entry.data)
+  .filter((project) => project.lang === lang && recentProjectSlugs.includes(project.pageSlug))
+  .sort((a, b) => a.order - b.order)
+  .map((project) => ({
+    name: project.title,
+    desc: project.stack,
+    date: project.period,
+    href: proj(project.pageSlug),
+    bullets: [project.summary, project.status].filter(Boolean),
+  }));
 const projects = [
+  ...recentProjects,
   { name: 'WatDesk', desc: L('independent Edge extension for Waterloo students (TypeScript, React)', '面向滑铁卢学生的独立 Edge 扩展（TypeScript、React）'), date: L('Oct 2026 – present', '2026 年 10 月至今'), href: proj('watdesk'),
     bullets: [
       L('Deadlines, exams and grades are scattered across LEARN, Crowdmark and Odyssey; I built one bilingual (English / Simplified Chinese) side panel with a timeline, workload view, exam countdowns, calendar export and an optional course-outline source.', 'LEARN、Crowdmark 和 Odyssey 里的截止日期、考试和成绩很分散；我做了一个中英双语侧边栏，含时间线、工作量视图、考试倒计时、日历导出和可选的课程大纲来源。'),
@@ -109,7 +122,7 @@ const recognition = [
           <ul>{p.bullets.map((b) => <li>{b}</li>)}</ul>
         </article>
       ))}
-      <p class="rs-more"><a href={route(lang, '/projects/')}>{L('All projects (CodeCompass, Chronicle, EasyTrip, TeachFlow)', '全部项目（CodeCompass、Chronicle、EasyTrip、TeachFlow）')} →</a></p>
+      <p class="rs-more"><a href={route(lang, '/projects/')}>{L('All projects', '全部项目')} →</a></p>
     </div>
   </div></section>
 

@@ -6,6 +6,7 @@ const read = (f) => fs.readFileSync(path.join(dist, f), 'utf8');
 const exists = (f) => fs.existsSync(path.join(dist, f));
 
 const pages = ['', 'about/', 'education/', 'experience/', 'projects/', 'open-source/', 'volunteering/', 'systems/', 'creative/', 'contact/',
+  'projects/pixel-buddies/', 'projects/velzora/', 'projects/ctxport/',
   'projects/watdesk/', 'projects/wechatsignals/', 'projects/codecompass/', 'projects/chronicle/', 'projects/madeira-experimental/', 'projects/easytrip/', 'projects/teachflow/',
   'systems/pvz2-resource-analysis/', 'systems/android-device-customization/', 'systems/ios-jailbreaking/'];
 const all = [];
