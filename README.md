@@ -37,15 +37,15 @@ scripts/verify-dist.mjs      build verification
 - **A systems article:** add `src/content/systems/{en,zh}/<name>.md`. Code blocks, images in `public/`, inline SVG diagrams and a `references` list in the front matter are supported. Write only what you can stand behind.
 - **Experience, education, honours:** edit `src/content/data/content.json` (English and Chinese side by side).
 - **Bilibili videos:** none are listed because none have been verified. Add them to `content.json` under `creative` once the title, link and numbers are checked on the video page.
-- **PR statuses:** `src/content/data/prs.json` is a verified snapshot. The scheduled refresh lives in the profile repository, Jelly-RayTian/Jelly-RayTian.
+- **PR statuses:** `src/content/data/prs.json` is the snapshot refreshed by this site's Deploy site workflow.
 
 ## Deployment
 `.github/workflows/deploy.yml` runs `astro check`, `astro build` and `npm run verify`, then publishes `dist/` with the official GitHub Pages actions. In the repository settings, Pages → Source must be **GitHub Actions**.
 
 ### Pull-request data
-`src/content/data/prs.json` feeds the PR wall and counts. The workflow also runs **every hour** (and on demand under Actions → Deploy site → Run workflow): `scripts/update-prs.mjs` reads the PRs authored by `Jelly-RayTian` from the GitHub API, commits `prs.json` if it changed, and redeploys. A scheduled run that finds nothing new does not deploy.
+`src/content/data/prs.json` feeds the PR wall and counts. The workflow is scheduled **every 30 minutes** and can run on demand under Actions → Deploy site → Run workflow. The refresh script reads PRs authored by `Jelly-RayTian` from the GitHub API. When the data changes, the workflow commits the snapshot and redeploys.
 
-- Merged / open / draft status and new PRs come from GitHub. GitHub cannot notify this repository when a PR is opened elsewhere, so the delay is up to about an hour.
+- Merged, open and draft statuses for external PRs update on the next successful refresh. GitHub Actions can delay scheduled runs.
 - Hand-checked facts are kept: each PR's `summary`, and the closed-but-integrated classes (`squashed`, `consolidated`, `retained`). A new PR gets its title as summary; edit it in `prs.json` to improve it. A PR that is closed without being merged shows as `closed_unverified` until classified by hand.
 - Own-repository and private-repository PRs are never listed. Run locally with `node scripts/update-prs.mjs`.
 
