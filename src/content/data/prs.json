@@ -1,5 +1,5 @@
 {
- "generated_on": "2026-11-24",
+ "generated_on": "2026-11-25",
  "prs": [
   {
    "repo": "CommunihacksSeed/exodus",
@@ -598,7 +598,7 @@
    "number": 346,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/346",
    "title": "fix(pdf-to-slide): retain pipe characters and ignore marked-content records",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(pdf-to-slide): retain pipe characters and ignore marked-content records"
   },
   {
@@ -606,7 +606,7 @@
    "number": 347,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/347",
    "title": "fix(pdf-to-zip): reset cancellation when starting a new archive",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(pdf-to-zip): reset cancellation when starting a new archive"
   },
   {
@@ -614,7 +614,7 @@
    "number": 348,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/348",
    "title": "fix(overlay): honor the layer document page rotation",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(overlay): honor the layer document page rotation"
   },
   {
@@ -622,7 +622,7 @@
    "number": 349,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/349",
    "title": "fix(split): reject noninteger page range endpoints",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(split): reject noninteger page range endpoints"
   },
   {
@@ -630,7 +630,7 @@
    "number": 350,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/350",
    "title": "fix(text-to-pdf): preserve words before Windows and legacy Mac line endings",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(text-to-pdf): preserve words before Windows and legacy Mac line endings"
   },
   {
@@ -638,7 +638,7 @@
    "number": 351,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/351",
    "title": "fix(dead-link-debugger): resolve indirect link objects and decode PDF strings",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(dead-link-debugger): resolve indirect link objects and decode PDF strings"
   },
   {
@@ -646,7 +646,7 @@
    "number": 352,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/352",
    "title": "fix(interactive-toc): use an encodable return-link label",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(interactive-toc): use an encodable return-link label"
   },
   {
@@ -654,7 +654,7 @@
    "number": 353,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/353",
    "title": "fix(signature-anchor): embed the bundled font for non-WinAnsi labels",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(signature-anchor): embed the bundled font for non-WinAnsi labels"
   },
   {
@@ -662,7 +662,7 @@
    "number": 354,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/354",
    "title": "fix(lossless-slicer): map the visual slice into rotated page coordinates",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(lossless-slicer): map the visual slice into rotated page coordinates"
   },
   {
@@ -670,7 +670,7 @@
    "number": 355,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/355",
    "title": "fix(two-column-reflow): crop columns in displayed page coordinates",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(two-column-reflow): crop columns in displayed page coordinates"
   },
   {
@@ -678,7 +678,7 @@
    "number": 356,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/356",
    "title": "fix(annotation-exporter): read PDF.js text objects for notes and authors",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(annotation-exporter): read PDF.js text objects for notes and authors"
   },
   {
@@ -686,7 +686,7 @@
    "number": 357,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/357",
    "title": "fix(citation-linker): write URI strings and preserve indirect annotations",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(citation-linker): write URI strings and preserve indirect annotations"
   },
   {
@@ -694,7 +694,7 @@
    "number": 358,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/358",
    "title": "fix(email-to-pdf): decode RFC 2047 header bytes using their charset",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(email-to-pdf): decode RFC 2047 header bytes using their charset"
   },
   {
@@ -750,7 +750,7 @@
    "number": 365,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/365",
    "title": "fix(uniform-resizer): fit and embed the visible CropBox region",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(uniform-resizer): fit and embed the visible CropBox region"
   },
   {
@@ -758,7 +758,7 @@
    "number": 366,
    "url": "https://github.com/PDFCraftTool/pdfcraft/pull/366",
    "title": "fix(spine-bookbinder): center the downward rotated title on the cover",
-   "status": "open",
+   "status": "merged",
    "summary": "fix(spine-bookbinder): center the downward rotated title on the cover"
   },
   {
