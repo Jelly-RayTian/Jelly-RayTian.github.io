@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { localePaths } from '../../lib/paths';
 import { home } from '../../content/data/pages';
-import { content, prs, repos, repoStats } from '../../lib/data';
+import { content, entry, prs, repos, repoStats } from '../../lib/data';
 import { route, t, type Lang } from '../../i18n/ui';
 export const getStaticPaths = localePaths;
 const { lang } = Astro.props as { lang: Lang };
@@ -69,14 +69,17 @@ const facts = [
 ];
 const bar = (r: string) => { const st = repoStats(r); const t = st.total || 1; const inMain = st.squashed + st.consolidated; return [
   ['merged', st.merged], ['main', inMain], ['open', st.open], ].map(([k, n]) => ({ k: String(k), w: (Number(n) / t) * 100 })).filter((x) => x.w > 0); };
+const research = ['housing-advocacy', 'ai-economics'].map((id) => entry(id)[lang]);
+const competitions = [
+  { name: 'CIVIC Hack 2026', badge: L('Winner', '获奖'), desc: L('Best storytelling and visualizations, with the team project Exodus (Clear Council): one of 6 winning teams among 27 submissions on Devpost. Online hackathon run by the Future Cities Institute, University of Waterloo.', '以团队项目 Exodus（Clear Council）获得 Best storytelling and visualizations（最佳叙事与可视化）：Devpost 上 27 个提交中的 6 个获奖项目之一。Future Cities Institute / 滑铁卢大学主办的线上黑客松。'), date: L('Nov 2026', '2026 年 11 月'), href: 'https://devpost.com/software/exodus-czjiq5' },
+  { name: 'CommuniHacks 2026', badge: L('Team member', '团队成员'), desc: L('24-hour hackathon in Waterloo. Team prototype SeedFlow for Youth in Food Systems; my pull request simplifying the review and packing workflows was merged. No award.', '在滑铁卢举行的 24 小时黑客松。团队原型 SeedFlow（为 Youth in Food Systems 开发）；我简化审核与打包流程的 pull request 已合并。未获奖。'), date: L('Nov 2026', '2026 年 11 月'), href: 'https://github.com/CommunihacksSeed/Seedtrack/pull/5' },
+  { name: L('Euclid Mathematics Contest', 'Euclid 数学竞赛'), badge: '83/100', desc: L('University of Waterloo mathematics contest for Grade 12 students.', '滑铁卢大学面向 12 年级学生的数学竞赛。'), date: '2025', href: '' },
+];
 const recognition = [
-  ['Euclid Mathematics Contest 2025', '83/100'],
   [L('Study Model Student', '学习标兵'), L('school award, high school', '学校评选，高中')],
   [L('University entrance scholarship offers', '大学入学奖学金 offer'), L('University of Alberta, McMaster (2025)', '阿尔伯塔大学、麦克马斯特大学（2025）')],
   ['IELTS Academic', L('overall band 7.0', '总分 7.0')],
   [L('Piano Level 10', '钢琴十级'), L('primary school', '小学')],
-  ['CIVIC Hack 2026', L('Winner, Best storytelling and visualizations (team project Exodus); online hackathon, Future Cities Institute, Nov 2026', '获奖：Best storytelling and visualizations（团队项目 Exodus）；Future Cities Institute 主办的线上黑客松，2026 年 11 月')],
-  ['CommuniHacks 2026', L('team member (SeedFlow for Youth in Food Systems); 24-hour hackathon in Waterloo, Nov 2026', '团队成员（为 Youth in Food Systems 做的 SeedFlow）；2026 年 11 月在滑铁卢的 24 小时黑客松')],
 ];
 ---
 <BaseLayout lang={lang} path="/" title={t(lang, 'tagline').split('—')[1].trim()} description={h.lede}>
@@ -112,17 +115,22 @@ const recognition = [
     </div>
   </div></section>
 
-  <section class="block rs" id="projects"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">02</span><h2 class="rs-h">{L('Featured projects', '重点项目')}</h2></div>
+  <section class="block rs" id="papers"><div class="wrap rs-grid">
+    <div class="rs-side"><span class="rs-n">02</span><h2 class="rs-h">{L('Papers & research', '论文与研究')}</h2></div>
     <div class="rs-body">
-      {projects.map((p, i) => (
-        <article class="proj">
-          <span class="proj-i">{String(i + 1).padStart(2, '0')}</span>
-          <div class="rs-row"><span class="rs-t"><a href={p.href}><b>{p.name}</b></a><br /><em>{p.desc}</em></span><span>{p.date}</span></div>
-          <ul>{p.bullets.map((b) => <li>{b}</li>)}</ul>
-        </article>
+      <p class="rs-sub first">{L('My research applies AI to concrete questions and reports what it achieved. For a CIVIC Hack 2026 study of Toronto council decisions, I used a large language model to draft plain-language explanations, then verified every sentence against the official record — the build refuses to publish a quote it cannot find. All 15 explanations passed human review; the project reached the final (6 of 27 teams) and won Best storytelling and visualizations. For Madeira, I studied missing and misleading startup diagnostics through source inspection and reproducible log replay, using AI assistance in the analysis; the resulting report was published on Zenodo.', '我的研究把 AI 用在具体问题上，并如实报告达成的效果。在 CIVIC Hack 2026 对多伦多市议会决策的研究中，我用大模型生成通俗解读初稿，再逐句对照官方记录核验——找不到原文出处的内容，系统拒绝发布；15 条解读全部通过人工复核，项目进入决赛（27 队取 6）并获最佳叙事与可视化奖。对 Madeira，我通过源码分析和可复现的日志回放、借助 AI 辅助分析，研究启动诊断中的遗漏与误报问题；研究成果写成报告，发表于 Zenodo。')}</p>
+      <a class="write" href="https://doi.org/10.5281/zenodo.24096966">
+        <span><b>When Startup Failures Look the Same</b><em>{L('Technical report · Madeira diagnostic log analysis · self-published on Zenodo, not peer-reviewed', '技术报告 · Madeira 诊断日志分析 · 自行发布于 Zenodo，未经同行评审')}</em></span><span>{L('Nov 2026', '2026 年 11 月')} ↗</span>
+      </a>
+      <p class="rs-sub">{L('Examines missing and misleading startup diagnostics through source inspection and reproducible log replay. Includes a targeted fix and its evaluation limits.', '通过源码分析和可复现的日志回放研究启动诊断中的遗漏与误报，包含针对性修正及其评估局限。')}</p>
+      <h3 class="mini-h">{L('Course research & presentations', '课程研究与展示')}</h3>
+      {research.map((r) => (
+        <div class="rs-item">
+          <div class="rs-row"><span class="rs-t"><b>{r.title}</b> · {r.role}</span></div>
+          <ul>{(r.bullets ?? []).map((b: string) => <li>{b}</li>)}</ul>
+        </div>
       ))}
-      <p class="rs-more"><a href={route(lang, '/projects/')}>{L('All projects', '全部项目')} →</a></p>
+      <p class="rs-more"><a href={route(lang, '/experience/')}>{L('More research & presentations', '更多研究与展示')} →</a></p>
     </div>
   </div></section>
 
@@ -141,16 +149,35 @@ const recognition = [
     </div>
   </div></section>
 
-  <section class="block rs" id="skills"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">04</span><h2 class="rs-h">{L('Technical skills', '技能')}</h2></div>
+  <section class="block rs" id="projects"><div class="wrap rs-grid">
+    <div class="rs-side"><span class="rs-n">04</span><h2 class="rs-h">{L('Featured projects', '重点项目')}</h2></div>
     <div class="rs-body">
-      <p class="rs-sub first">{h.skillsP}</p>
-      <div class="skill-grid">{content.skills.map((s) => <div class="skill"><b>{s.label[lang]}</b><p>{s.items[lang]}</p></div>)}</div>
+      {projects.map((p, i) => (
+        <article class="proj">
+          <span class="proj-i">{String(i + 1).padStart(2, '0')}</span>
+          <div class="rs-row"><span class="rs-t"><a href={p.href}><b>{p.name}</b></a><br /><em>{p.desc}</em></span><span>{p.date}</span></div>
+          <ul>{p.bullets.map((b) => <li>{b}</li>)}</ul>
+        </article>
+      ))}
+      <p class="rs-more"><a href={route(lang, '/projects/')}>{L('All projects', '全部项目')} →</a></p>
+    </div>
+  </div></section>
+
+  <section class="block rs" id="competitions"><div class="wrap rs-grid">
+    <div class="rs-side"><span class="rs-n">05</span><h2 class="rs-h">{L('Competitions & hackathons', '竞赛与黑客松')}</h2></div>
+    <div class="rs-body">
+      {competitions.map((c) => (
+        <article class="proj comp">
+          <div class="rs-row"><span class="rs-t">{c.href ? <a href={c.href}><b>{c.name}</b></a> : <b>{c.name}</b>} <i class="badge">{c.badge}</i></span><span>{c.date}</span></div>
+          <p class="comp-d">{c.desc}</p>
+        </article>
+      ))}
+      <p class="rs-more"><a href={route(lang, '/experience/')}>{L('Hackathon details', '黑客松详情')} →</a></p>
     </div>
   </div></section>
 
   <section class="block rs" id="open-source"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">05</span><h2 class="rs-h">{L('Open-source contributions', '开源贡献')}</h2></div>
+    <div class="rs-side"><span class="rs-n">06</span><h2 class="rs-h">{L('Open-source contributions', '开源贡献')}</h2></div>
     <div class="rs-body">
       <p class="rs-sub first">{h.aiNote}</p>
       <div class="oss">
@@ -168,14 +195,17 @@ const recognition = [
     </div>
   </div></section>
 
-  <section class="block rs" id="writing"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">06</span><h2 class="rs-h">{L('Research & technical writing', '研究与技术写作')}</h2></div>
+  <section class="block rs" id="skills"><div class="wrap rs-grid">
+    <div class="rs-side"><span class="rs-n">07</span><h2 class="rs-h">{L('Technical skills', '技能')}</h2></div>
     <div class="rs-body">
-      <p class="rs-sub first">{L('My research applies AI to concrete questions and reports what it achieved. For a CIVIC Hack 2026 study of Toronto council decisions, I used a large language model to draft plain-language explanations, then verified every sentence against the official record — the build refuses to publish a quote it cannot find. All 15 explanations passed human review; the project reached the final (6 of 27 teams) and won Best storytelling and visualizations. For Madeira, I studied missing and misleading startup diagnostics through source inspection and reproducible log replay, using AI assistance in the analysis; the resulting report was published on Zenodo.', '我的研究把 AI 用在具体问题上，并如实报告达成的效果。在 CIVIC Hack 2026 对多伦多市议会决策的研究中，我用大模型生成通俗解读初稿，再逐句对照官方记录核验——找不到原文出处的内容，系统拒绝发布；15 条解读全部通过人工复核，项目进入决赛（27 队取 6）并获最佳叙事与可视化奖。对 Madeira，我通过源码分析和可复现的日志回放、借助 AI 辅助分析，研究启动诊断中的遗漏与误报问题；研究成果写成报告，发表于 Zenodo。')}</p>
-      <a class="write" href="https://doi.org/10.5281/zenodo.24096966">
-        <span><b>When Startup Failures Look the Same</b><em>{L('Technical report · Madeira diagnostic log analysis · Zenodo', '技术报告 · Madeira 诊断日志分析 · Zenodo')}</em></span><span>{L('Nov 2026', '2026 年 11 月')} ↗</span>
-      </a>
-      <p class="rs-sub">{L('Examines missing and misleading startup diagnostics through source inspection and reproducible log replay. Includes a targeted fix and its evaluation limits.', '通过源码分析和可复现的日志回放研究启动诊断中的遗漏与误报，包含针对性修正及其评估局限。')}</p>
+      <p class="rs-sub first">{h.skillsP}</p>
+      <div class="skill-grid">{content.skills.map((s) => <div class="skill"><b>{s.label[lang]}</b><p>{s.items[lang]}</p></div>)}</div>
+    </div>
+  </div></section>
+
+  <section class="block rs" id="writing"><div class="wrap rs-grid">
+    <div class="rs-side"><span class="rs-n">08</span><h2 class="rs-h">{L('Technical writing', '技术写作')}</h2></div>
+    <div class="rs-body">
       {content.writing.map((w) => (
         <a class="write" href={w.url}><span><b>{w.title}</b><em>{w.venue}</em></span><span>{w.date} ↗</span></a>
       ))}
@@ -184,14 +214,14 @@ const recognition = [
   </div></section>
 
   <section class="block rs" id="awards"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">07</span><h2 class="rs-h">{L('Awards, certifications & activities', '荣誉、证书与活动')}</h2></div>
+    <div class="rs-side"><span class="rs-n">09</span><h2 class="rs-h">{L('Awards, certifications & activities', '荣誉、证书与活动')}</h2></div>
     <div class="rs-body">
       <div class="chips2">{recognition.map(([a, b]) => <div><b>{a}</b><span>{b}</span></div>)}</div>
     </div>
   </div></section>
 
   <section class="block rs" id="yc"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">08</span><h2 class="rs-h">{L('YC Co-Founder Matching', 'YC 联合创始人匹配')}</h2></div>
+    <div class="rs-side"><span class="rs-n">10</span><h2 class="rs-h">{L('YC Co-Founder Matching', 'YC 联合创始人匹配')}</h2></div>
     <div class="rs-body">
       <p class="rs-sub first">{L('I\'m on Y Combinator\'s Co-Founder Matching platform, looking to join a founder with a concrete idea and build it together. I\'d cover product and engineering, and I\'m most interested in AI, developer tools, education, consumer and gaming. I\'m a student, so part-time during the term (about 10–15 hours a week, less during exam weeks, more during breaks), remote or Waterloo/Kitchener based — and I\'d like to start with a small trial project before committing.', '我在 Y Combinator 的 Co-Founder Matching 平台上，想加入一位有具体 idea 的创始人，一起把产品做出来。我负责产品与工程，感兴趣的方向是 AI、开发者工具、教育、消费与游戏。我是学生，学期期间兼职（每周约 10–15 小时，考试周会少，假期更多），远程或滑铁卢/Kitchener 本地，希望先从一个小的试做项目开始，合适再长期合作。')}</p>
       <p class="more-row"><a class="btn gold" href="https://www.ycombinator.com/cofounder-matching">YC Co-Founder Matching ↗</a><a class="btn" href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn</a></p>
@@ -199,7 +229,7 @@ const recognition = [
   </div></section>
 
   <section class="block rs" id="contact"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">09</span><h2 class="rs-h">{L('Contact', '联系')}</h2></div>
+    <div class="rs-side"><span class="rs-n">11</span><h2 class="rs-h">{L('Contact', '联系')}</h2></div>
     <div class="rs-body">
       <p class="contact-line">{h.seeking}</p>
       <p class="more-row"><a class="btn gold" href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn</a><a class="btn" href="https://github.com/Jelly-RayTian">GitHub</a><a class="btn" href={route(lang, '/contact/')}>{L('More ways', '更多方式')}</a></p>

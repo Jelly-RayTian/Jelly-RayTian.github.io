@@ -542,3 +542,8 @@ footer .links{font-size:14px}footer .links a{color:var(--ink)}
 .chips2 div{padding:14px 18px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
 .chips2 b{display:block;line-height:1.35}.chips2 span{display:block;margin-top:4px;font-size:13px;color:var(--muted)}
 .contact-line{margin:0 0 6px;font-size:19px;line-height:1.5}
+
+.badge{font:600 11px var(--mono);font-style:normal;letter-spacing:.08em;text-transform:uppercase;color:var(--on-gold);background:var(--gold);border-radius:999px;padding:3px 9px;margin-left:8px;vertical-align:2px}
+.comp .comp-d{margin:8px 0 0;color:var(--muted);line-height:1.6;font-size:14.5px}
+.rs .mini-h{margin:28px 0 8px;color:var(--muted)}
+.rs-item{margin:0 0 12px}
