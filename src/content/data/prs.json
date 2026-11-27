@@ -1,5 +1,5 @@
 {
- "generated_on": "2026-11-25",
+ "generated_on": "2026-11-27",
  "prs": [
   {
    "repo": "CommunihacksSeed/exodus",
@@ -174,7 +174,7 @@
    "number": 1610,
    "url": "https://github.com/dongdongbh/Mindwtr/pull/1610",
    "title": "feat(desktop): add a native macOS Settings menu item",
-   "status": "draft",
+   "status": "open",
    "summary": "feat(desktop): add a native macOS Settings menu item"
   },
   {
