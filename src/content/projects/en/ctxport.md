@@ -7,6 +7,7 @@ kind: "software"
 order: 0.3
 featured: true
 stack: "Python · SQLite · Browser extension · MCP"
+image: "/assets/ctxport-app.jpg"
 period: "Nov 2026 – present"
 status: "In active development with collaborators."
 links:

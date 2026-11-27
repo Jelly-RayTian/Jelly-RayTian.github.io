@@ -7,6 +7,7 @@ kind: "software"
 order: 0.2
 featured: true
 stack: "Next.js · TypeScript · Supabase"
+image: "/assets/velzora-home.jpg"
 period: "Nov 2026"
 status: "Pre-launch build."
 ---

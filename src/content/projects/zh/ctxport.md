@@ -7,6 +7,7 @@ kind: "software"
 order: 0.3
 featured: true
 stack: "Python · SQLite · 浏览器扩展 · MCP"
+image: "/assets/ctxport-app.jpg"
 period: "2026 年 11 月至今"
 status: "与合作者持续开发中。"
 links:

@@ -7,6 +7,7 @@ kind: "software"
 order: 0.2
 featured: true
 stack: "Next.js · TypeScript · Supabase"
+image: "/assets/velzora-home.jpg"
 period: "2026 年 11 月"
 status: "上线准备中。"
 ---
