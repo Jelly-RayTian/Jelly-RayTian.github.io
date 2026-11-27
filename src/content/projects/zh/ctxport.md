@@ -7,6 +7,8 @@ kind: "software"
 order: 0.3
 featured: true
 stack: "Python（核心仅用标准库）· SQLite · 浏览器扩展 · MCP"
+image: "/assets/ctxport-app.jpg"
+imageDark: "/assets/ctxport-app-dark.jpg"
 period: "2026 年 11 月至今"
 status: "与合作者共同开发；v0.2.0 已在 GitHub 发布（2026-11-27 核对），尚未发布到 PyPI。"
 links: [{"label": "v0.2.0 发布", "url": "https://github.com/Memoryport/ctxport/releases/tag/v0.2.0"}, {"label": "源码", "url": "https://github.com/Memoryport/ctxport"}]

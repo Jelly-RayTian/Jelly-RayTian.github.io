@@ -7,6 +7,8 @@ kind: "software"
 order: 0.3
 featured: true
 stack: "Python (standard library core) · SQLite · Browser extension · MCP"
+image: "/assets/ctxport-app-en.jpg"
+imageDark: "/assets/ctxport-app-en-dark.jpg"
 period: "Nov 2026 – present"
 status: "Built with collaborators; v0.2.0 released on GitHub (checked 2026-11-27), not yet on PyPI."
 links: [{"label": "v0.2.0 release", "url": "https://github.com/Memoryport/ctxport/releases/tag/v0.2.0"}, {"label": "Source", "url": "https://github.com/Memoryport/ctxport"}]
