@@ -8,6 +8,7 @@ order: 0.1
 featured: true
 stack: "Cocos Creator · TypeScript"
 period: "Nov 2026"
+cover: "/assets/pixel-buddies-gameplay.png"
 status: "The web build was tested in a browser. The repository documents WeChat and Douyin builds."
 links:
   - label: "GitHub repository"

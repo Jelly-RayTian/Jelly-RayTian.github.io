@@ -1,0 +1,35 @@
+---
+/** One résumé row: date column on the left, details on the right. */
+interface Props {
+  when?: string;
+  title: string;
+  href?: string;
+  role?: string;
+  sub?: string;
+  badge?: string;
+  win?: boolean;
+  bullets?: string[];
+  desc?: string;
+  note?: string;
+  tags?: string | string[];
+  links?: { label: string; url: string }[];
+}
+const { when, title, href, role, sub, badge, win, bullets, desc, note, tags, links } = Astro.props;
+const tagList = Array.isArray(tags) ? tags : tags ? tags.split(/\s*·\s*/) : [];
+---
+<article class="entry">
+  <div class="entry-when">{when}</div>
+  <div>
+    <div class="entry-head">
+      <h3>{href ? <a href={href}>{title}</a> : title}</h3>
+      {badge && <span class={win ? 'badge win' : 'badge'}>{badge}</span>}
+    </div>
+    {(role || sub) && <p class="entry-role">{role}{role && sub ? ' · ' : ''}{sub && <em>{sub}</em>}</p>}
+    {desc && <p class="desc">{desc}</p>}
+    {bullets && bullets.length > 0 && <ul>{bullets.map((b) => <li>{b}</li>)}</ul>}
+    {note && <p class="note">{note}</p>}
+    {links && links.length > 0 && <p class="links">{links.map((l) => <a href={l.url} rel="noopener">{l.label} ↗</a>)}</p>}
+    {tagList.length > 0 && <div class="tags">{tagList.map((t) => <span class="tag">{t}</span>)}</div>}
+    <slot />
+  </div>
+</article>

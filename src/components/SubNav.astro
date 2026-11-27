@@ -1,0 +1,8 @@
+---
+/** Sticky in-page section links for long inner pages. */
+interface Props { items: { id: string; label: string }[]; label: string }
+const { items, label } = Astro.props;
+---
+<nav class="subnav" aria-label={label} data-spy>
+  <div class="wrap">{items.map((i) => <a href={`#${i.id}`}>{i.label}</a>)}</div>
+</nav>

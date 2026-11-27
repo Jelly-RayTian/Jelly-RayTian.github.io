@@ -18,26 +18,18 @@ export function stripLang(pathname: string): { lang: Lang; path: string } {
 }
 
 export const nav = [
-  { path: '/open-source/', key: 'openSource', match: ['/open-source/'] },
+  { path: '/', key: 'overview', match: [] as string[], exact: true },
+  { path: '/experience/', key: 'experience', match: ['/experience/'] },
   { path: '/projects/', key: 'projects', match: ['/projects/'] },
-  { path: '/systems/', key: 'systems', match: ['/systems/'] },
-  { path: '/about/', key: 'about', match: ['/about/', '/education/', '/experience/', '/volunteering/', '/creative/'] },
-  { path: '/contact/', key: 'contact', match: ['/contact/'] },
-] as const;
-
-/** Pages grouped under "About"; shown as a tab strip at the top of each. */
-export const aboutTabs = [
-  { path: '/about/', key: 'about' },
-  { path: '/education/', key: 'education' },
-  { path: '/experience/', key: 'experience' },
-  { path: '/volunteering/', key: 'volunteering' },
-  { path: '/creative/', key: 'creative' },
+  { path: '/open-source/', key: 'openSource', match: ['/open-source/'] },
+  { path: '/systems/', key: 'writing', match: ['/systems/'] },
+  { path: '/about/', key: 'about', match: ['/about/'] },
 ] as const;
 
 type Dict = Record<string, string>;
 export const ui: Record<Lang, Dict> = {
   en: {
-    home: 'Home', about: 'About', education: 'Education', experience: 'Experience', projects: 'Projects',
+    home: 'Home', overview: 'Overview', writing: 'Writing', about: 'About', education: 'Education', experience: 'Experience', projects: 'Projects',
     openSource: 'Open source', volunteering: 'Volunteering', systems: 'Systems', creative: 'Creative', contact: 'Contact',
     skip: 'Skip to content', menu: 'Menu', langSwitch: '中文', langSwitchLabel: 'Switch to Chinese', themeLight: 'Light', themeDark: 'Dark',
     themeLabel: 'Toggle colour theme', viewMore: 'View more', viewAll: 'View all', readMore: 'Read more', backTo: 'Back to',
@@ -55,7 +47,7 @@ export const ui: Record<Lang, Dict> = {
     profile: 'Profile', followMe: 'Find me', onThisPage: 'On this page', lastUpdated: 'Last updated', atAGlance: 'At a glance', systemsRead: 'What this section shows',
   },
   zh: {
-    home: '首页', about: '关于', education: '教育', experience: '经历', projects: '项目',
+    home: '首页', overview: '概览', writing: '写作', about: '关于', education: '教育', experience: '经历', projects: '项目',
     openSource: '开源', volunteering: '志愿', systems: '系统探索', creative: '创作', contact: '联系',
     skip: '跳到正文', menu: '菜单', langSwitch: 'EN', langSwitchLabel: '切换到英文', themeLight: '浅色', themeDark: '深色',
     themeLabel: '切换配色', viewMore: '查看更多', viewAll: '查看全部', readMore: '阅读更多', backTo: '返回',

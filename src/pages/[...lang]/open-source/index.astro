@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHead from '../../../components/PageHead.astro';
+import SubNav from '../../../components/SubNav.astro';
 import PrWall from '../../../components/PrWall.astro';
 import PrExplorer from '../../../components/PrExplorer.astro';
 import CaseStudies from '../../../components/CaseStudies.astro';
@@ -45,47 +46,49 @@ const recent = [
   return pr ? [{ pr, description: description[lang] }] : [];
 });
 
+const nav = lang === 'zh'
+  ? [{ id: 'overview', label: '总览' }, { id: 'recent', label: '近期贡献' }, { id: 'cases', label: '案例研究' }, { id: 'all-prs', label: '全部 pull request' }]
+  : [{ id: 'overview', label: 'Overview' }, { id: 'recent', label: 'Recent contributions' }, { id: 'cases', label: 'Case studies' }, { id: 'all-prs', label: 'Every pull request' }];
 ---
 <BaseLayout lang={lang} path="/open-source/" title={pg.k} description={pg.p}>
-  <section class="block"><div class="wrap">
-    <PageHead k={pg.k} h={pg.h} p={pg.p} />
-    <PrWall lang={lang} headline={home[lang].wallTitle} />
-    <div class="tablewrap">
-      <table class="rtable">
-        <thead><tr>{hdr.map((h) => <th scope="col">{h}</th>)}</tr></thead>
-        <tbody>
-          {repos.map((r) => { const s = repoStats(r); return <tr><th scope="row"><a href={`https://github.com/${r}`}>{r}</a></th><td>{s.total}</td><td>{s.merged}</td><td>{s.squashed}</td><td>{s.consolidated}</td><td>{s.open}</td></tr>; })}
-          <tr class="total"><th scope="row">{lang === 'zh' ? '外部合计' : 'External total'}</th><td>{prs.length}</td><td>{count('merged')}</td><td>{count('squashed')}</td><td>{count('consolidated')}</td><td>{count('open') + count('draft')}</td></tr>
-        </tbody>
-      </table>
-    </div>
+  <PageHead k={pg.k} h={pg.h} p={pg.p} />
+  <SubNav items={nav} label={pg.k} />
+  <div class="wrap page-body">
+    <section class="sec" id="overview">
+      <PrWall lang={lang} headline={home[lang].wallTitle} />
+      <div class="tablewrap">
+        <table class="rtable">
+          <thead><tr>{hdr.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+          <tbody>
+            {repos.map((r) => { const s = repoStats(r); return <tr><th scope="row"><a href={`https://github.com/${r}`}>{r}</a></th><td>{s.total}</td><td>{s.merged}</td><td>{s.squashed}</td><td>{s.consolidated}</td><td>{s.open}</td></tr>; })}
+            <tr class="total"><th scope="row">{lang === 'zh' ? '外部合计' : 'External total'}</th><td>{prs.length}</td><td>{count('merged')}</td><td>{count('squashed')}</td><td>{count('consolidated')}</td><td>{count('open') + count('draft')}</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-    <section aria-labelledby="recent-contributions">
-      <h2 class="sub-h" id="recent-contributions">{lang === 'zh' ? '近期贡献' : 'Recent contributions'}</h2>
-      <ul class="recent-prs">
+    <section class="sec" id="recent">
+      <div class="sec-h"><h2>{nav[1].label}</h2></div>
+      <ul class="recent">
         {recent.map(({ pr, description }) => (
           <li>
-            <a href={pr.url}>{pr.repo} #{pr.number}</a>
-            <span class="muted"> · {statusName(pr.status, lang)}</span>
+            <div><a href={pr.url}>{pr.repo} #{pr.number}</a><span class="st">{statusName(pr.status, lang)}</span></div>
             <p>{description}</p>
           </li>
         ))}
       </ul>
     </section>
 
-    <h2 class="sub-h">{lang === 'zh' ? '案例研究' : 'Case studies'}</h2>
-    <p class="muted">{lang === 'zh' ? '左侧是我的 PR 里的结果；右侧是维护者随后做了什么。' : 'Left: the results from my PR. Right: what the maintainers did with it.'}</p>
-    <CaseStudies lang={lang} />
+    <section class="sec" id="cases">
+      <div class="sec-h"><h2>{nav[2].label}</h2></div>
+      <p class="sec-intro">{lang === 'zh' ? '左侧是我的 PR 里的结果；右侧是维护者随后做了什么。' : 'Left: the results from my PR. Right: what the maintainers did with it.'}</p>
+      <CaseStudies lang={lang} />
+    </section>
 
-    <h2 class="sub-h" id="all-prs">{lang === 'zh' ? '全部 pull request' : 'Every pull request'}</h2>
-    <PrExplorer lang={lang} />
-    <p class="more"><a class="btn" href="https://github.com/Jelly-RayTian/Jelly-RayTian/blob/main/OPEN_SOURCE_CONTRIBUTIONS.md">{t(lang, 'ledger')} ↗</a></p>
-  </div></section>
+    <section class="sec" id="all-prs">
+      <div class="sec-h"><h2>{nav[3].label}</h2><a class="arrow-link" href="https://github.com/Jelly-RayTian/Jelly-RayTian/blob/main/OPEN_SOURCE_CONTRIBUTIONS.md">{t(lang, 'ledger')} ↗</a></div>
+      <PrExplorer lang={lang} />
+    </section>
+  </div>
 </BaseLayout>
 
-<style>
-  .recent-prs { list-style: none; margin: 0; padding: 0; }
-  .recent-prs li { border-bottom: 1px solid var(--line); padding: 14px 0; }
-  .recent-prs a { overflow-wrap: anywhere; }
-  .recent-prs p { margin: 5px 0 0; }
-</style>

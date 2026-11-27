@@ -18,6 +18,8 @@ const projects = defineCollection({
     period: z.string().optional(),
     status: z.string().optional(),
     image: z.string().optional(),
+    /** Card-only thumbnail (shown contained, e.g. a phone screenshot). */
+    cover: z.string().optional(),
     imageDark: z.string().optional(),
     icon: z.string().optional(),
     flow: z.array(z.string()).optional(),

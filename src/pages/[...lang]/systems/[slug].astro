@@ -15,12 +15,12 @@ const { Content, headings } = await render(entry);
 const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 ---
 <BaseLayout lang={lang} path={`/systems/${d.pageSlug}/`} title={d.title} description={d.summary} type="article">
-  <section class="block"><div class="wrap narrow">
-    <p class="crumb"><a href={route(lang, '/systems/')}>← {t(lang, 'backTo')} {t(lang, 'systems')}</a></p>
+  <div class="wrap narrow">
+    <p class="crumb"><a href={route(lang, '/systems/')}>← {t(lang, 'backTo')} {t(lang, 'writing')}</a></p>
     <article class="article">
-      <header class="sh page-head">
-        <span class="kicker">{d.subtitle}</span>
-        <h1 class="page-h">{d.title}</h1>
+      <header class="detail-head">
+        <span class="eyebrow">{d.subtitle}</span>
+        <h1>{d.title}</h1>
         <p>{d.summary}</p>
         {d.updated && <p class="updated">{t(lang, 'lastUpdated')}: <time datetime={d.updated}>{d.updated}</time></p>}
       </header>
@@ -43,5 +43,5 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
         </section>
       )}
     </article>
-  </div></section>
+  </div>
 </BaseLayout>

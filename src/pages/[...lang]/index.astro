@@ -5,6 +5,7 @@ import { localePaths } from '../../lib/paths';
 import { home } from '../../content/data/pages';
 import { content, entry, prs, repos, repoStats } from '../../lib/data';
 import { route, t, type Lang } from '../../i18n/ui';
+import Entry from '../../components/Entry.astro';
 export const getStaticPaths = localePaths;
 const { lang } = Astro.props as { lang: Lang };
 const zh = lang === 'zh';
@@ -29,7 +30,7 @@ const recentProjects = (await getCollection('projects'))
     desc: project.stack,
     date: project.period,
     href: proj(project.pageSlug),
-    bullets: [project.summary, project.status].filter(Boolean),
+    bullets: [project.summary, project.status].filter((x): x is string => Boolean(x)),
   }));
 const projects = [
   ...recentProjects,
@@ -81,158 +82,140 @@ const recognition = [
   ['IELTS Academic', L('overall band 7.0', '总分 7.0')],
   [L('Piano Level 10', '钢琴十级'), L('primary school', '小学')],
 ];
+const sections = [
+  { id: 'education', label: L('Education', '教育') },
+  { id: 'experience', label: L('Experience', '经历') },
+  { id: 'projects', label: L('Projects', '项目') },
+  { id: 'open-source', label: L('Open source', '开源') },
+  { id: 'research', label: L('Research & writing', '研究与写作') },
+  { id: 'skills', label: L('Skills', '技能') },
+  { id: 'awards', label: L('Honours', '荣誉') },
+  { id: 'looking', label: L('Looking for', '在找什么') },
+];
+const profile = [
+  [L('Program', '专业'), L('Honours Mathematics, Co-op', '数学荣誉学士，Co-op')],
+  [L('School', '学校'), L('University of Waterloo · since Sep 2026', '滑铁卢大学 · 2026 年 9 月入学')],
+  [L('Based in', '所在地'), L('Waterloo, Ontario', '加拿大安大略省滑铁卢')],
+  [L('Languages', '语言'), L('Mandarin (native) · English (IELTS 7.0)', '中文（母语）· 英语（IELTS 7.0）')],
+  [L('First co-op', '首个 Co-op'), L('May – Aug 2027', '2027 年 5–8 月')],
+];
 ---
 <BaseLayout lang={lang} path="/" title={t(lang, 'tagline').split('—')[1].trim()} description={h.lede}>
   <section class="hero">
     <div class="wrap">
-      <div class="hero-main hero-solo">
-        <div class="kicker">{h.kicker}</div>
-        <h1><span>Ray</span> <em>Tian</em></h1>
-        <p class="lede">{h.lede}</p>
-        <p class="seeking">{h.seeking}</p>
-        <div class="cta">
-          <a class="btn gold" href="#projects">{h.ctaProjects} →</a>
-          <a class="btn" href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn</a>
-          <a class="btn" href="https://github.com/Jelly-RayTian">GitHub</a>
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">{h.kicker}</span>
+          <h1>Ray Tian</h1>
+          <p class="lede">{h.lede}</p>
+          <p class="avail"><span class="dot" aria-hidden="true"></span><span>{h.seeking}</span></p>
+          <div class="btns">
+            <a class="btn primary" href="#projects">{h.ctaProjects}</a>
+            <a class="btn" href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn ↗</a>
+            <a class="btn" href="https://github.com/Jelly-RayTian">GitHub ↗</a>
+          </div>
         </div>
+        <aside class="profile" aria-label={L('Profile', '简介')}>
+          <h2>{L('At a glance', '一览')}</h2>
+          <dl>{profile.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+        </aside>
       </div>
-      <div class="facts4">{facts.map((f) => <div><b>{f.v}</b><span>{f.l}</span></div>)}</div>
+      <div class="stats">{facts.map((f) => <div><b>{f.v}</b><span>{f.l}</span></div>)}</div>
     </div>
   </section>
 
-  <section class="block rs" id="education"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">01</span><h2 class="rs-h">{L('Education', '教育')}</h2></div>
-    <div class="rs-body">
-      <div class="edu">
-        <div class="rs-row"><span class="rs-t"><b>{uw.org}</b><br />{uw.degree}</span><span>{uw.date}</span></div>
-        <p class="rs-sub">{L('MATH 135 Algebra · MATH 137 Calculus 1 · ECON 101 Introductory Microeconomics · CS 135 Designing Functional Programs', 'MATH 135 代数 · MATH 137 微积分 1 · ECON 101 微观经济学入门 · CS 135 函数式程序设计')}</p>
-      </div>
-      <div class="edu">
-        <div class="rs-row"><span class="rs-t"><b>{hs.org}</b><br />{hs.degree}</span><span>{hs.date}</span></div>
-        <p class="rs-sub">{L('Average approximately 93.3% · Calculus 12 · Statistics 12 · Computer Science 12', '平均分约 93.3% · Calculus 12 · Statistics 12 · Computer Science 12')}</p>
-      </div>
-      <p class="rs-more"><a href={route(lang, '/education/')}>{L('Education details', '教育详情')} →</a></p>
-    </div>
-  </div></section>
-
-  <section class="block rs" id="papers"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">02</span><h2 class="rs-h">{L('Papers & research', '论文与研究')}</h2></div>
-    <div class="rs-body">
-      <p class="rs-sub first">{L('My research applies AI to concrete questions and reports what it achieved. For a CIVIC Hack 2026 study of Toronto council decisions, I used a large language model to draft plain-language explanations, then verified every sentence against the official record — the build refuses to publish a quote it cannot find. All 15 explanations passed human review; the project reached the final (6 of 27 teams) and won Best storytelling and visualizations. For Madeira, I studied missing and misleading startup diagnostics through source inspection and reproducible log replay, using AI assistance in the analysis; the resulting report was published on Zenodo.', '我的研究把 AI 用在具体问题上，并如实报告达成的效果。在 CIVIC Hack 2026 对多伦多市议会决策的研究中，我用大模型生成通俗解读初稿，再逐句对照官方记录核验——找不到原文出处的内容，系统拒绝发布；15 条解读全部通过人工复核，项目进入决赛（27 队取 6）并获最佳叙事与可视化奖。对 Madeira，我通过源码分析和可复现的日志回放、借助 AI 辅助分析，研究启动诊断中的遗漏与误报问题；研究成果写成报告，发表于 Zenodo。')}</p>
-      <a class="write" href="https://doi.org/10.5281/zenodo.24096966">
-        <span><b>When Startup Failures Look the Same</b><em>{L('Technical report · Madeira diagnostic log analysis · self-published on Zenodo, not peer-reviewed', '技术报告 · Madeira 诊断日志分析 · 自行发布于 Zenodo，未经同行评审')}</em></span><span>{L('Nov 2026', '2026 年 11 月')} ↗</span>
-      </a>
-      <p class="rs-sub">{L('Examines missing and misleading startup diagnostics through source inspection and reproducible log replay. Includes a targeted fix and its evaluation limits.', '通过源码分析和可复现的日志回放研究启动诊断中的遗漏与误报，包含针对性修正及其评估局限。')}</p>
-      <h3 class="mini-h">{L('Course research & presentations', '课程研究与展示')}</h3>
-      {research.map((r) => (
-        <div class="rs-item">
-          <div class="rs-row"><span class="rs-t"><b>{r.title}</b> · {r.role}</span></div>
-          <ul>{(r.bullets ?? []).map((b: string) => <li>{b}</li>)}</ul>
+  <div class="wrap resume">
+    <nav class="index" aria-label={L('Sections', '本页内容')} data-spy>
+      <p class="eyebrow">{L('On this page', '本页内容')}</p>
+      <ol>{sections.map((x) => <li><a href={`#${x.id}`}>{x.label}</a></li>)}</ol>
+    </nav>
+    <div>
+      <section class="sec" id="education">
+        <div class="sec-h"><h2>{L('Education', '教育')}</h2><a class="arrow-link" href={route(lang, '/about/#education')}>{L('Details', '详情')} →</a></div>
+        <div class="entries">
+          <Entry when={uw.date} title={uw.org} role={uw.degree} sub={uw.place}
+            desc={L('Coursework: CS 135 Designing Functional Programs · MATH 135 Algebra · MATH 137 Calculus 1 · ECON 101 Introductory Microeconomics', '课程：CS 135 函数式程序设计 · MATH 135 代数 · MATH 137 微积分 1 · ECON 101 微观经济学入门')} />
+          <Entry when={hs.date} title={hs.org} role={hs.degree} sub={hs.place}
+            desc={L('Average approximately 93.3% · Calculus 12 · Statistics 12 · Computer Science 12 · Physics 12 · Economics 12', '平均分约 93.3% · Calculus 12 · Statistics 12 · Computer Science 12 · Physics 12 · Economics 12')} />
         </div>
-      ))}
-      <p class="rs-more"><a href={route(lang, '/experience/')}>{L('More research & presentations', '更多研究与展示')} →</a></p>
-    </div>
-  </div></section>
+      </section>
 
-  <section class="block rs" id="experience"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">03</span><h2 class="rs-h">{L('Experience & leadership', '经历与领导力')}</h2></div>
-    <div class="rs-body">
-      <ol class="lead">
-        {leadership.map((e) => (
-          <li>
-            <div class="rs-row"><span class="rs-t"><b>{e.name}</b> · {e.role}</span><span>{e.date}</span></div>
-            <p>{e.text}</p>
-          </li>
-        ))}
-      </ol>
-      <p class="rs-more"><a href={route(lang, '/experience/')}>{L('More experience', '更多经验')} →</a></p>
-    </div>
-  </div></section>
+      <section class="sec" id="experience">
+        <div class="sec-h"><h2>{L('Experience', '经历')}</h2><a class="arrow-link" href={route(lang, '/experience/')}>{L('All experience', '全部经历')} →</a></div>
+        <h3 class="sub-title">{L('Hackathons & competitions', '黑客松与竞赛')}</h3>
+        <div class="entries">
+          {competitions.map((c) => <Entry when={c.date} title={c.name} href={c.href || undefined} badge={c.badge} win={c.badge === L('Winner', '获奖')} desc={c.desc} />)}
+        </div>
+        <h3 class="sub-title">{L('Leadership & community', '领导力与社区')}</h3>
+        <div class="entries">
+          {leadership.map((e) => <Entry when={e.date} title={e.name} role={e.role} desc={e.text} />)}
+        </div>
+      </section>
 
-  <section class="block rs" id="projects"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">04</span><h2 class="rs-h">{L('Featured projects', '重点项目')}</h2></div>
-    <div class="rs-body">
-      {projects.map((p, i) => (
-        <article class="proj">
-          <span class="proj-i">{String(i + 1).padStart(2, '0')}</span>
-          <div class="rs-row"><span class="rs-t"><a href={p.href}><b>{p.name}</b></a><br /><em>{p.desc}</em></span><span>{p.date}</span></div>
-          <ul>{p.bullets.map((b) => <li>{b}</li>)}</ul>
-        </article>
-      ))}
-      <p class="rs-more"><a href={route(lang, '/projects/')}>{L('All projects', '全部项目')} →</a></p>
-    </div>
-  </div></section>
+      <section class="sec" id="projects">
+        <div class="sec-h"><h2>{L('Selected projects', '重点项目')}</h2><a class="arrow-link" href={route(lang, '/projects/')}>{L('All projects', '全部项目')} →</a></div>
+        <div class="entries">
+          {projects.filter((p) => !p.name.startsWith('Exodus')).map((p) => <Entry when={p.date} title={p.name} href={p.href} sub={p.desc} bullets={p.bullets} />)}
+        </div>
+      </section>
 
-  <section class="block rs" id="competitions"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">05</span><h2 class="rs-h">{L('Competitions & hackathons', '竞赛与黑客松')}</h2></div>
-    <div class="rs-body">
-      {competitions.map((c) => (
-        <article class="proj comp">
-          <div class="rs-row"><span class="rs-t">{c.href ? <a href={c.href}><b>{c.name}</b></a> : <b>{c.name}</b>} <i class="badge">{c.badge}</i></span><span>{c.date}</span></div>
-          <p class="comp-d">{c.desc}</p>
-        </article>
-      ))}
-      <p class="rs-more"><a href={route(lang, '/experience/')}>{L('Hackathon details', '黑客松详情')} →</a></p>
-    </div>
-  </div></section>
+      <section class="sec" id="open-source">
+        <div class="sec-h"><h2>{L('Open-source contributions', '开源贡献')}</h2><a class="arrow-link" href={route(lang, '/open-source/')}>{L('Every pull request', '全部 PR')} →</a></div>
+        <p class="sec-intro">{h.aiNote}</p>
+        <div class="repos">
+          {ossRepos.map((r) => { const st = repoStats(r); const o = ossDesc[r] ?? { name: r, d: '', b: '' }; return (
+            <a class="repo" href={`https://github.com/${r}/pulls?q=author%3AJelly-RayTian`}>
+              <div class="repo-top"><b>{o.name}</b><small>{st.total} PRs</small></div>
+              {o.d && <em>{o.d}</em>}
+              <div class="bar" aria-hidden="true">{bar(r).map((x) => <span class={`k-${x.k}`} style={`width:${x.w}%`}></span>)}</div>
+              <small>{st.merged} {L('merged', '已合并')}{st.squashed + st.consolidated ? ` · ${st.squashed + st.consolidated} ${L('in main via maintainer', '经维护者进入 main')}` : ''} · {st.open} {L('open', '审核中')}</small>
+              {o.b && <p>{o.b}</p>}
+            </a>
+          ); })}
+        </div>
+      </section>
 
-  <section class="block rs" id="open-source"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">06</span><h2 class="rs-h">{L('Open-source contributions', '开源贡献')}</h2></div>
-    <div class="rs-body">
-      <p class="rs-sub first">{h.aiNote}</p>
-      <div class="oss">
-        {ossRepos.map((r) => { const st = repoStats(r); const o = ossDesc[r] ?? { name: r, d: '', b: '' }; return (
-          <a class="oss-card" href={`https://github.com/${r}/pulls?q=author%3AJelly-RayTian`}>
-            <b>{o.name}<i>↗</i></b>
-            <em>{o.d}</em>
-            <div class="oss-bar" aria-hidden="true">{bar(r).map((x) => <span class={`k-${x.k}`} style={`width:${x.w}%`}></span>)}</div>
-            <small>{st.total} PRs · {st.merged} {L('merged', '已合并')}{st.squashed + st.consolidated ? ` · ${st.squashed + st.consolidated} ${L('in main via maintainer', '经维护者进入 main')}` : ''} · {st.open} {L('open', '审核中')}</small>
-            <p>{o.b}</p>
-          </a>
-        ); })}
-      </div>
-      <p class="rs-more"><a href={route(lang, '/open-source/')}>{L('Every pull request, with its real status', '每个 PR 及其真实状态')} →</a></p>
-    </div>
-  </div></section>
+      <section class="sec" id="research">
+        <div class="sec-h"><h2>{L('Research & writing', '研究与写作')}</h2><a class="arrow-link" href={route(lang, '/systems/')}>{L('All writing', '全部写作')} →</a></div>
+        <div class="entries">
+          <Entry when={L('Nov 2026', '2026 年 11 月')} title="When Startup Failures Look the Same" href="https://doi.org/10.5281/zenodo.24096966"
+            role={L('Technical report · Zenodo', '技术报告 · Zenodo')} sub={L('self-published, not peer-reviewed', '自行发布，未经同行评审')}
+            desc={L('Examines missing and misleading startup diagnostics in Madeira through source inspection and reproducible log replay. Includes a targeted fix and its evaluation limits.', '通过源码分析和可复现的日志回放研究 Madeira 启动诊断中的遗漏与误报，包含针对性修正及其评估局限。')} />
+          {content.writing.map((w) => <Entry when={w.date} title={w.title} href={w.url} role={w.venue} />)}
+          {research.map((r) => <Entry when={r.date} title={r.title} role={r.role} bullets={r.bullets} />)}
+        </div>
+      </section>
 
-  <section class="block rs" id="skills"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">07</span><h2 class="rs-h">{L('Technical skills', '技能')}</h2></div>
-    <div class="rs-body">
-      <p class="rs-sub first">{h.skillsP}</p>
-      <div class="skill-grid">{content.skills.map((s) => <div class="skill"><b>{s.label[lang]}</b><p>{s.items[lang]}</p></div>)}</div>
-    </div>
-  </div></section>
+      <section class="sec" id="skills">
+        <div class="sec-h"><h2>{L('Skills', '技能')}</h2></div>
+        <p class="sec-intro">{h.skillsP}</p>
+        <dl class="skills">
+          {content.skills.map((s) => <div><dt>{s.label[lang]}</dt><dd>{s.items[lang]}</dd></div>)}
+          <div><dt>{t(lang, 'languagesLabel')}</dt><dd>{content.languages[lang]}</dd></div>
+        </dl>
+      </section>
 
-  <section class="block rs" id="writing"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">08</span><h2 class="rs-h">{L('Technical writing', '技术写作')}</h2></div>
-    <div class="rs-body">
-      {content.writing.map((w) => (
-        <a class="write" href={w.url}><span><b>{w.title}</b><em>{w.venue}</em></span><span>{w.date} ↗</span></a>
-      ))}
-      <p class="rs-more"><a href={route(lang, '/systems/')}>{L('Longer write-ups on game files, Android and iOS', '关于游戏文件、Android 和 iOS 的详细记录')} →</a></p>
-    </div>
-  </div></section>
+      <section class="sec" id="awards">
+        <div class="sec-h"><h2>{L('Honours & awards', '荣誉与奖项')}</h2><a class="arrow-link" href={route(lang, '/about/#honours')}>{L('Details', '详情')} →</a></div>
+        <div class="honours">
+          <div><b>CIVIC Hack 2026</b><span>{L('Winner · Best storytelling and visualizations', '获奖 · 最佳叙事与可视化')}</span></div>
+          <div><b>{L('Euclid Mathematics Contest 2025', 'Euclid 数学竞赛 2025')}</b><span>83 / 100</span></div>
+          {recognition.map(([a, b]) => <div><b>{a}</b><span>{b}</span></div>)}
+        </div>
+      </section>
 
-  <section class="block rs" id="awards"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">09</span><h2 class="rs-h">{L('Awards, certifications & activities', '荣誉、证书与活动')}</h2></div>
-    <div class="rs-body">
-      <div class="chips2">{recognition.map(([a, b]) => <div><b>{a}</b><span>{b}</span></div>)}</div>
+      <section class="sec" id="looking">
+        <div class="sec-h"><h2>{L('What I\'m looking for', '我在找什么')}</h2></div>
+        <div class="callout">
+          <p>{h.seeking}</p>
+          <p style="margin-top:12px">{L('I\'m on Y Combinator\'s Co-Founder Matching platform, looking to join a founder with a concrete idea and build it together. I\'d cover product and engineering, and I\'m most interested in AI, developer tools, education, consumer and gaming. I\'m a student, so part-time during the term (about 10–15 hours a week, less during exam weeks, more during breaks), remote or Waterloo/Kitchener based — and I\'d like to start with a small trial project before committing.', '我在 Y Combinator 的 Co-Founder Matching 平台上，想加入一位有具体 idea 的创始人，一起把产品做出来。我负责产品与工程，感兴趣的方向是 AI、开发者工具、教育、消费与游戏。我是学生，学期期间兼职（每周约 10–15 小时，考试周会少，假期更多），远程或滑铁卢/Kitchener 本地，希望先从一个小的试做项目开始，合适再长期合作。')}</p>
+          <div class="btns">
+            <a class="btn primary" href="https://www.linkedin.com/in/dong-guo-604726444/">{L('Message me on LinkedIn', '在 LinkedIn 联系我')} ↗</a>
+            <a class="btn" href="https://www.ycombinator.com/cofounder-matching">YC Co-Founder Matching ↗</a>
+            <a class="btn" href={route(lang, '/about/#contact')}>{L('More ways to reach me', '更多联系方式')}</a>
+          </div>
+        </div>
+      </section>
     </div>
-  </div></section>
-
-  <section class="block rs" id="yc"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">10</span><h2 class="rs-h">{L('YC Co-Founder Matching', 'YC 联合创始人匹配')}</h2></div>
-    <div class="rs-body">
-      <p class="rs-sub first">{L('I\'m on Y Combinator\'s Co-Founder Matching platform, looking to join a founder with a concrete idea and build it together. I\'d cover product and engineering, and I\'m most interested in AI, developer tools, education, consumer and gaming. I\'m a student, so part-time during the term (about 10–15 hours a week, less during exam weeks, more during breaks), remote or Waterloo/Kitchener based — and I\'d like to start with a small trial project before committing.', '我在 Y Combinator 的 Co-Founder Matching 平台上，想加入一位有具体 idea 的创始人，一起把产品做出来。我负责产品与工程，感兴趣的方向是 AI、开发者工具、教育、消费与游戏。我是学生，学期期间兼职（每周约 10–15 小时，考试周会少，假期更多），远程或滑铁卢/Kitchener 本地，希望先从一个小的试做项目开始，合适再长期合作。')}</p>
-      <p class="more-row"><a class="btn gold" href="https://www.ycombinator.com/cofounder-matching">YC Co-Founder Matching ↗</a><a class="btn" href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn</a></p>
-    </div>
-  </div></section>
-
-  <section class="block rs" id="contact"><div class="wrap rs-grid">
-    <div class="rs-side"><span class="rs-n">11</span><h2 class="rs-h">{L('Contact', '联系')}</h2></div>
-    <div class="rs-body">
-      <p class="contact-line">{h.seeking}</p>
-      <p class="more-row"><a class="btn gold" href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn</a><a class="btn" href="https://github.com/Jelly-RayTian">GitHub</a><a class="btn" href={route(lang, '/contact/')}>{L('More ways', '更多方式')}</a></p>
-    </div>
-  </div></section>
+  </div>
 </BaseLayout>

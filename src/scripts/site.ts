@@ -2,16 +2,9 @@ const root = document.documentElement;
 const lang = root.dataset.lang;
 
 // theme toggle
-const tb = document.getElementById('theme') as HTMLButtonElement | null;
-const syncTheme = () => {
-  if (!tb) return;
-  tb.textContent = root.dataset.theme === 'dark' ? tb.dataset.light! : tb.dataset.dark!;
-};
-syncTheme();
-tb?.addEventListener('click', () => {
+document.getElementById('theme')?.addEventListener('click', () => {
   root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
   try { localStorage.setItem('theme', root.dataset.theme); } catch {}
-  syncTheme();
 });
 
 // mobile menu
@@ -30,15 +23,20 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// reveal on scroll
-const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
-
-// scroll progress
-const prog = document.getElementById('prog');
-addEventListener('scroll', () => {
-  if (prog) prog.style.transform = `scaleX(${scrollY / (document.body.scrollHeight - innerHeight || 1)})`;
-}, { passive: true });
+// highlight the section link for the part of the page in view
+document.querySelectorAll<HTMLElement>('[data-spy]').forEach((spy) => {
+  const links = [...spy.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')];
+  const targets = links.map((a) => document.getElementById(a.hash.slice(1))).filter(Boolean) as HTMLElement[];
+  const update = () => {
+    const y = scrollY + innerHeight * 0.3;
+    let cur = targets[0]?.id;
+    for (const t of targets) if (t.offsetTop <= y) cur = t.id;
+    if (innerHeight + scrollY >= document.body.scrollHeight - 4) cur = targets[targets.length - 1]?.id;
+    links.forEach((a) => a.classList.toggle('on', a.hash.slice(1) === cur));
+  };
+  addEventListener('scroll', update, { passive: true });
+  update();
+});
 
 // PR wall tooltip
 const tip = document.getElementById('tip');
@@ -62,15 +60,12 @@ document.querySelectorAll<HTMLElement>('.tile').forEach((t) => {
   t.addEventListener('focus', show); t.addEventListener('blur', hide);
 });
 
-// hero glow follows the pointer
-const hero = document.querySelector<HTMLElement>('.hero');
-if (hero) addEventListener('pointermove', (e) => { hero.style.setProperty('--mx', e.clientX + 'px'); hero.style.setProperty('--my', e.clientY + scrollY + 'px'); }, { passive: true });
-
 // Old single-page anchors (#education, #systems, ...) -> new pages.
 const legacy: Record<string, string> = {
-  about: '/about/', education: '/education/', achievements: '/education/', leadership: '/experience/', research: '/experience/',
-  projects: '/projects/', cases: '/open-source/', explorer: '/open-source/', wall: '/open-source/', community: '/volunteering/',
-  systems: '/systems/', creative: '/creative/', contact: '/contact/',
+  about: '/about/', achievements: '/about/#honours', leadership: '/experience/#leadership',
+  cases: '/open-source/#cases', explorer: '/open-source/#all-prs', wall: '/open-source/', community: '/experience/#volunteering',
+  systems: '/systems/', creative: '/about/#creative', papers: '/#research', competitions: '/experience/#competitions',
+  writing: '/#research', yc: '/#looking',
 };
 const path = location.pathname.replace(/^\/zh(?=\/|$)/, '') || '/';
 const target = legacy[location.hash.slice(1)];

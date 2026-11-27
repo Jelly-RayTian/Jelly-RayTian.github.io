@@ -1,32 +1,91 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHead from '../../../components/PageHead.astro';
-import AboutTabs from '../../../components/AboutTabs.astro';
+import SubNav from '../../../components/SubNav.astro';
+import Entry from '../../../components/Entry.astro';
+import ContentEntry from '../../../components/ContentEntry.astro';
 import { localePaths } from '../../../lib/paths';
 import { pages } from '../../../content/data/pages';
-import { content } from '../../../lib/data';
+import { content, entriesFor, entry } from '../../../lib/data';
 import { t, type Lang } from '../../../i18n/ui';
 export const getStaticPaths = localePaths;
 const { lang } = Astro.props as { lang: Lang };
+const zh = lang === 'zh';
+const L = (en: string, cn: string) => (zh ? cn : en);
 const pg = pages[lang].about;
+const C = content.creative;
+const items = [
+  { id: 'profile', label: L('Profile', '简介') },
+  { id: 'education', label: L('Education', '教育') },
+  { id: 'honours', label: L('Honours', '荣誉') },
+  { id: 'creative', label: L('Creative work', '创作') },
+  { id: 'contact', label: L('Contact', '联系') },
+];
 ---
 <BaseLayout lang={lang} path="/about/" title={pg.k} description={content.about[lang].slice(0, 180)}>
-  <section class="block"><div class="wrap">
-    <AboutTabs lang={lang} path="/about/" />
-    <PageHead k={pg.k} h={pg.h} p={pg.p} />
-    <div class="about-grid">
-      <p class="about-text">{content.about[lang]}</p>
-      <div>
-        <h2 class="mini-h">{t(lang, 'interests')}</h2>
-        <ul class="chips">{content.interests.map((i) => <li>{i[lang]}</li>)}</ul>
+  <PageHead k={pg.k} h={pg.h} p={pg.p} />
+  <SubNav items={items} label={pg.k} />
+  <div class="wrap page-body">
+    <section class="sec" id="profile">
+      <div class="sec-h"><h2>{items[0].label}</h2></div>
+      <div class="bio">
+        <p>{content.about[lang]}</p>
+        <div>
+          <h3 class="sub-title" style="margin-top:0">{t(lang, 'interests')}</h3>
+          <ul class="chips">{content.interests.map((i) => <li>{i[lang]}</li>)}</ul>
+          <h3 class="sub-title">{t(lang, 'languagesLabel')}</h3>
+          <p class="muted">{content.languages[lang]}</p>
+        </div>
       </div>
-    </div>
-    <div class="skills-panel xcard">
-      <h2>{t(lang, 'skills')}</h2>
-      <dl>
-        {content.skills.map((s) => <div><dt>{s.label[lang]}</dt><dd>{s.items[lang]}</dd></div>)}
-        <div><dt>{t(lang, 'languagesLabel')}</dt><dd>{content.languages[lang]}</dd></div>
-      </dl>
-    </div>
-  </div></section>
+    </section>
+
+    <section class="sec" id="education">
+      <div class="sec-h"><h2>{items[1].label}</h2></div>
+      <div class="entries">
+        {content.education.map((ed) => {
+          const x = ed[lang];
+          return (
+            <Entry when={x.date} title={x.org} role={x.degree} sub={x.place} desc={'detail' in x ? x.detail : undefined}>
+              <h4 class="sub-title" style="margin-top:14px">{t(lang, 'coursework')}</h4>
+              <div class="tags">{x.coursework.map((c) => <span class="tag">{c}</span>)}</div>
+            </Entry>
+          );
+        })}
+      </div>
+      <h3 class="sub-title">{L('University admissions', '大学录取')}</h3>
+      <p class="muted" style="margin-bottom:10px">{L('Besides Waterloo, I received offers of admission from:', '除滑铁卢大学外，我还收到了以下大学的录取：')}</p>
+      <ul class="chips">{content.admissions.map((x) => <li>{x[lang]}</li>)}</ul>
+      <h3 class="sub-title">{L('Entrance scholarship offers (2025)', '入学奖学金 offer（2025）')}</h3>
+      <ul class="chips">{content.scholarships.map((x) => <li>{x[lang]}</li>)}</ul>
+    </section>
+
+    <section class="sec" id="honours">
+      <div class="sec-h"><h2>{items[2].label}</h2></div>
+      <div class="honours">
+        <div><b>CIVIC Hack 2026</b><span>{L('Winner · Best storytelling and visualizations', '获奖 · 最佳叙事与可视化')}</span></div>
+        {entriesFor('achievements').map((e) => <div><b>{e[lang].title}</b><span>{e[lang].role}</span></div>)}
+        <div><b>IELTS Academic</b><span>{L('Overall band 7.0', '总分 7.0')}</span></div>
+      </div>
+    </section>
+
+    <section class="sec" id="creative">
+      <div class="sec-h"><h2>{items[3].label}</h2><a class="arrow-link" href={C.profile}>{L('Bilibili profile', 'Bilibili 个人主页')} ↗</a></div>
+      <p class="sec-intro">{L('A video channel with game experiments, modification effects and other creative videos, plus a short-film project.', '一个发布游戏实验、修改效果和其他创作视频的账号，以及一个短片项目。')}</p>
+      <div class="cstats">
+        {C.stats.map((s) => <div><b>{s.value}</b><span>{s.label[lang]}</span><small>{s.src[lang]}</small></div>)}
+      </div>
+      <p class="fine" style="margin:10px 0 24px">{C.note[lang]}</p>
+      <div class="entries"><ContentEntry e={entry('film')} lang={lang} /></div>
+    </section>
+
+    <section class="sec" id="contact">
+      <div class="sec-h"><h2>{items[4].label}</h2></div>
+      <p class="sec-intro">{L('I keep personal email and phone off this public site. Message me on LinkedIn or open an issue on GitHub; I share contact details in applications.', '公开网站不放个人邮箱和电话。可以通过 LinkedIn 联系我，或在 GitHub 上留言；申请材料中会提供联系方式。')}</p>
+      <div class="contact-grid">
+        <a href="https://www.linkedin.com/in/dong-guo-604726444/"><b>LinkedIn ↗</b><span>{L('Best way to reach me', '最方便的联系方式')}</span></a>
+        <a href="https://github.com/Jelly-RayTian"><b>GitHub ↗</b><span>@Jelly-RayTian</span></a>
+        <a href="https://github.com/Jelly-RayTian/Jelly-RayTian.github.io/issues"><b>{L('GitHub issues', 'GitHub 留言')} ↗</b><span>{L('Public questions about this site', '关于本网站的公开留言')}</span></a>
+      </div>
+    </section>
+  </div>
 </BaseLayout>

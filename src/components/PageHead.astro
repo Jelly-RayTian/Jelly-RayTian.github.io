@@ -1,10 +1,12 @@
 ---
-interface Props { k: string; h: string; p?: string; level?: 1 | 2 }
-const { k, h, p, level = 1 } = Astro.props;
-const Tag = level === 1 ? 'h1' : 'h2';
+interface Props { k: string; h: string; p?: string }
+const { k, h, p } = Astro.props;
 ---
-<div class="sh page-head">
-  <span class="kicker">{k}</span>
-  <Tag class="page-h" set:html={h} />
-  {p && <p>{p}</p>}
+<div class="page-top">
+  <div class="wrap">
+    <span class="eyebrow">{k}</span>
+    <h1>{h}</h1>
+    {p && <p class="lead">{p}</p>}
+    <slot />
+  </div>
 </div>

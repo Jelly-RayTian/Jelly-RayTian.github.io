@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHead from '../../../components/PageHead.astro';
+import Entry from '../../../components/Entry.astro';
 import { getCollection } from 'astro:content';
 import { localePaths } from '../../../lib/paths';
 import { pages, systemsPoints } from '../../../content/data/pages';
@@ -8,41 +9,38 @@ import { content } from '../../../lib/data';
 import { route, t, type Lang } from '../../../i18n/ui';
 export const getStaticPaths = localePaths;
 const { lang } = Astro.props as { lang: Lang };
+const zh = lang === 'zh';
+const L = (en: string, cn: string) => (zh ? cn : en);
 const pg = pages[lang].systems;
 const items = (await getCollection('systems')).filter((e) => e.data.lang === lang).sort((a, b) => a.data.order - b.data.order);
+const outcome = (e: (typeof items)[number]) => e.data.glance.find((g) => g.k === 'Outcome' || g.k === '结果');
 ---
 <BaseLayout lang={lang} path="/systems/" title={pg.k} description={pg.p.slice(0, 200)}>
-  <section class="block"><div class="wrap">
-    <PageHead k={pg.k} h={pg.h} p={pg.p} />
-    <aside class="glance points" aria-label={t(lang, 'systemsRead')}>
-      <h2>{t(lang, 'systemsRead')}</h2>
-      <ul>{systemsPoints[lang].map((x) => <li>{x}</li>)}</ul>
-    </aside>
-    <h2 class="sub-h">{t(lang, 'articles')}</h2>
-    <div class="pgrid">
-      {items.map((e) => (
-        <a class="pcard xcard" href={route(lang, `/systems/${e.data.pageSlug}/`)}>
-          <b>{e.data.title}<span aria-hidden="true">→</span></b>
-          <p class="subt">{e.data.subtitle}</p>
-          <p>{e.data.summary}</p>
-          {e.data.glance.find((g) => g.k === 'Outcome' || g.k === '结果') && <p class="outcome"><b>{e.data.glance.find((g) => g.k === 'Outcome' || g.k === '结果')?.k}:</b> {e.data.glance.find((g) => g.k === 'Outcome' || g.k === '结果')?.v}</p>}
-        </a>
-      ))}
-    </div>
-    <h2 class="sub-h">{lang === 'zh' ? '文章发表' : 'Published writing'}</h2>
-    <div class="pgrid">
-      <a class="pcard xcard" href="https://doi.org/10.5281/zenodo.24096966" rel="noopener">
-        <b>When Startup Failures Look the Same<span aria-hidden="true">↗</span></b>
-        <p class="subt">{lang === 'zh' ? 'Zenodo · 技术报告 · 2026 年 11 月' : 'Zenodo · Technical report · Nov 2026'}</p>
-        <p>{lang === 'zh' ? '基于源码分析和日志回放，研究 Madeira 启动诊断中的遗漏与误报。' : 'Source inspection and log replay of missing and misleading startup diagnostics in Madeira.'}</p>
-        <p>DOI: 10.5281/zenodo.24096966</p>
-      </a>
-      {content.writing.map((w) => (
-        <a class="pcard xcard" href={w.url} rel="noopener">
-          <b>{w.title}<span aria-hidden="true">↗</span></b>
-          <p class="subt">{w.venue} · {w.date}</p>
-        </a>
-      ))}
-    </div>
-  </div></section>
+  <PageHead k={pg.k} h={pg.h} p={pg.p} />
+  <div class="wrap page-body" style="padding-top:32px">
+    <section class="sec" id="published">
+      <div class="sec-h"><h2>{L('Published', '已发表')}</h2></div>
+      <div class="entries">
+        <Entry when={L('Nov 2026', '2026 年 11 月')} title="When Startup Failures Look the Same" href="https://doi.org/10.5281/zenodo.24096966"
+          role={L('Technical report · Zenodo', '技术报告 · Zenodo')} sub={L('self-published, not peer-reviewed', '自行发布，未经同行评审')}
+          desc={L('Source inspection and log replay of missing and misleading startup diagnostics in Madeira.', '基于源码分析和日志回放，研究 Madeira 启动诊断中的遗漏与误报。')}
+          links={[{ label: 'DOI 10.5281/zenodo.24096966', url: 'https://doi.org/10.5281/zenodo.24096966' }]} />
+        {content.writing.map((w) => <Entry when={w.date} title={w.title} href={w.url} role={w.venue} />)}
+      </div>
+    </section>
+
+    <section class="sec" id="write-ups">
+      <div class="sec-h"><h2>{L('Systems exploration write-ups', '系统探索记录')}</h2></div>
+      <aside class="glance points" aria-label={t(lang, 'systemsRead')} style="margin-top:0">
+        <h2>{t(lang, 'systemsRead')}</h2>
+        <ul>{systemsPoints[lang].map((x) => <li>{x}</li>)}</ul>
+      </aside>
+      <div class="entries">
+        {items.map((e) => {
+          const o = outcome(e);
+          return <Entry title={e.data.title} href={route(lang, `/systems/${e.data.pageSlug}/`)} sub={e.data.subtitle} desc={e.data.summary} note={o ? `${o.k}: ${o.v}` : undefined} when={e.data.updated} />;
+        })}
+      </div>
+    </section>
+  </div>
 </BaseLayout>

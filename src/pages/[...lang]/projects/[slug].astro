@@ -15,24 +15,25 @@ const d = entry.data;
 const { Content } = await render(entry);
 ---
 <BaseLayout lang={lang} path={`/projects/${d.pageSlug}/`} title={d.title} description={d.summary} ogImage={d.image ?? '/assets/watdesk.jpg'} type="article">
-  <section class="block"><div class="wrap narrow">
+  <div class="wrap narrow">
     <p class="crumb"><a href={route(lang, '/projects/')}>← {t(lang, 'backTo')} {t(lang, 'projects')}</a></p>
-    <div class="sh page-head">
-      <span class="kicker">{[d.stack, d.period].filter(Boolean).join(' · ')}</span>
-      <h1 class="page-h">{d.title}</h1>
+    <header class="detail-head">
+      {d.period && <span class="eyebrow">{d.period}</span>}
+      <h1>{d.title}</h1>
       <p>{d.summary}</p>
-    </div>
+      {d.stack && <div class="tags">{d.stack.split(/\s*·\s*/).map((x) => <span class="tag">{x}</span>)}</div>}
+    </header>
+    {d.status && <p class="statusline"><span class="dot" aria-hidden="true"></span><span>{d.status}</span></p>}
+    {d.links.length > 0 && (
+      <div class="btns" style="margin:18px 0 4px">{d.links.map((l, i) => <a class={i === 0 ? 'btn primary' : 'btn'} href={l.url}>{l.label} ↗</a>)}</div>
+    )}
     {d.image && (
       <figure class="shot">
-        <img class="l" src={d.image} alt={d.title} width="800" height="500" />
-        {d.imageDark && <img class="d" src={d.imageDark} alt={d.title} width="800" height="500" />}
+        <img class={d.imageDark && d.imageDark !== d.image ? 'l' : ''} src={d.image} alt={d.title} width="800" height="500" />
+        {d.imageDark && d.imageDark !== d.image && <img class="d" src={d.imageDark} alt={d.title} width="800" height="500" />}
       </figure>
     )}
     {!d.image && d.flow && <ProjectVisual p={entry} />}
-    {d.status && <p class="statusline">{d.status}</p>}
     <div class="prose"><Content /></div>
-    {d.links.length > 0 && (
-      <div class="cta">{d.links.map((l, i) => <a class={i === 0 ? 'btn gold' : 'btn'} href={l.url}>{l.label}</a>)}</div>
-    )}
-  </div></section>
+  </div>
 </BaseLayout>

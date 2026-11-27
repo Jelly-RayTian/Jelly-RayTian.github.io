@@ -1,0 +1,19 @@
+---
+/** Old page that was merged into another one: tiny page that forwards to the new location. */
+import { htmlLang, route, type Lang } from '../i18n/ui';
+interface Props { lang: Lang; to: string }
+const { lang, to } = Astro.props;
+const target = route(lang, to);
+const canonical = new URL(target.split('#')[0], Astro.site!).href;
+---
+<!doctype html>
+<html lang={htmlLang[lang]}>
+  <head>
+    <meta charset="utf-8" />
+    <title>Ray Tian</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={canonical} />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+  </head>
+  <body><p><a href={target}>{lang === 'zh' ? '此页面已移动' : 'This page has moved'} →</a></p></body>
+</html>

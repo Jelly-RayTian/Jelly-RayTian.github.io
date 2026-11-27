@@ -9,6 +9,7 @@ export default defineConfig({
   markdown: { shikiConfig: { theme: 'github-dark', wrap: true } },
   integrations: [
     sitemap({
+      filter: (page) => !/\/(education|volunteering|creative|contact)\/$/.test(page),
       i18n: { defaultLocale: 'en', locales: { en: 'en', zh: 'zh-CN' } },
     }),
   ],

@@ -1,16 +1,20 @@
 ---
-import { route, t, type Lang } from '../i18n/ui';
+import { nav, route, t, type Lang } from '../i18n/ui';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
+const zh = lang === 'zh';
 ---
 <footer>
   <div class="wrap">
-    <div class="big"><a href={route(lang, '/open-source/')}>{t(lang, 'ledger')}</a>.</div>
-    <p>{t(lang, 'footNote')}</p>
-    <p class="links">
-      <a href="https://github.com/Jelly-RayTian">GitHub</a> ·
-      <a href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn</a> ·
+    <div>
+      <p class="f-name">Ray Tian</p>
+      <p>{zh ? '滑铁卢大学数学荣誉学士（Co-op）大一学生。开源贡献均附有 PR、维护者评论或提交链接。' : 'First-year Honours Mathematics (Co-op) student at the University of Waterloo. Open-source work links to its PRs, maintainer comments and commits.'}</p>
+    </div>
+    <nav aria-label={zh ? '页脚' : 'Footer'}>
+      {nav.map((n) => <a href={route(lang, n.path)}>{t(lang, n.key)}</a>)}
+      <a href="https://github.com/Jelly-RayTian">GitHub</a>
+      <a href="https://www.linkedin.com/in/dong-guo-604726444/">LinkedIn</a>
       <a href="https://github.com/Jelly-RayTian/Jelly-RayTian.github.io">{t(lang, 'source')}</a>
-    </p>
+    </nav>
   </div>
 </footer>

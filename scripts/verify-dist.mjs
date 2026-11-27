@@ -5,7 +5,8 @@ const fail = []; const ok = (c, m) => { if (!c) fail.push(m); };
 const read = (f) => fs.readFileSync(path.join(dist, f), 'utf8');
 const exists = (f) => fs.existsSync(path.join(dist, f));
 
-const pages = ['', 'about/', 'education/', 'experience/', 'projects/', 'open-source/', 'volunteering/', 'systems/', 'creative/', 'contact/',
+const redirects = ['education/', 'volunteering/', 'creative/', 'contact/'];
+const pages = ['', 'about/', 'experience/', 'projects/', 'open-source/', 'systems/', ...redirects,
   'projects/pixel-buddies/', 'projects/velzora/', 'projects/ctxport/',
   'projects/watdesk/', 'projects/wechatsignals/', 'projects/codecompass/', 'projects/chronicle/', 'projects/madeira-experimental/', 'projects/easytrip/', 'projects/teachflow/',
   'systems/pvz2-resource-analysis/', 'systems/android-device-customization/', 'systems/ios-jailbreaking/'];
@@ -20,7 +21,9 @@ const banned = [/résumé/i, /Ray-Tian-Resume/i, /resume\.pdf/i, />\s*Resume\s*<
 for (const f of html) {
   const rel = path.relative(dist, f); const s = fs.readFileSync(f, 'utf8');
   for (const b of banned) ok(!b.test(s.replace(/<script[\s\S]*?<\/script>/g, '')), `${rel}: contains ${b}`);
-  if (rel !== '404.html') {
+  const isRedirect = redirects.some((r) => rel === r + 'index.html' || rel === 'zh/' + r + 'index.html');
+  if (isRedirect) ok(/http-equiv="refresh"/.test(s), `${rel}: redirect missing`);
+  if (rel !== '404.html' && !isRedirect) {
     ok(/<title>[^<]+<\/title>/.test(s), `${rel}: no title`);
     ok((s.match(/<h1[ >]/g) || []).length === 1, `${rel}: expected exactly one h1`);
     ok(/rel="canonical"/.test(s) && /hreflang="zh-CN"/.test(s) && /property="og:title"/.test(s), `${rel}: SEO tags missing`);

@@ -15,18 +15,19 @@ npm run verify    # post-build checks (pages, links, SEO, removed content)
 ```
 src/
   pages/[...lang]/     one file per page; serves / (English) and /zh/ (Chinese)
-    index.astro  about/  education/  experience/  projects/  open-source/
-    volunteering/  systems/  creative/  contact/
+    index.astro          résumé-style overview (education, experience, projects, open source, skills, honours)
+    experience/  projects/  open-source/  systems/ (shown as "Writing")  about/ (profile, education, honours, creative, contact)
+    education/  volunteering/  creative/  contact/   redirects to the merged sections
     projects/[slug].astro   systems/[slug].astro   detail pages from Markdown
   layouts/BaseLayout.astro   head, SEO, Open Graph, hreflang, header, footer
-  components/                Header, Footer, PrWall, PrExplorer, CaseStudies, cards
+  components/                Header, Footer, Entry (résumé row), SubNav, ProjectCard, PrWall, PrExplorer, CaseStudies
   content/
     projects/{en,zh}/*.md    one Markdown file per project and language
     systems/{en,zh}/*.md     systems articles (text, code blocks, images, references)
     data/                    content.json (experience, education, honours), prs.json, cases.json, pages.ts
   i18n/ui.ts                 routes and interface strings (EN/ZH)
   lib/                       data helpers
-  scripts/                   theme/menu, background canvas, PR filter (small client scripts)
+  scripts/                   theme/menu, section highlighting, PR filter (small client scripts)
   styles/global.css
 public/assets/               screenshots
 scripts/verify-dist.mjs      build verification

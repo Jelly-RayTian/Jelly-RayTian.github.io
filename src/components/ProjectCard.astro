@@ -1,11 +1,29 @@
 ---
 import { route, type Lang } from '../i18n/ui';
-interface Props { p: any; lang: Lang }
-const { p, lang } = Astro.props;
+interface Props { p: any; lang: Lang; small?: boolean }
+const { p, lang, small = false } = Astro.props;
 const d = p.data;
+const img: string | undefined = d.cover ?? d.image;
+const contain = Boolean(d.cover);
+const tags: string[] = (d.stack ?? '').split(/\s*·\s*/).filter(Boolean);
 ---
-<a class="pcard xcard" href={route(lang, `/projects/${d.pageSlug}/`)}>
-  <b>{d.title}<span aria-hidden="true">↗</span></b>
-  <p>{d.summary}</p>
-  {d.stack && <span class="lang">{d.stack}</span>}
+<a class={small ? 'pcard sm' : 'pcard'} href={route(lang, `/projects/${d.pageSlug}/`)}>
+  {!small && (
+    img ? (
+      <div class={contain ? 'pcard-img contain' : 'pcard-img'}>
+        {contain
+          ? <img src={img} alt="" />
+          : <img class={d.imageDark && d.imageDark !== img ? 'l' : ''} src={img} alt="" width="640" height="360" />}
+        {d.imageDark && d.imageDark !== img && <img class="d" src={d.imageDark} alt="" width="640" height="360" />}
+      </div>
+    ) : (
+      <div class="pcard-img ph" aria-hidden="true"><span>{d.title}</span></div>
+    )
+  )}
+  <div class="pcard-body">
+    <div class="pcard-meta"><span>{d.period ?? ''}</span><span aria-hidden="true">→</span></div>
+    <h3>{d.title}</h3>
+    <p>{d.summary}</p>
+    {tags.length > 0 && <div class="tags">{tags.map((t) => <span class="tag">{t}</span>)}</div>}
+  </div>
 </a>

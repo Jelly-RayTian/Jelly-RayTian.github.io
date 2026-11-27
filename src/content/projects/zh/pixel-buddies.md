@@ -8,6 +8,7 @@ order: 0.1
 featured: true
 stack: "Cocos Creator · TypeScript"
 period: "2026 年 11 月"
+cover: "/assets/pixel-buddies-gameplay.png"
 status: "网页版已在浏览器中验证。仓库记录了微信和抖音平台的构建。"
 links:
   - label: "GitHub 仓库"

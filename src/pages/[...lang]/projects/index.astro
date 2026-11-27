@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHead from '../../../components/PageHead.astro';
+import SubNav from '../../../components/SubNav.astro';
 import ProjectCard from '../../../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 import { localePaths } from '../../../lib/paths';
@@ -8,20 +9,34 @@ import { pages } from '../../../content/data/pages';
 import { t, type Lang } from '../../../i18n/ui';
 export const getStaticPaths = localePaths;
 const { lang } = Astro.props as { lang: Lang };
+const zh = lang === 'zh';
 const pg = pages[lang].projects;
 const all = (await getCollection('projects')).filter((p) => p.data.lang === lang).sort((a, b) => a.data.order - b.data.order);
 const software = all.filter((p) => p.data.kind === 'software' && p.data.featured);
 const smaller = all.filter((p) => p.data.kind === 'software' && !p.data.featured);
 const course = all.filter((p) => p.data.kind === 'coursework');
+const items = [
+  { id: 'featured', label: zh ? '重点项目' : 'Featured' },
+  { id: 'more', label: zh ? '较小的项目' : 'Smaller projects' },
+  { id: 'course', label: t(lang, 'coursework2') },
+];
 ---
 <BaseLayout lang={lang} path="/projects/" title={pg.k} description={pg.p}>
-  <section class="block"><div class="wrap">
-    <PageHead k={pg.k} h={pg.h} p={pg.p} />
-    <div class="pgrid">{software.map((p) => <ProjectCard p={p} lang={lang} />)}</div>
-    <h2 class="sub-h">{lang === 'zh' ? '较小的项目' : 'Smaller projects'}</h2>
-    <div class="pgrid pgrid-sm">{smaller.map((p) => <ProjectCard p={p} lang={lang} />)}</div>
-    <h2 class="sub-h">{t(lang, 'coursework2')}</h2>
-    <p class="muted">{lang === 'zh' ? '为课程完成的团队构想。' : 'Team concepts written for courses.'}</p>
-    <div class="pgrid">{course.map((p) => <ProjectCard p={p} lang={lang} />)}</div>
-  </div></section>
+  <PageHead k={pg.k} h={pg.h} p={pg.p} />
+  <SubNav items={items} label={pg.k} />
+  <div class="wrap page-body">
+    <section class="sec" id="featured">
+      <div class="sec-h"><h2>{items[0].label}</h2></div>
+      <div class="pgrid">{software.map((p) => <ProjectCard p={p} lang={lang} />)}</div>
+    </section>
+    <section class="sec" id="more">
+      <div class="sec-h"><h2>{items[1].label}</h2></div>
+      <div class="pgrid">{smaller.map((p) => <ProjectCard p={p} lang={lang} small />)}</div>
+    </section>
+    <section class="sec" id="course">
+      <div class="sec-h"><h2>{items[2].label}</h2></div>
+      <p class="sec-intro">{zh ? '为课程完成的团队构想。' : 'Team concepts written for courses.'}</p>
+      <div class="pgrid">{course.map((p) => <ProjectCard p={p} lang={lang} small />)}</div>
+    </section>
+  </div>
 </BaseLayout>

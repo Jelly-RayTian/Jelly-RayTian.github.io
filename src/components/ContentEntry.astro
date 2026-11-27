@@ -1,0 +1,9 @@
+---
+/** Résumé row for an item stored in content.json `entries`. */
+import Entry from './Entry.astro';
+import type { Lang } from '../i18n/ui';
+interface Props { e: any; lang: Lang; badge?: string; win?: boolean; when?: string }
+const { e, lang, badge, win, when } = Astro.props;
+const x = e[lang];
+---
+<Entry when={when ?? x.date} title={x.title} role={x.role} bullets={x.bullets} note={x.note} tags={x.tags} links={x.links} badge={badge} win={win} />

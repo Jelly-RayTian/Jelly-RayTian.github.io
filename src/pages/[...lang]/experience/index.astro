@@ -1,26 +1,66 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHead from '../../../components/PageHead.astro';
-import AboutTabs from '../../../components/AboutTabs.astro';
-import EntryCard from '../../../components/EntryCard.astro';
+import SubNav from '../../../components/SubNav.astro';
+import Entry from '../../../components/Entry.astro';
+import ContentEntry from '../../../components/ContentEntry.astro';
 import { localePaths } from '../../../lib/paths';
 import { pages } from '../../../content/data/pages';
 import { entriesFor, entry } from '../../../lib/data';
-import { t, type Lang } from '../../../i18n/ui';
+import type { Lang } from '../../../i18n/ui';
 export const getStaticPaths = localePaths;
 const { lang } = Astro.props as { lang: Lang };
+const zh = lang === 'zh';
+const L = (en: string, cn: string) => (zh ? cn : en);
 const pg = pages[lang].experience;
-const research = [entry('housing-advocacy'), entry('ai-economics')];
+const euclid = entry('euclid')[lang];
+const items = [
+  { id: 'competitions', label: L('Hackathons & competitions', '黑客松与竞赛') },
+  { id: 'research', label: L('Research & presentations', '研究与展示') },
+  { id: 'leadership', label: L('Leadership', '领导力') },
+  { id: 'volunteering', label: L('Volunteering', '志愿服务') },
+];
 ---
 <BaseLayout lang={lang} path="/experience/" title={pg.k} description={pg.p}>
-  <section class="block"><div class="wrap">
-    <AboutTabs lang={lang} path="/experience/" />
-    <PageHead k={pg.k} h={pg.h} p={pg.p} />
-    <div class="experience-grid">{entriesFor('leadership').map((e) => <EntryCard e={e} lang={lang} />)}</div>
-    <h2 class="sub-h">{lang === 'zh' ? '黑客松' : 'Hackathons'}</h2>
-    <div class="experience-grid"><EntryCard e={entry('civichack')} lang={lang} /><EntryCard e={entry('communihacks')} lang={lang} /></div>
-    <h2 class="sub-h">{t(lang, 'researchPres')}</h2>
-    <p class="muted">{lang === 'zh' ? '课程与自发的研究、展示。分量上低于工程工作，但能体现我如何思考和表达。' : 'Course and independent work. It carries less weight than my engineering work, but shows how I think and communicate.'}</p>
-    <div class="experience-grid">{research.map((e) => <EntryCard e={e} lang={lang} />)}</div>
-  </div></section>
+  <PageHead k={pg.k} h={pg.h} p={pg.p} />
+  <SubNav items={items} label={pg.k} />
+  <div class="wrap page-body">
+    <section class="sec" id="competitions">
+      <div class="sec-h"><h2>{items[0].label}</h2></div>
+      <div class="entries">
+        <ContentEntry e={entry('civichack')} lang={lang} when={L('Nov 2026', '2026 年 11 月')} badge={L('Winner', '获奖')} win />
+        <ContentEntry e={entry('communihacks')} lang={lang} when={L('Nov 2026', '2026 年 11 月')} badge={L('Team member', '团队成员')} />
+        <Entry when="2025" title={euclid.title} role={euclid.role} tags={euclid.tags}
+          desc={L('University of Waterloo mathematics contest for Grade 12 students.', '滑铁卢大学面向 12 年级学生的数学竞赛。')} />
+      </div>
+    </section>
+
+    <section class="sec" id="research">
+      <div class="sec-h"><h2>{items[1].label}</h2></div>
+      <p class="sec-intro">{L('Course and independent work. It carries less weight than my engineering work, but shows how I think and communicate.', '课程与自发的研究、展示。分量上低于工程工作，但能体现我如何思考和表达。')}</p>
+      <div class="entries">
+        <Entry when={L('Nov 2026', '2026 年 11 月')} title="When Startup Failures Look the Same" href="https://doi.org/10.5281/zenodo.24096966"
+          role={L('Technical report · Zenodo', '技术报告 · Zenodo')} sub={L('self-published, not peer-reviewed', '自行发布，未经同行评审')}
+          desc={L('Examines missing and misleading startup diagnostics in Madeira through source inspection and reproducible log replay. Includes a targeted fix and its evaluation limits.', '通过源码分析和可复现的日志回放研究 Madeira 启动诊断中的遗漏与误报，包含针对性修正及其评估局限。')}
+          links={[{ label: 'DOI 10.5281/zenodo.24096966', url: 'https://doi.org/10.5281/zenodo.24096966' }]} />
+        <ContentEntry e={entry('housing-advocacy')} lang={lang} />
+        <ContentEntry e={entry('ai-economics')} lang={lang} />
+        <ContentEntry e={entry('literature-symposium')} lang={lang} />
+      </div>
+    </section>
+
+    <section class="sec" id="leadership">
+      <div class="sec-h"><h2>{items[2].label}</h2></div>
+      <div class="entries">
+        {entriesFor('leadership').filter((e) => e.id !== 'literature-symposium').map((e) => <ContentEntry e={e} lang={lang} />)}
+      </div>
+    </section>
+
+    <section class="sec" id="volunteering">
+      <div class="sec-h"><h2>{items[3].label}</h2></div>
+      <div class="entries">
+        {entriesFor('community').map((e) => <ContentEntry e={e} lang={lang} />)}
+      </div>
+    </section>
+  </div>
 </BaseLayout>
