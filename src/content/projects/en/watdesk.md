@@ -26,8 +26,14 @@ WatDesk is an independent student project, not a University of Waterloo product.
 - Hover a day in the workload view to see that day's tasks.
 - Quiet background sync that does not take over your tabs and keeps the last good data if a site is down.
 
+## From student feedback to Google Calendar sync
+
+Students trying WatDesk told me they wanted to see their academic deadlines and exams in Google Calendar. I added optional sync that sends those events to a dedicated WatDesk calendar when the user connects their Google account.
+
+The integration is documented in the [current source repository](https://github.com/Jelly-RayTian/WatDesk#readme). The v1.10.1 release and test count below are from before this addition.
+
 ## Privacy design
-It reads each site in your own signed-in session. Academic data stays in your browser and is not uploaded to a WatDesk backend. It never sees or stores passwords, cookies or verification codes, and never submits anything for you. An anonymous usage counter is on by default and can be turned off in setup or Settings; the Settings page shows exactly what it sends.
+WatDesk reads each site in your signed-in browser session and does not upload academic data to a WatDesk backend. If you enable Google Calendar sync, WatDesk sends deadlines and exams to the dedicated calendar in your own Google account. It never reads or stores passwords, cookies or verification codes, and never submits schoolwork. You can turn off the anonymous usage counter in setup or Settings, where the data it sends is listed.
 
 ## Verification
 At v1.10.1 the release notes record type checks, a production build and 290 tests across 69 test files, all passing, and a package that matches the main-branch build. The notes also say the authenticated school-platform flows were not retested for that release. The project has 9 tagged releases (latest v1.10.1, 2026-11-04).
